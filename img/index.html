@@ -1,0 +1,2325 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>사다리를 오르는 사람들 - 조선 후기 인생 게임</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+:root{--navy:#1d223a;--navy2:#262d4c;--navy3:#12162a;--gold:#d8b46a;--gold2:#f3dfae;--gold3:#a67c34;--red:#b3241c;--red2:#d13a2a;
+--cream:#f4ead2;--ink:#241a10;--muted:#aeb2c8;--line:rgba(216,180,106,.42);
+--serif:'Gowun Batang','Nanum Myeongjo','Batang',serif;--sans:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
+--goldGrad:linear-gradient(180deg,#fff8e2 0%,#f3dfae 32%,#d8b46a 64%,#9d7330 100%);
+--cloudA:radial-gradient(ellipse 60% 40% at 95% 0%,rgba(243,223,174,.10),transparent 70%);
+--cloudB:radial-gradient(ellipse 55% 35% at 0% 100%,rgba(243,223,174,.08),transparent 70%)}
+html,body{height:100%}
+body{margin:0;background:var(--navy3);color:var(--cream);font-family:var(--sans);overflow:hidden;word-break:keep-all;overflow-wrap:break-word}
+h1,h2,h3,.evCtx,.say,.stC,.rCard p{text-wrap:balance}
+button{font-family:inherit;cursor:pointer}
+button:focus-visible,[role=button]:focus-visible,input:focus-visible{outline:3px solid var(--gold2);outline-offset:2px}
+.hidden{display:none!important}
+.goldText{background:var(--goldGrad);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;filter:drop-shadow(0 2px 0 rgba(70,45,10,.75)) drop-shadow(0 10px 26px rgba(0,0,0,.55))}
+.chip{background:rgba(29,34,58,.82);border:1px solid var(--line);color:var(--cream);border-radius:999px;padding:6px 12px;font-size:13px;transition:background .15s,border-color .15s}
+.chip:hover{border-color:var(--gold2)}
+.chip.on{background:var(--goldGrad);color:#2a1d08;border-color:var(--gold2);font-weight:700}
+.who-me{font-size:12.5px;color:#c8bb95;white-space:nowrap}
+#toast{position:fixed;left:50%;top:96px;transform:translateX(-50%);z-index:30;background:rgba(29,34,58,.96);border:1px solid var(--line);color:var(--cream);padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;transition:.4s;pointer-events:none;max-width:90vw;text-align:center}
+#toast.show{opacity:1}
+.btn,.big.primary{border:1px solid #fff3cf;border-radius:999px;padding:11px 24px;font-weight:900;font-size:15px;background:var(--goldGrad);color:#2a1d08}
+/* 첫 화면 */
+.screen{position:fixed;inset:0;z-index:10;overflow-y:auto;background:var(--navy)}
+#title{overflow:hidden}
+#title .tArt{position:absolute;top:0;right:0;bottom:0;width:min(56.25vh,52vw);overflow:hidden;background:radial-gradient(ellipse at 50% 40%,#5a1a16,#1d223a 75%)}
+#title .tArt img{width:100%;height:100%;object-fit:cover;display:block}
+#title .tArt .tArtFb{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--serif);font-size:min(30vh,240px);color:rgba(243,223,174,.13)}
+#title .tArt::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--navy) 0,rgba(29,34,58,.55) 12%,rgba(29,34,58,0) 32%),linear-gradient(0deg,rgba(29,34,58,.6),rgba(29,34,58,0) 25%)}
+#title .tSide{position:absolute;top:0;bottom:0;left:0;right:min(56.25vh,52vw);background:var(--cloudA),var(--cloudB),var(--navy);overflow-y:auto}
+.tInner{max-width:640px;min-height:100%;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 30px) 24px 34px;text-align:center;display:flex;flex-direction:column;justify-content:center}
+.kicker{font-size:13px;letter-spacing:.2em;color:#c8bb95}
+.logo{font-weight:900;font-size:clamp(40px,5.6vw,84px);white-space:nowrap;padding:0 .1em;line-height:1.1;margin:8px 0 0;animation:rise 1s cubic-bezier(.2,.9,.3,1.2)}
+.subtitle{font-size:clamp(20px,2.8vw,32px);font-weight:700;color:#efc9a6;margin:8px 0 0;text-shadow:0 2px 12px rgba(0,0,0,.5);animation:rise 1s .15s both}
+@keyframes rise{from{opacity:0;transform:translateY(30px) scale(.94)}}
+.sparkle{display:inline-block;color:var(--gold2);opacity:.7;margin:14px 0 0;font-size:15px;letter-spacing:.6em}
+.tag1{font-family:var(--serif);font-size:clamp(15px,1.9vw,19px);color:#e6dfcb;margin:12px auto 18px}
+.form{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:8px;margin:0 auto 10px;max-width:520px;text-align:left}
+.form label{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:#c8bb95}
+.form input{width:100%;padding:11px 12px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.07);color:var(--cream);font-size:17px;font-family:inherit}
+.form input::placeholder{color:#7f849d}
+@media(max-width:520px){.form{grid-template-columns:1fr 1fr}.form label.room{grid-column:1/3}}
+.row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:10px 0;align-items:center}
+.row label{font-size:14px;color:var(--muted)}
+.big{padding:14px 26px;font-size:17px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.06);color:var(--cream);font-weight:700;transition:transform .15s}
+.big:hover{transform:translateY(-2px)}
+.big.primary{font-size:17px;padding:14px 28px;box-shadow:0 10px 30px rgba(216,180,106,.35)}
+.formMsg{min-height:1.4em;font-size:14px;color:#ffb4a3;margin:2px 0}
+.more{margin:14px auto 0;max-width:620px}
+.more summary{cursor:pointer;color:var(--gold2);font-size:14px;list-style:none;display:inline-block;padding:7px 16px;border:1px solid var(--line);border-radius:999px}
+.more summary::-webkit-details-marker{display:none}
+.lead{color:#dcd7e6;line-height:1.75;font-size:15px;margin:14px auto 16px}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:left;margin-bottom:14px}
+.how div{background:rgba(255,255,255,.045);border:1px solid rgba(216,180,106,.3);border-radius:12px;padding:12px}
+.how b{display:block;font-size:15px;margin-bottom:5px;color:var(--gold2)}
+.how span{font-size:13px;color:#d0cfdc;line-height:1.6}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;justify-content:center;font-size:13px;color:#cfcbd8;margin-top:10px}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:5px;vertical-align:-1px;border:1px solid rgba(255,255,255,.35)}
+.note{font-size:12px;color:var(--muted);margin-top:14px;line-height:1.6}
+.linkBtn{background:none;border:none;color:#9aa0bd;font-size:13px;text-decoration:underline;padding:4px 8px}
+@media (max-aspect-ratio:1/1){#title .tArt{left:0;width:auto;bottom:auto;height:46vh}#title .tArt::after{background:linear-gradient(0deg,var(--navy) 0,rgba(29,34,58,0) 45%)}#title .tSide{top:auto;right:0;height:auto;max-height:100%;background:linear-gradient(0deg,var(--navy) 75%,rgba(29,34,58,0));padding-top:60px}.tInner{min-height:0}.how{grid-template-columns:1fr}}
+.saveMsg{margin-top:10px!important;font-size:14px;padding:6px 14px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.05)}
+.saveMsg.ok{color:#7fdca5}.saveMsg.fail{color:#ffa996}
+.panel{padding:18px;margin-bottom:16px}
+.panel h3{margin:0 0 6px;font-size:20px;color:var(--gold2)}
+.panel .sub{font-size:13.5px;color:#cfcbd8;margin:0 0 8px;line-height:1.6}
+.panel svg{width:100%;height:auto;display:block}
+.cmp{display:grid;grid-template-columns:1.6fr 1fr;gap:16px}
+@media(max-width:820px){.cmp{grid-template-columns:1fr}}
+.tblwrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:540px}
+th{font-weight:500;color:var(--muted);text-align:left;padding:6px;border-bottom:1px solid var(--line)}
+td{padding:9px 6px;border-bottom:1px solid rgba(255,255,255,.07);vertical-align:top}
+td small{color:var(--muted)}
+/* 교사 화면 */
+#teacher{background:var(--cloudA),var(--cloudB),var(--navy)}
+.tcInner{max-width:1100px;margin:0 auto;padding:26px 18px 60px}
+.tcHead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.tcHead h2{margin:0;font-size:28px;font-weight:900}
+.tcGrid{display:grid;grid-template-columns:300px 1fr;gap:16px;margin-top:16px}
+@media(max-width:860px){.tcGrid{grid-template-columns:1fr}}
+.codeBig{font-size:52px;font-weight:900;letter-spacing:.08em;text-align:center;margin:6px 0}
+.qr{display:grid;place-items:center;margin:8px 0}
+.qr canvas{border-radius:8px;max-width:100%}
+.linkTxt{font-size:12px;color:var(--muted);word-break:break-all;text-align:center}
+.roomList{display:flex;flex-direction:column;gap:6px;margin-top:8px}
+.roomList button{text-align:left;background:rgba(255,255,255,.05);border:1px solid var(--line);color:var(--cream);border-radius:10px;padding:8px 12px;font-size:14px}
+.roomList button small{color:var(--muted);margin-left:6px}
+.tcBtns{display:flex;gap:8px;flex-wrap:wrap}
+.st-done{color:#7fdca5;font-weight:700}.st-play{color:#ffe08a}
+.ver{position:fixed;right:8px;bottom:4px;font-size:10.5px;color:#7f849d;z-index:20;pointer-events:none}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+/* ===================== 사다리를 오르는 사람들 ===================== */
+:root{--paper:#f6eedb;--paper2:#ecdfc0;--inkS:#3a2a16;--green:#4f8a5b;--hudH:96px}
+#bg{position:fixed;inset:-20px;z-index:0;background:radial-gradient(ellipse 70% 55% at 50% 30%,rgba(120,90,40,.28),transparent 70%),linear-gradient(180deg,#2a2418 0%,#1a1c2e 60%,#12162a 100%)}
+#bg.img{background-size:cover;background-position:center;filter:blur(3px) brightness(.45) saturate(.9);transform:scale(1.03)}
+#title .tArt .tArtFb{color:rgba(243,223,174,.16)}
+.logo{font-size:clamp(34px,4.6vw,68px)}
+.how{grid-template-columns:repeat(2,1fr)}
+.st-done{color:#7fdca5;font-weight:700}.st-play{color:#ffe08a}
+
+#game{position:fixed;inset:0;z-index:3;display:flex;flex-direction:column;overflow:hidden}
+#hud{position:relative;z-index:5;display:flex;align-items:center;gap:14px;padding:calc(env(safe-area-inset-top,0px) + 10px) 16px 8px;background:linear-gradient(180deg,rgba(18,22,42,.97),rgba(18,22,42,.82));border-bottom:1px solid rgba(216,180,106,.25);flex:none}
+.plaque{display:flex;flex-direction:column;align-items:center;line-height:1.15;padding:6px 14px 7px;border-radius:6px;background:linear-gradient(180deg,#8d1d14,#5d100b);border:2px solid var(--gold);box-shadow:inset 0 0 0 2px #3e0906,inset 0 0 0 3px rgba(243,223,174,.35),0 6px 18px rgba(0,0,0,.5);min-width:96px}
+.plaque span{font-size:11px;color:#f0cf95;letter-spacing:.08em}
+.plaque b{font-family:var(--serif);font-size:clamp(17px,2vw,24px);color:var(--gold2);text-shadow:0 1px 0 #3e0906;white-space:nowrap}
+.yrBox{text-align:center;line-height:1}
+.yrBox .yr{font-weight:900;font-size:clamp(26px,3.4vw,42px)}
+.yrBox .yr small{font-size:.42em;margin-left:2px}
+.yrBox .king{font-size:12px;color:#c8bb95;margin-top:3px}
+.stats{display:flex;gap:8px;align-items:stretch;flex-wrap:wrap}
+.st{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:12px;padding:5px 12px;display:flex;align-items:baseline;gap:5px;position:relative}
+.st span{font-size:12px;color:#c8bb95}
+.st b{font-size:clamp(18px,2vw,24px);font-weight:900;color:var(--gold2);transition:color .3s}
+.st em{font-style:normal;font-size:12px;color:#c8bb95}
+.st.rank b{font-family:var(--serif);font-size:clamp(15px,1.7vw,19px)}
+.st.honor{flex-direction:column;align-items:stretch;gap:3px;min-width:150px}
+.st.honor span b{font-size:15px}
+.hbar{position:relative;display:block;height:9px;border-radius:9px;background:rgba(255,255,255,.12);overflow:visible}
+.hbar u{position:absolute;left:0;top:0;bottom:0;width:0;border-radius:9px;background:linear-gradient(90deg,#d8b46a,#fff1c4);transition:width .8s}
+.hbar s{position:absolute;top:-3px;bottom:-3px;width:2px;background:#ff9e7a}
+.hbar s.m55{left:55%}.hbar s.m75{left:75%;background:#7fdca5}
+.st .dv{position:absolute;right:-4px;top:-14px;font-weight:900;font-size:15px;animation:dv 1.6s forwards;pointer-events:none;text-shadow:0 2px 6px rgba(0,0,0,.8)}
+.st .dv.p{color:#7fdca5}.st .dv.m{color:#ff8f7a}
+@keyframes dv{0%{opacity:0;transform:translateY(8px)}15%{opacity:1;transform:none}80%{opacity:1}100%{opacity:0;transform:translateY(-14px)}}
+.st.flash b{color:#fff}
+#hud .ctrl{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+#flags{position:relative;z-index:4;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;padding:6px 12px 0;min-height:30px;flex:none}
+#flags span{font-size:12px;padding:3px 10px;border-radius:999px;background:rgba(127,220,165,.12);border:1px solid rgba(127,220,165,.45);color:#c9f0d7}
+#flags span.warn{background:rgba(255,143,122,.12);border-color:rgba(255,143,122,.5);color:#ffd2c6}
+#track{position:relative;z-index:4;display:flex;justify-content:center;gap:14px;padding:8px 12px 4px;flex:none;flex-wrap:wrap}
+#track .gen{display:flex;align-items:center;gap:5px;font-size:12px;color:#aeb2c8}
+#track .gen b{font-weight:700;margin-right:2px}
+#track i{display:inline-block;width:12px;height:12px;border-radius:50%;border:1.5px solid var(--gold);background:transparent}
+#track i.done{background:var(--gold)}#track i.now{background:#fff1c4;box-shadow:0 0 0 4px rgba(243,223,174,.25)}
+#track .gen.cur{color:var(--gold2)}
+#stage{position:relative;z-index:4;flex:1;overflow-y:auto;padding:10px 14px 30px;display:flex;justify-content:center;align-items:flex-start}
+
+/* 공통 카드 */
+.card{width:min(980px,100%);background:linear-gradient(180deg,var(--paper),var(--paper2));color:var(--inkS);border-radius:16px;box-shadow:0 0 0 1px #b99d62,0 0 0 6px rgba(29,34,58,.6),0 24px 60px rgba(0,0,0,.55);padding:20px 22px;animation:cardIn .5s cubic-bezier(.2,.9,.3,1.1)}
+@keyframes cardIn{from{opacity:0;transform:translateY(24px) scale(.98)}}
+.card h2{font-family:var(--serif);font-weight:700;font-size:clamp(24px,3.2vw,36px);margin:2px 0 8px;color:#5d100b}
+.card .kick{font-size:13px;letter-spacing:.1em;color:#8a6a35;font-weight:700}
+.card p{font-size:clamp(15.5px,1.6vw,18px);line-height:1.75;margin:6px 0}
+.card p b{color:#8d1d14}
+.card .tie{display:inline-block;font-size:12px;padding:3px 10px;border-radius:999px;background:#5d100b;color:#f3dfae;margin-top:4px}
+.btnRow{display:flex;justify-content:flex-end;gap:10px;margin-top:14px;flex-wrap:wrap}
+.btnRow .btn{font-size:16px;padding:12px 26px}
+.pic{border-radius:12px;overflow:hidden;background:radial-gradient(ellipse at 50% 40%,#e9d8b0,#cdb27a);position:relative;display:grid;place-items:center;box-shadow:inset 0 0 0 1px rgba(90,60,20,.35)}
+.pic img{width:100%;height:100%;object-fit:cover;display:block}
+.pic .fb{font-family:var(--serif);font-size:min(16vw,120px);color:rgba(93,16,11,.18);font-weight:700}
+.evGrid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:20px;align-items:start}
+.evGrid .pic{aspect-ratio:3/2}
+.newsMsg{margin-top:10px;padding:10px 14px;border-radius:12px;background:rgba(93,16,11,.08);border:1px dashed #8d1d14;font-size:15.5px;line-height:1.65}
+.voice{margin-top:10px;padding:10px 14px;border-left:4px solid #8a6a35;background:rgba(255,255,255,.45);border-radius:0 10px 10px 0;font-family:var(--serif);font-size:16px}
+@media(max-width:760px){.evGrid{grid-template-columns:1fr}.card{padding:16px}}
+
+/* 출생 카드 뽑기 */
+.deck{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:14px 0 6px;perspective:900px}
+.dcard{width:min(118px,24vw);aspect-ratio:3/4;border-radius:12px;position:relative;transform-style:preserve-3d;transition:transform .7s}
+.dcard .f,.dcard .b{position:absolute;inset:0;border-radius:12px;backface-visibility:hidden;display:grid;place-items:center;text-align:center;padding:6px}
+.dcard .b{background:repeating-linear-gradient(45deg,#5d100b 0 8px,#6e1a12 8px 16px);border:2px solid var(--gold);color:var(--gold2);font-family:var(--serif);font-size:30px}
+.dcard .f{background:linear-gradient(180deg,var(--paper),var(--paper2));border:2px solid #8a6a35;transform:rotateY(180deg);font-family:var(--serif);font-weight:700;color:#5d100b;font-size:15px}
+.dcard.flip{transform:rotateY(180deg)}
+.dcard.shuffle{animation:shuf .5s ease-in-out infinite alternate}
+@keyframes shuf{to{transform:translateY(-12px) rotate(3deg)}}
+.dcard.dim{opacity:.35}
+.dcard.pickd{transform:rotateY(180deg) scale(1.1);box-shadow:0 0 0 4px #fff1c4,0 12px 30px rgba(0,0,0,.4);border-radius:12px}
+.birthGrid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:20px;align-items:start}
+.birthGrid .pic{aspect-ratio:3/4}
+@media(max-width:760px){.birthGrid{grid-template-columns:1fr}.birthGrid .pic{max-height:46vh;aspect-ratio:auto;height:46vh}}
+.startStats{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.startStats span{font-size:14px;padding:5px 12px;border-radius:999px;background:#fff8e6;border:1px solid #c8a96a}
+.goal{font-weight:700;color:#4f6a2b}
+
+/* 선택지 */
+.optHead{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;flex-wrap:wrap}
+.optHead h2{margin:0}
+.optCols{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px}
+@media(max-width:760px){.optCols{grid-template-columns:1fr}}
+.optCol h3{margin:0 0 8px;font-size:16px;color:#5d100b;display:flex;align-items:center;gap:6px}
+.optCol h3 i{font-style:normal;font-size:12px;font-weight:400;color:#8a6a35}
+.opt{display:block;width:100%;text-align:left;border:1.5px solid #c8a96a;background:#fffaf0;border-radius:12px;padding:10px 12px 10px 44px;margin-bottom:8px;position:relative;color:var(--inkS);transition:transform .12s,box-shadow .12s,border-color .12s}
+.opt:hover:not([disabled]){transform:translateY(-2px);box-shadow:0 8px 18px rgba(90,60,20,.18);border-color:#8d1d14}
+.opt .k{position:absolute;left:10px;top:10px;width:24px;height:24px;border-radius:50%;background:#5d100b;color:#f3dfae;display:grid;place-items:center;font-size:13px;font-weight:700}
+.opt b{display:block;font-size:16px}
+.opt small{display:block;font-size:13.5px;color:#6b5636;margin-top:2px;line-height:1.5}
+.opt .cost{position:absolute;right:10px;top:9px;font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:999px;background:#f1e2bd;color:#5d100b}
+.opt .cost.free{background:#dcefdc;color:#2e6b3c}
+.opt[disabled]{opacity:.45;cursor:not-allowed}
+.opt[disabled] .cost{background:#e6d0cc;color:#8d1d14}
+.opt.hot{border-color:#8d1d14;box-shadow:0 0 0 3px rgba(141,29,20,.15)}
+.opt.hot::after{content:"이번 해에만!";position:absolute;right:10px;bottom:8px;font-size:11px;color:#fff;background:#b3241c;padding:1px 7px;border-radius:999px}
+
+/* 결과·결산 */
+.resGrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:20px;align-items:start}
+@media(max-width:760px){.resGrid{grid-template-columns:1fr}}
+.myPick{font-family:var(--serif);font-size:19px;font-weight:700;color:#5d100b;margin:2px 0 6px}
+.weather{display:flex;align-items:center;gap:12px;margin:10px 0;padding:10px 14px;border-radius:12px;background:#fff8e6;border:1px solid #c8a96a}
+.weather .wIco{font-size:40px;line-height:1;width:52px;text-align:center}
+.weather .wIco.spin{animation:wspin .25s linear infinite}
+@keyframes wspin{50%{transform:scale(.8) rotate(12deg)}}
+.weather b{font-size:20px}
+.ledger{width:100%;border-collapse:collapse;min-width:0;font-size:15px}
+.ledger td{padding:6px 4px;border-bottom:1px dashed #c8a96a;color:var(--inkS)}
+.ledger td.v{text-align:right;font-weight:700;white-space:nowrap}
+.ledger tr{opacity:0;transform:translateX(10px);transition:.35s}
+.ledger tr.on{opacity:1;transform:none}
+.ledger td.p{color:#2e6b3c}.ledger td.m{color:#b3241c}
+.ledger tr.sum td{border-bottom:none;border-top:2px solid #8a6a35;font-size:17px;font-weight:900}
+.notes p{font-size:14.5px;color:#8d1d14;margin:6px 0}
+.reaction{margin-top:8px;font-family:var(--serif);font-size:16px;color:#4b3820}
+
+/* 대 바뀜 */
+.genGrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+.genGrid .pic{aspect-ratio:3/2}
+@media(max-width:760px){.genGrid{grid-template-columns:1fr}}
+.will{font-family:var(--serif);font-size:clamp(18px,2vw,22px);line-height:1.7;color:#3a2a16;padding:12px 16px;background:rgba(255,255,255,.5);border-radius:12px;border:1px solid #c8a96a;min-height:3.4em}
+.diary label{display:block;font-weight:700;color:#5d100b;margin:12px 0 6px;font-size:15.5px}
+.diary textarea{width:100%;min-height:68px;border-radius:12px;border:1.5px solid #c8a96a;background:#fffdf6;padding:10px 12px;font-size:16px;font-family:var(--serif);color:var(--inkS);resize:vertical}
+.diary .cnt{font-size:12px;color:#8a6a35;text-align:right}
+.diary .ex{font-size:13px;color:#8a6a35}
+
+/* 엔딩 */
+#ending{background:var(--cloudA),var(--cloudB),radial-gradient(ellipse at 50% 0,#2a3156 0,var(--navy) 60%)}
+.eInner{max-width:1080px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 26px) 16px 60px}
+.endHero{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:22px;align-items:center}
+@media(max-width:760px){.endHero{grid-template-columns:1fr}}
+.endHero .pic{aspect-ratio:1/1}
+.grade{display:inline-block;font-size:13px;font-weight:900;padding:4px 14px;border-radius:999px;background:var(--goldGrad);color:#2a1d08}
+.endName{font-family:var(--serif);font-weight:700;font-size:clamp(30px,4.4vw,50px);margin:8px 0}
+.endLine{font-family:var(--serif);font-size:clamp(17px,1.9vw,21px);color:#efe4c8;line-height:1.7}
+.evals{display:grid;gap:8px;margin-top:12px}
+.evals div{background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:12px;padding:10px 14px;font-size:14.5px;line-height:1.65}
+.evals b{color:var(--gold2);display:block;font-size:13px;margin-bottom:2px}
+.treeT{width:100%;border-collapse:collapse;min-width:0;font-size:14.5px}
+.treeT td,.treeT th{padding:8px 6px;border-bottom:1px solid rgba(255,255,255,.1);text-align:left}
+.treeT .bar{display:inline-block;height:10px;border-radius:6px;background:var(--gold);vertical-align:middle;margin-right:6px}
+.treeT .bar.h{background:#7fdca5}
+.diaryList p{font-family:var(--serif);font-size:16px;margin:6px 0;padding:8px 12px;background:rgba(255,255,255,.05);border-radius:10px}
+.diaryList p small{color:var(--muted);margin-right:8px;font-family:var(--sans)}
+.endQ{margin-top:10px;padding:12px 14px;border-radius:12px;background:rgba(216,180,106,.1);border:1px dashed var(--gold);font-size:15px;line-height:1.7}
+.eGrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+@media(max-width:820px){.eGrid{grid-template-columns:1fr}}
+
+/* 교사 화면 */
+.wtGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin:8px 0}
+.wtGrid label{display:flex;justify-content:space-between;align-items:center;gap:6px;font-size:13.5px;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:10px;padding:6px 10px}
+.wtGrid input{width:52px;padding:6px;border-radius:8px;border:1px solid var(--line);background:#252b49;color:var(--cream);font-size:15px;text-align:center}
+.chart svg{width:100%;height:auto;display:block}
+.rankList{display:grid;gap:6px}
+.rankList div{display:flex;align-items:center;gap:8px;font-size:14px}
+.rankList i{display:inline-block;height:12px;border-radius:6px;background:var(--gold)}
+.dList{max-height:420px;overflow-y:auto;display:grid;gap:6px}
+.dList p{margin:0;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,.05);font-family:var(--serif);font-size:15px;line-height:1.6}
+.dList p small{font-family:var(--sans);color:var(--muted);margin-right:8px}
+.tcRow2{display:grid;grid-template-columns:1.3fr 1fr;gap:16px}
+@media(max-width:860px){.tcRow2{grid-template-columns:1fr}}
+
+@media(max-width:760px){
+ #hud{flex-wrap:wrap;gap:6px 10px;padding:calc(env(safe-area-inset-top,0px) + 8px) 10px 8px}
+ .plaque{min-width:0;padding:4px 10px}
+ .stats{width:100%;order:3}
+ .st{padding:4px 9px}
+ .st.honor{min-width:120px;flex:1}
+ #hud .ctrl{margin-left:auto}
+ .chip{padding:5px 9px;font-size:12px;white-space:nowrap}
+ .who-me{display:none}
+ #track{gap:8px}
+}
+
+@media(max-width:760px){.evGrid .pic,.genGrid .pic{aspect-ratio:16/9;max-height:26vh}.resGrid{gap:10px}.card h2{font-size:24px}.optHead p{width:100%}}
+.hint{margin-top:10px;padding:12px 14px;border-radius:12px;background:rgba(216,180,106,.1);border:1px dashed var(--gold);font-size:14px;line-height:1.65}
+.hint small{color:var(--muted)}
+.logo{font-size:clamp(30px,3.7vw,56px);white-space:normal;word-break:keep-all;line-height:1.2}
+@media(max-width:520px){.logo{font-size:30px}}
+</style></head><body>
+<div id="bg"></div>
+
+<!-- 첫 화면 -->
+<div id="title" class="screen">
+  <div class="tArt"><div class="tArtFb">梯</div><img id="titleImg" alt=""></div>
+  <div class="tSide"><div class="tInner">
+    <div class="kicker">조선 후기 인생 게임 · 1690 — 1858</div>
+    <h1 class="logo goldText">사다리를 오르는 사람들</h1>
+    <p class="subtitle">한 집안의 4대, 신분의 사다리를 올라라!</p>
+    <div><span class="sparkle">✦ ✦ ✦</span></div>
+    <p class="tag1">돈이 돌기 시작한 조선 후기, 우리 집안은 어디까지 올라갈 수 있을까?<br>숙종 때부터 철종 때까지 네 대에 걸쳐 집안을 이끌어 보세요.</p>
+    <div class="form">
+      <label class="room">방 코드<input id="inRoom" maxlength="8" autocomplete="off" placeholder="선생님이 알려 준 코드"></label>
+      <label>학번 (5자리)<input id="inSid" inputmode="numeric" maxlength="5" autocomplete="off" placeholder="30101"></label>
+      <label>이름<input id="inName" maxlength="10" autocomplete="off" placeholder="이름"></label>
+    </div>
+    <p class="formMsg" id="formMsg"></p>
+    <div class="row"><button class="big primary" id="startBtn">집안 뽑기</button><button class="big" id="practiceBtn">연습하기 (저장 안 됨)</button></div>
+    <details class="more"><summary>게임 방법 보기</summary>
+      <div class="how">
+        <div><b>4대 × 3년</b><span>한 대마다 큰 사건이 있는 해가 3번 찾아옵니다. 그해마다 <b>결심 하나</b>를 고르세요.</span></div>
+        <div><b>살림과 신분</b><span>모내기법·상품 작물·장사로 돈을 모으고, 공명첩·납속·족보 같은 방법으로 신분을 바꿔 보세요.</span></div>
+        <div><b>인정</b><span>호적만 바꾼다고 양반 대접을 받지는 않아요. 공부·서원·혼인으로 <b>인정</b>을 쌓아야 진짜 양반이 됩니다.</span></div>
+        <div><b>일기</b><span>대가 바뀔 때마다 그 사람의 마음을 한 줄 일기로 써요.</span></div>
+        <div><b>실제 이야기</b><span>노비에서 양반이 되기까지 2세기가 걸린 단성현 수봉 집안, 이름을 바꿔 사또가 된 노비 이만강(엄택주)의 이야기가 게임 속에 들어 있어요.</span></div>
+      </div>
+    </details>
+    <p class="note">학습지 「돈이 돌자, 신분의 사다리가 흔들리다.」와 함께 하는 게임입니다. 집안과 인물은 지어낸 것이고, 시대 사건은 실제 역사입니다. 돈과 수확 수치는 게임을 위해 단순하게 만든 값입니다.</p>
+    <div><button class="linkBtn" id="teacherBtn">선생님 화면</button></div>
+  </div></div>
+</div>
+
+<!-- 게임 화면 -->
+<div id="game" class="hidden">
+  <div id="hud">
+    <div class="plaque"><span id="hGen">1대</span><b id="hFam">○○네</b></div>
+    <div class="yrBox"><div class="yr goldText"><span id="hYear">1690</span><small>년</small></div><div class="king" id="hKing">숙종 때</div></div>
+    <div class="stats">
+      <div class="st money"><span>재산</span><b id="sMoney">0</b><em>냥</em></div>
+      <div class="st land"><span>땅</span><b id="sLand">0</b><em id="sLandSub">마지기</em></div>
+      <div class="st rank"><span>신분</span><b id="sRank">상민</b></div>
+      <div class="st honor"><span>인정 <b id="sHonor">0</b></span><i class="hbar"><u id="hFill"></u><s class="m55" title="55: 양반 대접"></s><s class="m75" title="75: 진짜 양반"></s></i></div>
+    </div>
+    <div class="ctrl"><span class="who-me" id="whoMe"></span><button class="chip" id="muteBtn">소리 켬</button><button class="chip" id="fsBtn">전체화면</button></div>
+  </div>
+  <div id="flags"></div>
+  <div id="track"></div>
+  <main id="stage"></main>
+</div>
+
+<div id="ending" class="screen hidden"><div class="eInner" id="eInner"></div></div>
+<div id="teacher" class="screen hidden"><div class="tcInner" id="tcInner"></div></div>
+<div id="toast"></div>
+<div class="ver" id="ver"></div>
+<script>
+/* QRCode for JavaScript — Copyright (c) 2009 Kazuhiko Arase, MIT License (via qrcode-terminal vendor) */
+var QRLIB=(function(){var M={};function require(p){return M[p.replace("./","")];}
+M["QRMode"]=(function(){var module={exports:{}};var exports=module.exports;
+module.exports = {
+    MODE_NUMBER :       1 << 0,
+    MODE_ALPHA_NUM :    1 << 1,
+    MODE_8BIT_BYTE :    1 << 2,
+    MODE_KANJI :        1 << 3
+};
+
+return module.exports;})();
+M["QRErrorCorrectLevel"]=(function(){var module={exports:{}};var exports=module.exports;
+module.exports = {
+	L : 1,
+	M : 0,
+	Q : 3,
+	H : 2
+};
+
+
+return module.exports;})();
+M["QRMaskPattern"]=(function(){var module={exports:{}};var exports=module.exports;
+module.exports = {
+	PATTERN000 : 0,
+	PATTERN001 : 1,
+	PATTERN010 : 2,
+	PATTERN011 : 3,
+	PATTERN100 : 4,
+	PATTERN101 : 5,
+	PATTERN110 : 6,
+	PATTERN111 : 7
+};
+
+return module.exports;})();
+M["QRMath"]=(function(){var module={exports:{}};var exports=module.exports;
+var QRMath = {
+
+	glog : function(n) {
+	
+		if (n < 1) {
+			throw new Error("glog(" + n + ")");
+		}
+		
+		return QRMath.LOG_TABLE[n];
+	},
+	
+	gexp : function(n) {
+	
+		while (n < 0) {
+			n += 255;
+		}
+	
+		while (n >= 256) {
+			n -= 255;
+		}
+	
+		return QRMath.EXP_TABLE[n];
+	},
+	
+	EXP_TABLE : new Array(256),
+	
+	LOG_TABLE : new Array(256)
+
+};
+	
+for (var i = 0; i < 8; i++) {
+	QRMath.EXP_TABLE[i] = 1 << i;
+}
+for (var i = 8; i < 256; i++) {
+	QRMath.EXP_TABLE[i] = QRMath.EXP_TABLE[i - 4]
+		^ QRMath.EXP_TABLE[i - 5]
+		^ QRMath.EXP_TABLE[i - 6]
+		^ QRMath.EXP_TABLE[i - 8];
+}
+for (var i = 0; i < 255; i++) {
+	QRMath.LOG_TABLE[QRMath.EXP_TABLE[i] ] = i;
+}
+
+module.exports = QRMath;
+
+return module.exports;})();
+M["QRPolynomial"]=(function(){var module={exports:{}};var exports=module.exports;
+var QRMath = require('./QRMath');
+
+function QRPolynomial(num, shift) {
+	if (num.length === undefined) {
+		throw new Error(num.length + "/" + shift);
+	}
+
+	var offset = 0;
+
+	while (offset < num.length && num[offset] === 0) {
+		offset++;
+	}
+
+	this.num = new Array(num.length - offset + shift);
+	for (var i = 0; i < num.length - offset; i++) {
+		this.num[i] = num[i + offset];
+	}
+}
+
+QRPolynomial.prototype = {
+
+	get : function(index) {
+		return this.num[index];
+	},
+	
+	getLength : function() {
+		return this.num.length;
+	},
+	
+	multiply : function(e) {
+	
+		var num = new Array(this.getLength() + e.getLength() - 1);
+	
+		for (var i = 0; i < this.getLength(); i++) {
+			for (var j = 0; j < e.getLength(); j++) {
+				num[i + j] ^= QRMath.gexp(QRMath.glog(this.get(i) ) + QRMath.glog(e.get(j) ) );
+			}
+		}
+	
+		return new QRPolynomial(num, 0);
+	},
+	
+	mod : function(e) {
+	
+		if (this.getLength() - e.getLength() < 0) {
+			return this;
+		}
+	
+		var ratio = QRMath.glog(this.get(0) ) - QRMath.glog(e.get(0) );
+	
+		var num = new Array(this.getLength() );
+		
+		for (var i = 0; i < this.getLength(); i++) {
+			num[i] = this.get(i);
+		}
+		
+		for (var x = 0; x < e.getLength(); x++) {
+			num[x] ^= QRMath.gexp(QRMath.glog(e.get(x) ) + ratio);
+		}
+	
+		// recursive call
+		return new QRPolynomial(num, 0).mod(e);
+	}
+};
+
+module.exports = QRPolynomial;
+
+return module.exports;})();
+M["QRUtil"]=(function(){var module={exports:{}};var exports=module.exports;
+var QRMode = require('./QRMode');
+var QRPolynomial = require('./QRPolynomial');
+var QRMath = require('./QRMath');
+var QRMaskPattern = require('./QRMaskPattern');
+
+var QRUtil = {
+
+    PATTERN_POSITION_TABLE : [
+        [],
+        [6, 18],
+        [6, 22],
+        [6, 26],
+        [6, 30],
+        [6, 34],
+        [6, 22, 38],
+        [6, 24, 42],
+        [6, 26, 46],
+        [6, 28, 50],
+        [6, 30, 54],        
+        [6, 32, 58],
+        [6, 34, 62],
+        [6, 26, 46, 66],
+        [6, 26, 48, 70],
+        [6, 26, 50, 74],
+        [6, 30, 54, 78],
+        [6, 30, 56, 82],
+        [6, 30, 58, 86],
+        [6, 34, 62, 90],
+        [6, 28, 50, 72, 94],
+        [6, 26, 50, 74, 98],
+        [6, 30, 54, 78, 102],
+        [6, 28, 54, 80, 106],
+        [6, 32, 58, 84, 110],
+        [6, 30, 58, 86, 114],
+        [6, 34, 62, 90, 118],
+        [6, 26, 50, 74, 98, 122],
+        [6, 30, 54, 78, 102, 126],
+        [6, 26, 52, 78, 104, 130],
+        [6, 30, 56, 82, 108, 134],
+        [6, 34, 60, 86, 112, 138],
+        [6, 30, 58, 86, 114, 142],
+        [6, 34, 62, 90, 118, 146],
+        [6, 30, 54, 78, 102, 126, 150],
+        [6, 24, 50, 76, 102, 128, 154],
+        [6, 28, 54, 80, 106, 132, 158],
+        [6, 32, 58, 84, 110, 136, 162],
+        [6, 26, 54, 82, 110, 138, 166],
+        [6, 30, 58, 86, 114, 142, 170]
+    ],
+
+    G15 : (1 << 10) | (1 << 8) | (1 << 5) | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0),
+    G18 : (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0),
+    G15_MASK : (1 << 14) | (1 << 12) | (1 << 10)    | (1 << 4) | (1 << 1),
+
+    getBCHTypeInfo : function(data) {
+        var d = data << 10;
+        while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) >= 0) {
+            d ^= (QRUtil.G15 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G15) ) );    
+        }
+        return ( (data << 10) | d) ^ QRUtil.G15_MASK;
+    },
+
+    getBCHTypeNumber : function(data) {
+        var d = data << 12;
+        while (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) >= 0) {
+            d ^= (QRUtil.G18 << (QRUtil.getBCHDigit(d) - QRUtil.getBCHDigit(QRUtil.G18) ) );    
+        }
+        return (data << 12) | d;
+    },
+
+    getBCHDigit : function(data) {
+
+        var digit = 0;
+
+        while (data !== 0) {
+            digit++;
+            data >>>= 1;
+        }
+
+        return digit;
+    },
+
+    getPatternPosition : function(typeNumber) {
+        return QRUtil.PATTERN_POSITION_TABLE[typeNumber - 1];
+    },
+
+    getMask : function(maskPattern, i, j) {
+        
+        switch (maskPattern) {
+            
+        case QRMaskPattern.PATTERN000 : return (i + j) % 2 === 0;
+        case QRMaskPattern.PATTERN001 : return i % 2 === 0;
+        case QRMaskPattern.PATTERN010 : return j % 3 === 0;
+        case QRMaskPattern.PATTERN011 : return (i + j) % 3 === 0;
+        case QRMaskPattern.PATTERN100 : return (Math.floor(i / 2) + Math.floor(j / 3) ) % 2 === 0;
+        case QRMaskPattern.PATTERN101 : return (i * j) % 2 + (i * j) % 3 === 0;
+        case QRMaskPattern.PATTERN110 : return ( (i * j) % 2 + (i * j) % 3) % 2 === 0;
+        case QRMaskPattern.PATTERN111 : return ( (i * j) % 3 + (i + j) % 2) % 2 === 0;
+
+        default :
+            throw new Error("bad maskPattern:" + maskPattern);
+        }
+    },
+
+    getErrorCorrectPolynomial : function(errorCorrectLength) {
+
+        var a = new QRPolynomial([1], 0);
+
+        for (var i = 0; i < errorCorrectLength; i++) {
+            a = a.multiply(new QRPolynomial([1, QRMath.gexp(i)], 0) );
+        }
+
+        return a;
+    },
+
+    getLengthInBits : function(mode, type) {
+
+        if (1 <= type && type < 10) {
+
+            // 1 - 9
+
+            switch(mode) {
+            case QRMode.MODE_NUMBER     : return 10;
+            case QRMode.MODE_ALPHA_NUM  : return 9;
+            case QRMode.MODE_8BIT_BYTE  : return 8;
+            case QRMode.MODE_KANJI      : return 8;
+            default :
+                throw new Error("mode:" + mode);
+            }
+
+        } else if (type < 27) {
+
+            // 10 - 26
+
+            switch(mode) {
+            case QRMode.MODE_NUMBER     : return 12;
+            case QRMode.MODE_ALPHA_NUM  : return 11;
+            case QRMode.MODE_8BIT_BYTE  : return 16;
+            case QRMode.MODE_KANJI      : return 10;
+            default :
+                throw new Error("mode:" + mode);
+            }
+
+        } else if (type < 41) {
+
+            // 27 - 40
+
+            switch(mode) {
+            case QRMode.MODE_NUMBER     : return 14;
+            case QRMode.MODE_ALPHA_NUM  : return 13;
+            case QRMode.MODE_8BIT_BYTE  : return 16;
+            case QRMode.MODE_KANJI      : return 12;
+            default :
+                throw new Error("mode:" + mode);
+            }
+
+        } else {
+            throw new Error("type:" + type);
+        }
+    },
+
+    getLostPoint : function(qrCode) {
+        
+        var moduleCount = qrCode.getModuleCount();
+        var lostPoint = 0;
+        var row = 0; 
+        var col = 0;
+
+        
+        // LEVEL1
+        
+        for (row = 0; row < moduleCount; row++) {
+
+            for (col = 0; col < moduleCount; col++) {
+
+                var sameCount = 0;
+                var dark = qrCode.isDark(row, col);
+
+                for (var r = -1; r <= 1; r++) {
+
+                    if (row + r < 0 || moduleCount <= row + r) {
+                        continue;
+                    }
+
+                    for (var c = -1; c <= 1; c++) {
+
+                        if (col + c < 0 || moduleCount <= col + c) {
+                            continue;
+                        }
+
+                        if (r === 0 && c === 0) {
+                            continue;
+                        }
+
+                        if (dark === qrCode.isDark(row + r, col + c) ) {
+                            sameCount++;
+                        }
+                    }
+                }
+
+                if (sameCount > 5) {
+                    lostPoint += (3 + sameCount - 5);
+                }
+            }
+        }
+
+        // LEVEL2
+
+        for (row = 0; row < moduleCount - 1; row++) {
+            for (col = 0; col < moduleCount - 1; col++) {
+                var count = 0;
+                if (qrCode.isDark(row,     col    ) ) count++;
+                if (qrCode.isDark(row + 1, col    ) ) count++;
+                if (qrCode.isDark(row,     col + 1) ) count++;
+                if (qrCode.isDark(row + 1, col + 1) ) count++;
+                if (count === 0 || count === 4) {
+                    lostPoint += 3;
+                }
+            }
+        }
+
+        // LEVEL3
+
+        for (row = 0; row < moduleCount; row++) {
+            for (col = 0; col < moduleCount - 6; col++) {
+                if (qrCode.isDark(row, col) && 
+                        !qrCode.isDark(row, col + 1) && 
+                         qrCode.isDark(row, col + 2) && 
+                         qrCode.isDark(row, col + 3) && 
+                         qrCode.isDark(row, col + 4) && 
+                        !qrCode.isDark(row, col + 5) && 
+                         qrCode.isDark(row, col + 6) ) {
+                    lostPoint += 40;
+                }
+            }
+        }
+
+        for (col = 0; col < moduleCount; col++) {
+            for (row = 0; row < moduleCount - 6; row++) {
+                if (qrCode.isDark(row, col) &&
+                        !qrCode.isDark(row + 1, col) &&
+                         qrCode.isDark(row + 2, col) &&
+                         qrCode.isDark(row + 3, col) &&
+                         qrCode.isDark(row + 4, col) &&
+                        !qrCode.isDark(row + 5, col) &&
+                         qrCode.isDark(row + 6, col) ) {
+                    lostPoint += 40;
+                }
+            }
+        }
+
+        // LEVEL4
+        
+        var darkCount = 0;
+
+        for (col = 0; col < moduleCount; col++) {
+            for (row = 0; row < moduleCount; row++) {
+                if (qrCode.isDark(row, col) ) {
+                    darkCount++;
+                }
+            }
+        }
+        
+        var ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
+        lostPoint += ratio * 10;
+
+        return lostPoint;       
+    }
+
+};
+
+module.exports = QRUtil;
+
+return module.exports;})();
+M["QR8bitByte"]=(function(){var module={exports:{}};var exports=module.exports;
+var QRMode = require('./QRMode');
+
+function QR8bitByte(data) {
+	this.mode = QRMode.MODE_8BIT_BYTE;
+	this.data = data;
+}
+
+QR8bitByte.prototype = {
+
+	getLength : function() {
+		return this.data.length;
+	},
+	
+	write : function(buffer) {
+		for (var i = 0; i < this.data.length; i++) {
+			// not JIS ...
+			buffer.put(this.data.charCodeAt(i), 8);
+		}
+	}
+};
+
+module.exports = QR8bitByte;
+
+return module.exports;})();
+M["QRRSBlock"]=(function(){var module={exports:{}};var exports=module.exports;
+var QRErrorCorrectLevel = require('./QRErrorCorrectLevel');
+
+function QRRSBlock(totalCount, dataCount) {
+	this.totalCount = totalCount;
+	this.dataCount  = dataCount;
+}
+
+QRRSBlock.RS_BLOCK_TABLE = [
+
+	// L
+	// M
+	// Q
+	// H
+
+	// 1
+	[1, 26, 19],
+	[1, 26, 16],
+	[1, 26, 13],
+	[1, 26, 9],
+	
+	// 2
+	[1, 44, 34],
+	[1, 44, 28],
+	[1, 44, 22],
+	[1, 44, 16],
+
+	// 3
+	[1, 70, 55],
+	[1, 70, 44],
+	[2, 35, 17],
+	[2, 35, 13],
+
+	// 4		
+	[1, 100, 80],
+	[2, 50, 32],
+	[2, 50, 24],
+	[4, 25, 9],
+	
+	// 5
+	[1, 134, 108],
+	[2, 67, 43],
+	[2, 33, 15, 2, 34, 16],
+	[2, 33, 11, 2, 34, 12],
+	
+	// 6
+	[2, 86, 68],
+	[4, 43, 27],
+	[4, 43, 19],
+	[4, 43, 15],
+	
+	// 7		
+	[2, 98, 78],
+	[4, 49, 31],
+	[2, 32, 14, 4, 33, 15],
+	[4, 39, 13, 1, 40, 14],
+	
+	// 8
+	[2, 121, 97],
+	[2, 60, 38, 2, 61, 39],
+	[4, 40, 18, 2, 41, 19],
+	[4, 40, 14, 2, 41, 15],
+	
+	// 9
+	[2, 146, 116],
+	[3, 58, 36, 2, 59, 37],
+	[4, 36, 16, 4, 37, 17],
+	[4, 36, 12, 4, 37, 13],
+	
+	// 10		
+	[2, 86, 68, 2, 87, 69],
+	[4, 69, 43, 1, 70, 44],
+	[6, 43, 19, 2, 44, 20],
+	[6, 43, 15, 2, 44, 16],
+
+	// 11
+	[4, 101, 81],
+	[1, 80, 50, 4, 81, 51],
+	[4, 50, 22, 4, 51, 23],
+	[3, 36, 12, 8, 37, 13],
+
+	// 12
+	[2, 116, 92, 2, 117, 93],
+	[6, 58, 36, 2, 59, 37],
+	[4, 46, 20, 6, 47, 21],
+	[7, 42, 14, 4, 43, 15],
+
+	// 13
+	[4, 133, 107],
+	[8, 59, 37, 1, 60, 38],
+	[8, 44, 20, 4, 45, 21],
+	[12, 33, 11, 4, 34, 12],
+
+	// 14
+	[3, 145, 115, 1, 146, 116],
+	[4, 64, 40, 5, 65, 41],
+	[11, 36, 16, 5, 37, 17],
+	[11, 36, 12, 5, 37, 13],
+
+	// 15
+	[5, 109, 87, 1, 110, 88],
+	[5, 65, 41, 5, 66, 42],
+	[5, 54, 24, 7, 55, 25],
+	[11, 36, 12],
+
+	// 16
+	[5, 122, 98, 1, 123, 99],
+	[7, 73, 45, 3, 74, 46],
+	[15, 43, 19, 2, 44, 20],
+	[3, 45, 15, 13, 46, 16],
+
+	// 17
+	[1, 135, 107, 5, 136, 108],
+	[10, 74, 46, 1, 75, 47],
+	[1, 50, 22, 15, 51, 23],
+	[2, 42, 14, 17, 43, 15],
+
+	// 18
+	[5, 150, 120, 1, 151, 121],
+	[9, 69, 43, 4, 70, 44],
+	[17, 50, 22, 1, 51, 23],
+	[2, 42, 14, 19, 43, 15],
+
+	// 19
+	[3, 141, 113, 4, 142, 114],
+	[3, 70, 44, 11, 71, 45],
+	[17, 47, 21, 4, 48, 22],
+	[9, 39, 13, 16, 40, 14],
+
+	// 20
+	[3, 135, 107, 5, 136, 108],
+	[3, 67, 41, 13, 68, 42],
+	[15, 54, 24, 5, 55, 25],
+	[15, 43, 15, 10, 44, 16],
+
+	// 21
+	[4, 144, 116, 4, 145, 117],
+	[17, 68, 42],
+	[17, 50, 22, 6, 51, 23],
+	[19, 46, 16, 6, 47, 17],
+
+	// 22
+	[2, 139, 111, 7, 140, 112],
+	[17, 74, 46],
+	[7, 54, 24, 16, 55, 25],
+	[34, 37, 13],
+
+	// 23
+	[4, 151, 121, 5, 152, 122],
+	[4, 75, 47, 14, 76, 48],
+	[11, 54, 24, 14, 55, 25],
+	[16, 45, 15, 14, 46, 16],
+
+	// 24
+	[6, 147, 117, 4, 148, 118],
+	[6, 73, 45, 14, 74, 46],
+	[11, 54, 24, 16, 55, 25],
+	[30, 46, 16, 2, 47, 17],
+
+	// 25
+	[8, 132, 106, 4, 133, 107],
+	[8, 75, 47, 13, 76, 48],
+	[7, 54, 24, 22, 55, 25],
+	[22, 45, 15, 13, 46, 16],
+
+	// 26
+	[10, 142, 114, 2, 143, 115],
+	[19, 74, 46, 4, 75, 47],
+	[28, 50, 22, 6, 51, 23],
+	[33, 46, 16, 4, 47, 17],
+
+	// 27
+	[8, 152, 122, 4, 153, 123],
+	[22, 73, 45, 3, 74, 46],
+	[8, 53, 23, 26, 54, 24],
+	[12, 45, 15, 28, 46, 16],
+
+	// 28
+	[3, 147, 117, 10, 148, 118],
+	[3, 73, 45, 23, 74, 46],
+	[4, 54, 24, 31, 55, 25],
+	[11, 45, 15, 31, 46, 16],
+
+	// 29
+	[7, 146, 116, 7, 147, 117],
+	[21, 73, 45, 7, 74, 46],
+	[1, 53, 23, 37, 54, 24],
+	[19, 45, 15, 26, 46, 16],
+
+	// 30
+	[5, 145, 115, 10, 146, 116],
+	[19, 75, 47, 10, 76, 48],
+	[15, 54, 24, 25, 55, 25],
+	[23, 45, 15, 25, 46, 16],
+
+	// 31
+	[13, 145, 115, 3, 146, 116],
+	[2, 74, 46, 29, 75, 47],
+	[42, 54, 24, 1, 55, 25],
+	[23, 45, 15, 28, 46, 16],
+
+	// 32
+	[17, 145, 115],
+	[10, 74, 46, 23, 75, 47],
+	[10, 54, 24, 35, 55, 25],
+	[19, 45, 15, 35, 46, 16],
+
+	// 33
+	[17, 145, 115, 1, 146, 116],
+	[14, 74, 46, 21, 75, 47],
+	[29, 54, 24, 19, 55, 25],
+	[11, 45, 15, 46, 46, 16],
+
+	// 34
+	[13, 145, 115, 6, 146, 116],
+	[14, 74, 46, 23, 75, 47],
+	[44, 54, 24, 7, 55, 25],
+	[59, 46, 16, 1, 47, 17],
+
+	// 35
+	[12, 151, 121, 7, 152, 122],
+	[12, 75, 47, 26, 76, 48],
+	[39, 54, 24, 14, 55, 25],
+	[22, 45, 15, 41, 46, 16],
+
+	// 36
+	[6, 151, 121, 14, 152, 122],
+	[6, 75, 47, 34, 76, 48],
+	[46, 54, 24, 10, 55, 25],
+	[2, 45, 15, 64, 46, 16],
+
+	// 37
+	[17, 152, 122, 4, 153, 123],
+	[29, 74, 46, 14, 75, 47],
+	[49, 54, 24, 10, 55, 25],
+	[24, 45, 15, 46, 46, 16],
+
+	// 38
+	[4, 152, 122, 18, 153, 123],
+	[13, 74, 46, 32, 75, 47],
+	[48, 54, 24, 14, 55, 25],
+	[42, 45, 15, 32, 46, 16],
+
+	// 39
+	[20, 147, 117, 4, 148, 118],
+	[40, 75, 47, 7, 76, 48],
+	[43, 54, 24, 22, 55, 25],
+	[10, 45, 15, 67, 46, 16],
+
+	// 40
+	[19, 148, 118, 6, 149, 119],
+	[18, 75, 47, 31, 76, 48],
+	[34, 54, 24, 34, 55, 25],
+	[20, 45, 15, 61, 46, 16]
+];
+
+QRRSBlock.getRSBlocks = function(typeNumber, errorCorrectLevel) {
+	
+	var rsBlock = QRRSBlock.getRsBlockTable(typeNumber, errorCorrectLevel);
+	
+	if (rsBlock === undefined) {
+		throw new Error("bad rs block @ typeNumber:" + typeNumber + "/errorCorrectLevel:" + errorCorrectLevel);
+	}
+
+	var length = rsBlock.length / 3;
+	
+	var list = [];
+	
+	for (var i = 0; i < length; i++) {
+
+		var count = rsBlock[i * 3 + 0];
+		var totalCount = rsBlock[i * 3 + 1];
+		var dataCount  = rsBlock[i * 3 + 2];
+
+		for (var j = 0; j < count; j++) {
+			list.push(new QRRSBlock(totalCount, dataCount) );	
+		}
+	}
+	
+	return list;
+};
+
+QRRSBlock.getRsBlockTable = function(typeNumber, errorCorrectLevel) {
+
+	switch(errorCorrectLevel) {
+	case QRErrorCorrectLevel.L :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];
+	case QRErrorCorrectLevel.M :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 1];
+	case QRErrorCorrectLevel.Q :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 2];
+	case QRErrorCorrectLevel.H :
+		return QRRSBlock.RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 3];
+	default :
+		return undefined;
+	}
+};
+
+module.exports = QRRSBlock;
+
+return module.exports;})();
+M["QRBitBuffer"]=(function(){var module={exports:{}};var exports=module.exports;
+function QRBitBuffer() {
+	this.buffer = [];
+	this.length = 0;
+}
+
+QRBitBuffer.prototype = {
+
+	get : function(index) {
+		var bufIndex = Math.floor(index / 8);
+		return ( (this.buffer[bufIndex] >>> (7 - index % 8) ) & 1) == 1;
+	},
+	
+	put : function(num, length) {
+		for (var i = 0; i < length; i++) {
+			this.putBit( ( (num >>> (length - i - 1) ) & 1) == 1);
+		}
+	},
+	
+	getLengthInBits : function() {
+		return this.length;
+	},
+	
+	putBit : function(bit) {
+	
+		var bufIndex = Math.floor(this.length / 8);
+		if (this.buffer.length <= bufIndex) {
+			this.buffer.push(0);
+		}
+	
+		if (bit) {
+			this.buffer[bufIndex] |= (0x80 >>> (this.length % 8) );
+		}
+	
+		this.length++;
+	}
+};
+
+module.exports = QRBitBuffer;
+
+return module.exports;})();
+M["index"]=(function(){var module={exports:{}};var exports=module.exports;
+//---------------------------------------------------------------------
+// QRCode for JavaScript
+//
+// Copyright (c) 2009 Kazuhiko Arase
+//
+// URL: http://www.d-project.com/
+//
+// Licensed under the MIT license:
+//   http://www.opensource.org/licenses/mit-license.php
+//
+// The word "QR Code" is registered trademark of 
+// DENSO WAVE INCORPORATED
+//   http://www.denso-wave.com/qrcode/faqpatent-e.html
+//
+//---------------------------------------------------------------------
+// Modified to work in node for this project (and some refactoring)
+//---------------------------------------------------------------------
+
+var QR8bitByte = require('./QR8bitByte');
+var QRUtil = require('./QRUtil');
+var QRPolynomial = require('./QRPolynomial');
+var QRRSBlock = require('./QRRSBlock');
+var QRBitBuffer = require('./QRBitBuffer');
+
+function QRCode(typeNumber, errorCorrectLevel) {
+	this.typeNumber = typeNumber;
+	this.errorCorrectLevel = errorCorrectLevel;
+	this.modules = null;
+	this.moduleCount = 0;
+	this.dataCache = null;
+	this.dataList = [];
+}
+
+QRCode.prototype = {
+	
+	addData : function(data) {
+		var newData = new QR8bitByte(data);
+		this.dataList.push(newData);
+		this.dataCache = null;
+	},
+	
+	isDark : function(row, col) {
+		if (row < 0 || this.moduleCount <= row || col < 0 || this.moduleCount <= col) {
+			throw new Error(row + "," + col);
+		}
+		return this.modules[row][col];
+	},
+
+	getModuleCount : function() {
+		return this.moduleCount;
+	},
+	
+	make : function() {
+		// Calculate automatically typeNumber if provided is < 1
+		if (this.typeNumber < 1 ){
+			var typeNumber = 1;
+			for (typeNumber = 1; typeNumber < 40; typeNumber++) {
+				var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, this.errorCorrectLevel);
+
+				var buffer = new QRBitBuffer();
+				var totalDataCount = 0;
+				for (var i = 0; i < rsBlocks.length; i++) {
+					totalDataCount += rsBlocks[i].dataCount;
+				}
+
+				for (var x = 0; x < this.dataList.length; x++) {
+					var data = this.dataList[x];
+					buffer.put(data.mode, 4);
+					buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber) );
+					data.write(buffer);
+				}
+				if (buffer.getLengthInBits() <= totalDataCount * 8)
+					break;
+			}
+			this.typeNumber = typeNumber;
+		}
+		this.makeImpl(false, this.getBestMaskPattern() );
+	},
+	
+	makeImpl : function(test, maskPattern) {
+		
+		this.moduleCount = this.typeNumber * 4 + 17;
+		this.modules = new Array(this.moduleCount);
+		
+		for (var row = 0; row < this.moduleCount; row++) {
+			
+			this.modules[row] = new Array(this.moduleCount);
+			
+			for (var col = 0; col < this.moduleCount; col++) {
+				this.modules[row][col] = null;//(col + row) % 3;
+			}
+		}
+	
+		this.setupPositionProbePattern(0, 0);
+		this.setupPositionProbePattern(this.moduleCount - 7, 0);
+		this.setupPositionProbePattern(0, this.moduleCount - 7);
+		this.setupPositionAdjustPattern();
+		this.setupTimingPattern();
+		this.setupTypeInfo(test, maskPattern);
+		
+		if (this.typeNumber >= 7) {
+			this.setupTypeNumber(test);
+		}
+	
+		if (this.dataCache === null) {
+			this.dataCache = QRCode.createData(this.typeNumber, this.errorCorrectLevel, this.dataList);
+		}
+	
+		this.mapData(this.dataCache, maskPattern);
+	},
+
+	setupPositionProbePattern : function(row, col)  {
+		
+		for (var r = -1; r <= 7; r++) {
+			
+			if (row + r <= -1 || this.moduleCount <= row + r) continue;
+			
+			for (var c = -1; c <= 7; c++) {
+				
+				if (col + c <= -1 || this.moduleCount <= col + c) continue;
+				
+				if ( (0 <= r && r <= 6 && (c === 0 || c === 6) ) || 
+                     (0 <= c && c <= 6 && (r === 0 || r === 6) ) || 
+                     (2 <= r && r <= 4 && 2 <= c && c <= 4) ) {
+					this.modules[row + r][col + c] = true;
+				} else {
+					this.modules[row + r][col + c] = false;
+				}
+			}		
+		}		
+	},
+	
+	getBestMaskPattern : function() {
+	
+		var minLostPoint = 0;
+		var pattern = 0;
+	
+		for (var i = 0; i < 8; i++) {
+			
+			this.makeImpl(true, i);
+	
+			var lostPoint = QRUtil.getLostPoint(this);
+	
+			if (i === 0 || minLostPoint >  lostPoint) {
+				minLostPoint = lostPoint;
+				pattern = i;
+			}
+		}
+	
+		return pattern;
+	},
+	
+	createMovieClip : function(target_mc, instance_name, depth) {
+	
+		var qr_mc = target_mc.createEmptyMovieClip(instance_name, depth);
+		var cs = 1;
+	
+		this.make();
+
+		for (var row = 0; row < this.modules.length; row++) {
+			
+			var y = row * cs;
+			
+			for (var col = 0; col < this.modules[row].length; col++) {
+	
+				var x = col * cs;
+				var dark = this.modules[row][col];
+			
+				if (dark) {
+					qr_mc.beginFill(0, 100);
+					qr_mc.moveTo(x, y);
+					qr_mc.lineTo(x + cs, y);
+					qr_mc.lineTo(x + cs, y + cs);
+					qr_mc.lineTo(x, y + cs);
+					qr_mc.endFill();
+				}
+			}
+		}
+		
+		return qr_mc;
+	},
+
+	setupTimingPattern : function() {
+		
+		for (var r = 8; r < this.moduleCount - 8; r++) {
+			if (this.modules[r][6] !== null) {
+				continue;
+			}
+			this.modules[r][6] = (r % 2 === 0);
+		}
+	
+		for (var c = 8; c < this.moduleCount - 8; c++) {
+			if (this.modules[6][c] !== null) {
+				continue;
+			}
+			this.modules[6][c] = (c % 2 === 0);
+		}
+	},
+	
+	setupPositionAdjustPattern : function() {
+	
+		var pos = QRUtil.getPatternPosition(this.typeNumber);
+		
+		for (var i = 0; i < pos.length; i++) {
+		
+			for (var j = 0; j < pos.length; j++) {
+			
+				var row = pos[i];
+				var col = pos[j];
+				
+				if (this.modules[row][col] !== null) {
+					continue;
+				}
+				
+				for (var r = -2; r <= 2; r++) {
+				
+					for (var c = -2; c <= 2; c++) {
+					
+						if (Math.abs(r) === 2 || 
+                            Math.abs(c) === 2 ||
+                            (r === 0 && c === 0) ) {
+							this.modules[row + r][col + c] = true;
+						} else {
+							this.modules[row + r][col + c] = false;
+						}
+					}
+				}
+			}
+		}
+	},
+	
+	setupTypeNumber : function(test) {
+	
+		var bits = QRUtil.getBCHTypeNumber(this.typeNumber);
+        var mod;
+	
+		for (var i = 0; i < 18; i++) {
+			mod = (!test && ( (bits >> i) & 1) === 1);
+			this.modules[Math.floor(i / 3)][i % 3 + this.moduleCount - 8 - 3] = mod;
+		}
+	
+		for (var x = 0; x < 18; x++) {
+			mod = (!test && ( (bits >> x) & 1) === 1);
+			this.modules[x % 3 + this.moduleCount - 8 - 3][Math.floor(x / 3)] = mod;
+		}
+	},
+	
+	setupTypeInfo : function(test, maskPattern) {
+	
+		var data = (this.errorCorrectLevel << 3) | maskPattern;
+		var bits = QRUtil.getBCHTypeInfo(data);
+        var mod;
+	
+		// vertical		
+		for (var v = 0; v < 15; v++) {
+	
+			mod = (!test && ( (bits >> v) & 1) === 1);
+	
+			if (v < 6) {
+				this.modules[v][8] = mod;
+			} else if (v < 8) {
+				this.modules[v + 1][8] = mod;
+			} else {
+				this.modules[this.moduleCount - 15 + v][8] = mod;
+			}
+		}
+	
+		// horizontal
+		for (var h = 0; h < 15; h++) {
+	
+			mod = (!test && ( (bits >> h) & 1) === 1);
+			
+			if (h < 8) {
+				this.modules[8][this.moduleCount - h - 1] = mod;
+			} else if (h < 9) {
+				this.modules[8][15 - h - 1 + 1] = mod;
+			} else {
+				this.modules[8][15 - h - 1] = mod;
+			}
+		}
+	
+		// fixed module
+		this.modules[this.moduleCount - 8][8] = (!test);
+	
+	},
+	
+	mapData : function(data, maskPattern) {
+		
+		var inc = -1;
+		var row = this.moduleCount - 1;
+		var bitIndex = 7;
+		var byteIndex = 0;
+		
+		for (var col = this.moduleCount - 1; col > 0; col -= 2) {
+	
+			if (col === 6) col--;
+	
+			while (true) {
+	
+				for (var c = 0; c < 2; c++) {
+					
+					if (this.modules[row][col - c] === null) {
+						
+						var dark = false;
+	
+						if (byteIndex < data.length) {
+							dark = ( ( (data[byteIndex] >>> bitIndex) & 1) === 1);
+						}
+	
+						var mask = QRUtil.getMask(maskPattern, row, col - c);
+	
+						if (mask) {
+							dark = !dark;
+						}
+						
+						this.modules[row][col - c] = dark;
+						bitIndex--;
+	
+						if (bitIndex === -1) {
+							byteIndex++;
+							bitIndex = 7;
+						}
+					}
+				}
+								
+				row += inc;
+	
+				if (row < 0 || this.moduleCount <= row) {
+					row -= inc;
+					inc = -inc;
+					break;
+				}
+			}
+		}
+		
+	}
+
+};
+
+QRCode.PAD0 = 0xEC;
+QRCode.PAD1 = 0x11;
+
+QRCode.createData = function(typeNumber, errorCorrectLevel, dataList) {
+	
+	var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectLevel);
+	
+	var buffer = new QRBitBuffer();
+	
+	for (var i = 0; i < dataList.length; i++) {
+		var data = dataList[i];
+		buffer.put(data.mode, 4);
+		buffer.put(data.getLength(), QRUtil.getLengthInBits(data.mode, typeNumber) );
+		data.write(buffer);
+	}
+
+	// calc num max data.
+	var totalDataCount = 0;
+	for (var x = 0; x < rsBlocks.length; x++) {
+		totalDataCount += rsBlocks[x].dataCount;
+	}
+
+	if (buffer.getLengthInBits() > totalDataCount * 8) {
+		throw new Error("code length overflow. (" + 
+            buffer.getLengthInBits() + 
+            ">" +  
+            totalDataCount * 8 + 
+            ")");
+	}
+
+	// end code
+	if (buffer.getLengthInBits() + 4 <= totalDataCount * 8) {
+		buffer.put(0, 4);
+	}
+
+	// padding
+	while (buffer.getLengthInBits() % 8 !== 0) {
+		buffer.putBit(false);
+	}
+
+	// padding
+	while (true) {
+		
+		if (buffer.getLengthInBits() >= totalDataCount * 8) {
+			break;
+		}
+		buffer.put(QRCode.PAD0, 8);
+		
+		if (buffer.getLengthInBits() >= totalDataCount * 8) {
+			break;
+		}
+		buffer.put(QRCode.PAD1, 8);
+	}
+
+	return QRCode.createBytes(buffer, rsBlocks);
+};
+
+QRCode.createBytes = function(buffer, rsBlocks) {
+
+	var offset = 0;
+	
+	var maxDcCount = 0;
+	var maxEcCount = 0;
+	
+	var dcdata = new Array(rsBlocks.length);
+	var ecdata = new Array(rsBlocks.length);
+	
+	for (var r = 0; r < rsBlocks.length; r++) {
+
+		var dcCount = rsBlocks[r].dataCount;
+		var ecCount = rsBlocks[r].totalCount - dcCount;
+
+		maxDcCount = Math.max(maxDcCount, dcCount);
+		maxEcCount = Math.max(maxEcCount, ecCount);
+		
+		dcdata[r] = new Array(dcCount);
+		
+		for (var i = 0; i < dcdata[r].length; i++) {
+			dcdata[r][i] = 0xff & buffer.buffer[i + offset];
+		}
+		offset += dcCount;
+		
+		var rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
+		var rawPoly = new QRPolynomial(dcdata[r], rsPoly.getLength() - 1);
+
+		var modPoly = rawPoly.mod(rsPoly);
+		ecdata[r] = new Array(rsPoly.getLength() - 1);
+		for (var x = 0; x < ecdata[r].length; x++) {
+            var modIndex = x + modPoly.getLength() - ecdata[r].length;
+			ecdata[r][x] = (modIndex >= 0)? modPoly.get(modIndex) : 0;
+		}
+
+	}
+	
+	var totalCodeCount = 0;
+	for (var y = 0; y < rsBlocks.length; y++) {
+		totalCodeCount += rsBlocks[y].totalCount;
+	}
+
+	var data = new Array(totalCodeCount);
+	var index = 0;
+
+	for (var z = 0; z < maxDcCount; z++) {
+		for (var s = 0; s < rsBlocks.length; s++) {
+			if (z < dcdata[s].length) {
+				data[index++] = dcdata[s][z];
+			}
+		}
+	}
+
+	for (var xx = 0; xx < maxEcCount; xx++) {
+		for (var t = 0; t < rsBlocks.length; t++) {
+			if (xx < ecdata[t].length) {
+				data[index++] = ecdata[t][xx];
+			}
+		}
+	}
+
+	return data;
+
+};
+
+module.exports = QRCode;
+
+return module.exports;})();
+return {QRCode:M["index"],ECL:M["QRErrorCorrectLevel"]};})();
+function drawQR(el, text, px){ el.innerHTML = ""; try{ var q = new QRLIB.QRCode(-1, QRLIB.ECL.M); q.addData(text); q.make(); var n = q.getModuleCount(), m = 4, cell = Math.max(2, Math.floor(px / (n + m*2))), size = cell * (n + m*2); var c = document.createElement("canvas"); c.width = c.height = size; var g = c.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0,0,size,size); g.fillStyle = "#000"; for(var r=0;r<n;r++) for(var k=0;k<n;k++) if(q.isDark(r,k)) g.fillRect((k+m)*cell,(r+m)*cell,cell,cell); el.appendChild(c); }catch(e){ el.textContent = "QR을 그리지 못했어요"; } }
+</script>
+<script>
+'use strict';
+/* ============ 도구 ============ */
+const $ = s => document.querySelector(s);
+const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/&lt;br&gt;/g, '<br>');
+const pick = a => a[Math.floor(Math.random()*a.length)];
+const rnd = (a,b) => a + Math.random()*(b - a);
+let toastT = null;
+function toast(msg, ms){ const t = $('#toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), ms || 3800); }
+const ls = { get(k,d){ try{ const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); }catch(e){ return d; } }, set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} } };
+const nowStr = t => { const d = new Date(t); const p = n => String(n).padStart(2,'0'); return d.getFullYear() + '-' + p(d.getMonth()+1) + '-' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes()); };
+
+/* 선생님이 만든 그림 불러오기: img/이름.(jpg|png|webp…) → 없으면 저장소 맨 위 → 없으면 숨김 */
+const IMG_EXTS = ['png','jpg','webp','jpeg','PNG','JPG','WEBP','JPEG'];
+const IMG_PROM = {}; let IMG_PREF = null;
+function findImg(name){
+  if(!name) return Promise.resolve(null);
+  if(IMG_PROM[name]) return IMG_PROM[name];
+  const dirs = IMG_PREF === '' ? ['', 'img/'] : ['img/', ''];
+  const tries = []; dirs.forEach(d => IMG_EXTS.forEach(e => tries.push(d + name + '.' + e)));
+  IMG_PROM[name] = new Promise(res => { let i = 0; const im = new Image();
+    im.onload = () => { const u = tries[i]; if(IMG_PREF == null) IMG_PREF = u.startsWith('img/') ? 'img/' : ''; res(u); };
+    im.onerror = () => { i++; if(i < tries.length) im.src = tries[i]; else res(null); };
+    im.src = tries[0]; });
+  return IMG_PROM[name];
+}
+function loadImg(img, name, onFail){
+  img.classList.add('hidden');
+  findImg(name).then(u => {
+    if(!u){ if(onFail) onFail(); return; }
+    img.addEventListener('load', () => { img.classList.remove('hidden'); if(img.id === 'titleImg'){ const fb = document.querySelector('.tArtFb'); if(fb) fb.remove(); } if(img.dataset.fb){ const f = img.parentNode.querySelector('.fb'); if(f) f.remove(); } }, {once:true});
+    img.src = u; });
+}
+
+/* ============ 소리 ============ */
+let AC = null, muted = false;
+function tone(freqs, dur, type, vol, gap){ if(!AC || muted) return; const t0 = AC.currentTime;
+  freqs.forEach((f,i) => { const o = AC.createOscillator(), g = AC.createGain(); o.type = type || 'sine'; o.frequency.value = f; const st = t0 + (gap||0)*i;
+    g.gain.setValueAtTime(0.0001, st); g.gain.exponentialRampToValueAtTime(vol || .12, st + .02); g.gain.exponentialRampToValueAtTime(0.0001, st + dur);
+    o.connect(g); g.connect(AC.destination); o.start(st); o.stop(st + dur + .05); }); }
+const sGood = () => tone([523,659,784,1046], .5, 'triangle', .1, .09);
+const sBad  = () => tone([220,185,147], .55, 'sawtooth', .05, .14);
+const sPage = () => tone([440,554], .25, 'sine', .05, .06);
+const sTick = () => tone([660], .12, 'square', .03);
+/* ============ 「사다리를 오르는 사람들」 규칙 (화면과 분리: 시험용 node에서도 씀) ============ */
+const ST = {   // 신분
+  nobi_s:{n:'사노비', cat:'노비', rank:0}, nobi_g:{n:'공노비', cat:'노비', rank:0},
+  sangmin:{n:'상민', cat:'상민', rank:1}, jung:{n:'중간층(업유·교생)', cat:'중인·중간층', rank:2}, seol:{n:'서얼(중인)', cat:'중인·중간층', rank:2},
+  yuhak:{n:'호적상 양반(유학)', cat:'호적상 양반', rank:3}, yangban:{n:'양반', cat:'양반', rank:4}
+};
+const isNobi = s => s === 'nobi_s' || s === 'nobi_g';
+
+const CARDS = [
+  {id:'dolsoe', fam:'돌쇠네', st:'nobi_s', money:2, land:0, rent:0, honor:0, merchant:false, w:2, img:'birth_dolsoe',
+   desc:'주인과 따로 살며 해마다 **신공**(노비가 바치는 몸값)을 바치는 **외거노비** 집안. 노비는 사람이 아니라 재산으로 여겨져 \'강아지\', \'도야지\' 같은 이름으로 불리기도 했다.', goal:'노비 신분에서 벗어나 자손을 양인으로!'},
+  {id:'maksun', fam:'막순이네', st:'nobi_g', money:2, land:0, rent:0, honor:0, merchant:false, w:1, img:'birth_maksun',
+   desc:'관청에 딸린 **공노비** 집안. 관청에 일과 물건을 바치며 살아간다.', goal:'노비 신분에서 벗어나 자손을 양인으로!'},
+  {id:'kim', fam:'김씨네', st:'sangmin', money:5, land:0, rent:10, honor:5, merchant:false, w:2, img:'birth_kim',
+   desc:'남의 땅 10마지기를 빌려 짓는 **소작농** 집안. 수확의 절반을 땅 주인에게 바친다.', goal:'땅을 늘리고, 군포 걱정 없는 집안으로!'},
+  {id:'park', fam:'박씨네', st:'sangmin', money:10, land:10, rent:0, honor:5, merchant:false, w:2, img:'birth_park',
+   desc:'자기 땅 10마지기를 가진 **자작농** 집안. 해마다 군포를 낸다.', goal:'부농이 되거나 양반이 되어 보자!'},
+  {id:'lee', fam:'이씨네', st:'sangmin', money:15, land:0, rent:0, honor:5, merchant:true, w:1, img:'birth_lee',
+   desc:'장시를 돌며 물건을 파는 **보부상** 집안. 땅은 없지만 장사 솜씨가 있다.', goal:'장사로 큰돈을 모아 보자!'},
+  {id:'choi', fam:'최씨네', st:'seol', money:20, land:5, rent:0, honor:25, merchant:false, w:1, img:'birth_choi',
+   desc:'양반 아버지와 첩 어머니에게서 태어난 **서얼** 집안. 글을 배웠지만 문과에 응시할 수 없다.', goal:'닫힌 벼슬길을 열어 보자!'},
+  {id:'jeong', fam:'정씨네', st:'yangban', money:3, land:3, rent:0, honor:45, merchant:false, w:1, img:'birth_jeong',
+   desc:'권력 다툼에서 밀려나 가난해진 **몰락 양반** 집안. 군포는 안 내지만 체면을 지키는 데 돈이 든다.', goal:'양반 가문의 이름을 지켜 내자!'}
+];
+
+/* 12턴: 대마다 3턴 */
+const KINGS = ['숙종', '영조', '정조', '순조~철종'];
+const TURNS = [
+  {g:1, y:1692, id:'monae', title:'모내기법이 퍼지다', img:'ev_monae',
+   txt:'마을마다 모를 따로 키워 논에 옮겨 심는 집이 늘고 있다. 잡초 뽑는 일손은 줄고 수확은 늘어난다는데…', tie:'개념 노트 1절'},
+  {g:1, y:1695, id:'famine', title:'을병 대기근', img:'ev_famine', drought:true, sell:true,
+   txt:'큰 흉년이 들어 굶주리는 사람이 넘쳐난다. 나라에서는 곡식을 모으려고 **공명첩**을 팔고, 곡식을 바치면(**납속**) 혜택을 준다.', tie:'개념 노트 3절 · 공명첩',
+   rumor:'이번에 곡식을 바치면 노비도 양인이 될 수 있다고 한다. 실제로 1695년 나라는 곡식을 받고 노비를 양인으로 풀어 주었다.'},
+  {g:1, y:1699, id:'jangsi', title:'장시가 늘어나다', img:'ev_jangsi',
+   txt:'5일마다 열리는 **장시**가 고을마다 생겨나고, **보부상**들이 장시를 돌며 물건을 판다.', tie:'개념 노트 2절'},
+  {g:2, y:1731, id:'jongmo', title:'노비종모법', img:'ev_jongmo',
+   txt:'나라에서 "아버지가 노비라도 어머니가 양인이면 그 자녀는 양인"이라고 정했다. 양인이 줄어 군역을 질 사람이 모자랐기 때문이다.', tie:'생각하기 (나) 『영조실록』'},
+  {g:2, y:1740, id:'coin', title:'상평통보가 돌다', img:'ev_coin',
+   txt:'물건값도 품삯도 이제 동전 **상평통보**로 주고받는다. 장사하는 사람과 사상(나라 허가 없이 장사하는 상인)에게 기회가 커졌다.', tie:'개념 노트 2절'},
+  {g:2, y:1750, id:'gyunyeok', title:'균역법', img:'ev_gyunyeok',
+   txt:'**군포가 2필에서 1필로** 줄었다! 해마다 군포를 내던 상민들의 부담이 절반이 되었다.', tie:'주제 9 영조의 개혁',
+   rumor:'5년 전(1745), 노비 출신으로 이름을 바꿔 과거에 급제하고 사또까지 지낸 **엄택주**(본명 이만강)가 정체가 드러나 흑산도로 유배되었다고 한다.'},
+  {g:3, y:1779, id:'geomseo', title:'서얼, 규장각 검서관이 되다', img:'ev_geomseo',
+   txt:'정조가 유득공·박제가·이덕무 같은 **서얼**을 규장각 검서관으로 뽑았다. 서얼들이 여러 차례 올린 집단 상소의 결과였다.', tie:'개념 노트 3절'},
+  {g:3, y:1785, id:'silver', title:'은광이 열리다', img:'ev_silver',
+   txt:'청과의 무역에 쓸 **은**이 많이 필요해지자 곳곳에서 은광이 열렸다. 광산에서 품을 팔 사람을 찾는다.', tie:'개념 노트 2절'},
+  {g:3, y:1791, id:'tonggong', title:'시전 상인의 특권이 없어지다', img:'ev_tonggong',
+   txt:'한양 시전 상인의 특권이 없어져 누구나 장사하기가 쉬워졌다. **사상**들의 활동이 더욱 활발해진다.', tie:'개념 노트 2절'},
+  {g:4, y:1830, id:'samjeong', title:'삼정의 문란', img:'ev_samjeong',
+   txt:'세금을 걷는 관리들의 부정이 심해졌다. 빌리지도 않은 환곡의 이자까지 내라고 한다. (이번 대에는 세금이 더 나간다)', tie:'주제 11 미리 보기'},
+  {g:4, y:1851, id:'socheong', title:'기술직 중인의 소청 운동', img:'ev_socheong',
+   txt:'중인들이 관직 진출 제한을 풀어 달라고 대규모로 요청했다. 하지만 요구는 받아들여지지 않았다.', tie:'개념 노트 3절'},
+  {g:4, y:1858, id:'hojeok', title:'호적을 새로 만드는 해', img:'ev_hojeok', sell:true,
+   txt:'3년마다 호적을 새로 만드는 해다. 호적에 무엇이라 적히느냐가 집안의 이름을 정한다. 나라 살림이 모자라 공명첩도 판다.', tie:'생각하기 (가) 『일성록』'}
+];
+
+const RULE = {gunpo:4, gunpoAfter:2, live:3, face:{yangban:2, yuhak:1, seol:1}, nobiPay:4, trueHonor:75, promoteHonor:55, landPrice:12, landAdd:3};
+
+function newFamily(card){
+  return {card:card.id, fam:card.fam, st:card.st, st0:card.st, money:card.money, land:card.land, rent:card.rent, honor:card.honor,
+    merchant:card.merchant, monae:false, crop:false, exempt:false, petition:false, geomseo:false, childFree:false, hard:false,
+    jangsi:0, turn:0, gen:1, used:{}, genUsed:{}, picks:[], log:[], diaries:[], ledger:[], hist:[{g:1, st:card.st, money:card.money, honor:card.honor}]};
+}
+const farmLand = F => F.land + F.rent;
+
+/* ---- 선택지 ---- */
+const OPTS = [
+  /* 살림 */
+  {id:'e_monae', grp:'살림', n:'모내기법으로 바꾸기', d:'수확이 두 배! 하지만 가뭄에는 모를 못 심어 크게 망한다.', cost:3,
+   ok:F => farmLand(F) > 0 && !F.monae, run:F => { F.monae = true; return '논에 못자리를 만들고 모내기를 시작했다.'; }},
+  {id:'e_crop', grp:'살림', n:'남는 일손으로 담배·인삼 기르기', d:'장시에 팔 상품 작물. 값이 오르면 큰돈, 떨어지면 손해.', cost:2,
+   ok:F => farmLand(F) > 0 && F.monae && !F.crop, run:F => { F.crop = true; return '모내기로 남은 일손으로 담배와 인삼을 심었다.'; }},
+  {id:'e_buy', grp:'살림', n:'땅 3마지기 사기', d:'내 땅이 늘면 소작료 없이 수확이 늘어난다.', cost:RULE.landPrice,
+   ok:F => true, run:F => { F.land += RULE.landAdd; return '땅 문서를 받았다. 이제 우리 땅이 ' + F.land + '마지기다.'; }},
+  {id:'e_rent', grp:'살림', n:'남의 땅 5마지기 빌리기', d:'농사지을 땅이 늘지만, 수확의 절반은 땅 주인 몫.', cost:0,
+   ok:F => F.st !== 'nobi_g' && F.rent < 10, run:F => { F.rent += 5; return isNobi(F.st) ? '신공을 바치는 틈틈이 남의 땅을 빌려 농사를 지었다. (외거노비도 따로 재산을 모을 수 있었다)' : '땅 주인과 약속하고 땅을 빌렸다.'; }},
+  {id:'e_market', grp:'살림', n:'보부상이 되어 장시 돌기', d:'짐과 밑천이 든다. 장시가 늘수록 장사 이익도 커진다.', cost:4,
+   ok:F => !F.merchant && F.st !== 'nobi_g', run:F => { F.merchant = true; return '지게에 물건을 지고 5일장을 돌기 시작했다.'; }},
+  {id:'e_wage', grp:'살림', n:'광산·포구에서 품팔이', d:'적지만 확실하게 품삯(상평통보)을 받는다.', cost:0,
+   ok:F => !isNobi(F.st), run:(F, T) => { const v = T.id === 'silver' ? 10 : 6; F.money += v; return '품삯으로 ' + v + '냥을 받았다.'; }},
+  {id:'e_trade', grp:'살림', n:'사상의 청·일본 무역에 돈 대기', d:'10냥을 맡긴다. 크게 벌거나 몽땅 잃는다.', cost:10,
+   ok:(F, T, i) => i >= 4 && !isNobi(F.st), run:(F, T, i, R) => { const win = R() < (i >= 8 ? 0.6 : 0.5); if(win){ F.money += 30; return '무역선이 무사히 돌아왔다! 30냥을 돌려받았다.'; } return '무역이 실패해 맡긴 돈을 잃었다.'; }},
+  {id:'e_save', grp:'살림', n:'아껴 쓰며 버티기', d:'아무것도 새로 하지 않고 살림을 아낀다. (+2냥)', cost:0,
+   ok:F => true, run:F => { F.money += 2; return '허리띠를 졸라매고 한 해를 버텼다.'; }},
+  /* 신분 */
+  {id:'s_gm', grp:'신분', n:'공명첩 사기', d:'이름 칸이 빈 관직 임명장. 호적상 양반이 되고 군포를 안 낸다.', cost:20, meth:'공명첩',
+   ok:(F, T) => T.sell && (F.st === 'sangmin' || F.st === 'jung'), run:F => { F.st = 'yuhak'; F.exempt = true; F.honor += 4; return '공명첩에 우리 가장의 이름을 적어 넣었다.'; }},
+  {id:'s_napsok', grp:'신분', n:'곡식을 바치기(납속)', d:'노비는 양인(상민)이 되고, 상민은 명예 관직(납속통정대부·납속절충장군)을 받아 군포를 면제받는다.', cost:12, meth:'납속',
+   ok:(F, T) => T.sell && (isNobi(F.st) || F.st === 'sangmin') && !F.exempt, run:F => { if(isNobi(F.st)){ F.st = 'sangmin'; return '곡식을 바치고 노비 신분에서 풀려났다! 성씨와 본관도 새로 얻었다. 마을에 가장 흔한 본관을 골라 눈에 띄지 않게 했다.'; } F.exempt = true; F.honor += 3; return '곡식을 바치고 명예 관직(납속절충장군)을 받았다. 이제 군포를 내지 않는다.'; }},
+  {id:'s_jokbo', grp:'신분', n:'양반 가문의 족보 사기', d:'아주 비싸다. 족보에 이름을 올려 호적상 양반이 된다.', cost:25, meth:'족보',
+   ok:(F, T, i) => i >= 3 && (F.st === 'sangmin' || F.st === 'jung'), run:F => { F.st = 'yuhak'; F.exempt = true; F.honor += 3; return '몰락한 양반 집안의 족보에 우리 조상 이름을 끼워 넣었다.'; }},
+  {id:'s_bribe', grp:'신분', n:'아전에게 뇌물 주고 호적에 「유학」 적기', d:'싸지만 들킬 수 있다(들키면 벌금과 망신).', cost:8, meth:'호적 뇌물',
+   ok:(F, T, i) => i >= 3 && (F.st === 'sangmin' || F.st === 'jung'), run:(F, T, i, R) => { const ok = R() < (T.id === 'hojeok' ? 0.8 : 0.65) + (F.st === 'jung' ? 0.1 : 0); if(ok){ F.st = 'yuhak'; F.exempt = true; return '호적에 「유학」이라 적혔다. 이제 군포를 내지 않는다.'; } F.money -= 6; F.honor = Math.max(0, F.honor - 5); return '들켜 버렸다! 벌금 6냥을 내고 마을에 소문이 났다.'; }},
+  {id:'s_run', grp:'신분', n:'멀리 도망치기', d:'성공하면 다른 고을에서 상민으로 산다. 붙잡힐 때가 더 많다.', cost:0, meth:'도망',
+   ok:F => isNobi(F.st) && !F.runBlock, run:(F, T, i, R) => { if(R() < 0.3){ F.st = 'sangmin'; F.land = 0; F.rent = 0; F.money = Math.floor(F.money / 2); return '밤길을 걸어 먼 고을에 닿았다. 이제 아무도 우리를 노비로 알지 못한다.'; } F.money = Math.max(0, F.money - 3); F.hard = true; F.runBlock = true; return '붙잡혀 돌아왔다. 한동안 더 고된 일을 해야 하고, 이번 대에는 다시 도망칠 수 없다.'; }},
+  {id:'s_wife', grp:'신분', n:'양인 여성과 혼인하기', d:'노비종모법에 따라 다음 대 자식은 양인(상민)이 된다.', cost:6, meth:'양인과 혼인',
+   ok:(F, T, i) => isNobi(F.st) && i >= 3 && !F.childFree, run:F => { F.childFree = true; return '양인 집안의 딸과 혼인했다. 우리 아이는 양인으로 태어날 것이다.'; }},
+  {id:'s_edu', grp:'신분', once:'gen', n:'자식을 서당에 보내 공부시키기', d:'돈이 들지만 글을 아는 집안이 된다. (인정 +8)', cost:6,
+   ok:F => !isNobi(F.st), run:F => { F.honor += 8; return '아이가 천자문을 떼었다. 마을 사람들이 우리 집을 달리 본다.'; }},
+  {id:'s_seowon', grp:'신분', once:'gen', n:'서원·향약 모임에 드나들기', d:'양반들과 어울려 인정을 받는다. (인정 +6)', cost:5,
+   ok:F => F.st === 'yuhak' || F.st === 'yangban', run:F => { F.honor += 6; return '서원 모임에 이름을 올렸다. 처음엔 눈치를 보았지만 조금씩 자리가 생긴다.'; }},
+  {id:'s_noble', grp:'신분', once:'gen', n:'이름난 양반 집안과 혼인 맺기', d:'혼수가 많이 든다. 집안의 격이 올라간다. (인정 +12)', cost:20, meth:'양반가 혼인',
+   ok:F => (F.st === 'yuhak' || F.st === 'yangban') && F.honor >= 35, run:F => { F.honor += 12; return '이름난 양반 집안과 사돈이 되었다.'; }},
+  {id:'s_jung', grp:'신분', n:'호적에 「업유」·「교생」으로 올리기', d:'군역 평민에서 한 칸 위의 중간 직역으로! 군포가 절반으로 줄어든다. (글을 배운 집안만)', cost:6, meth:'중간 직역',
+   ok:(F, T, i) => i >= 3 && F.st === 'sangmin' && F.honor >= 10, run:(F, T, i, R) => { if(R() < 0.8){ F.st = 'jung'; F.honor += 3; return '이번 호적에 우리 가장은 「업유」로 적혔다. 군역 평민에서 한 칸 올라섰다.'; } return '아전이 「아직은 안 된다」며 고개를 저었다. 돈만 쓰고 그대로다.'; }},
+  {id:'s_won', grp:'신분', once:'gen', n:'아들을 서원 원생으로 올리기', d:'서원에 이름을 올려 공부하게 한다. 양반들과 가까워진다. (인정 +5)', cost:5,
+   ok:F => F.st === 'sangmin' || F.st === 'jung', run:F => { F.honor += 5; return '아들이 서원의 원생이 되었다. 양반 자제들 틈에서 글을 읽는다.'; }},
+  {id:'s_exam', grp:'신분', once:'gen', n:'과거 시험 보기', d:'붙기 아주 어렵다. 합격하면 집안의 격이 크게 오른다. (인정이 40 이상일 때)', cost:5, meth:'과거 급제',
+   ok:F => (F.st === 'yuhak' || F.st === 'yangban') && F.honor >= 40, run:(F, T, i, R) => { const p = 0.15 + ((F.used.s_edu || 0) >= 2 ? 0.1 : 0); if(R() < p){ F.passed = true; F.honor += 20; F.money += 10; return '합격자 명단에 이름이 올랐다! 붉은 합격 증서(홍패)를 받았다.'; } return '낙방했다. 양반들도 10년 넘게 공부해야 붙는 시험이었다.'; }},
+  {id:'s_bon_home', grp:'신분', n:'본관을 이름난 본관으로 바꾸기 (우리 마을에서)', d:'그 본관 양반이 거의 남지 않은 우리 마을에서 조용히 바꾼다. 들킬 걱정이 적다. (인정 +10)', cost:6, meth:'본관 변경',
+   ok:(F, T, i) => i >= 9 && F.st === 'yuhak' && !F.bongwan, run:(F, T, i, R) => { if(R() < 0.8){ F.bongwan = true; F.honor += 10; return '다음 호적에 우리 집 본관이 이름난 양반 본관으로 적혔다. 따지는 사람도 없었다.'; } F.honor = Math.max(0, F.honor - 3); return '이웃 노인이 "그 집 원래 본관은 따로 있지 않았나?" 하고 수군거렸다.'; }},
+  {id:'s_bon_move', grp:'신분', n:'양반이 많은 큰 마을로 이사해 본관 바꾸기', d:'새 마을에서 새 본관으로 시작한다. 성공하면 크게 인정받지만, 텃세가 세다. (인정 +16 또는 −5)', cost:10, meth:'본관 변경',
+   ok:(F, T, i) => i >= 9 && F.st === 'yuhak' && !F.bongwan, run:(F, T, i, R) => { if(R() < 0.35){ F.bongwan = true; F.honor += 16; return '새 마을에서 이름난 본관의 양반으로 자리를 잡았다!'; } F.honor = Math.max(0, F.honor - 5); return '그 마을 양반들의 텃세를 견디지 못하고 옛 마을로 돌아왔다. 본관도 원래대로 돌려 적었다.'; }},
+  {id:'s_adopt', grp:'신분', n:'큰집 조카를 양자로 들여 대 잇기', d:'양반들처럼 아버지 쪽 핏줄로 집안을 잇는다. (인정 +5)', cost:3,
+   ok:(F, T, i) => i >= 6 && (F.st === 'yuhak' || F.st === 'yangban') && !F.adopt, run:F => { F.adopt = true; F.honor += 5; return '큰집 조카를 양자로 들여 대를 이었다. 양반 집안의 가족 질서를 따라 한 것이다.'; }},
+  {id:'s_disguise', grp:'신분', n:'멀리 도망쳐 다른 사람으로 살기 (신분 세탁)', d:'가짜 족보로 이름과 집안을 바꿔 양반 행세를 한다. 성공해도 언젠가 들킬 수 있다.', cost:10, meth:'신분 세탁',
+   ok:(F, T, i) => isNobi(F.st) && i >= 3 && !F.runBlock, run:(F, T, i, R) => { if(R() < 0.45){ F.st = 'yuhak'; F.disguise = true; F.exempt = true; F.land = 0; F.rent = 0; F.merchant = false; F.honor = Math.max(F.honor, 20); return '먼 고을에서 이름도, 조상도 새로 지었다. 이제 우리는 「유학」이다. …아무도 모르게.'; } F.money = 0; F.hard = true; F.runBlock = true; return '길에서 붙잡혀 끌려왔다. 모아 둔 돈을 모두 빼앗겼다.'; }},
+  {id:'s_petition', grp:'신분', n:'서얼 집단 상소에 이름 올리기', d:'"서얼에게도 벼슬길을 열어 주십시오!" (인정 +3)', cost:2, meth:'상소',
+   ok:(F, T, i) => F.st === 'seol' && !F.petition && i <= 6, run:F => { F.petition = true; F.honor += 3; return '수백 명의 서얼과 함께 상소에 이름을 올렸다.'; }},
+  {id:'s_socheong', grp:'신분', n:'중인들의 소청 운동 돕기', d:'관직 진출 제한을 풀어 달라는 요청에 힘을 보탠다.', cost:3, meth:'소청 운동',
+   ok:(F, T) => T.id === 'socheong' && F.st === 'seol', run:F => { F.honor = Math.max(0, F.honor - 2); return '요구는 받아들여지지 않았다. 그래도 목소리를 냈다는 사실은 남았다.'; }}
+];
+
+function optionsFor(F, i){
+  const T = TURNS[i];
+  return OPTS.filter(o => o.ok(F, T, i) && !(o.once === 'gen' && F.genUsed[o.id]));
+}
+
+function applyOpt(F, o, i, R){
+  F.money -= o.cost; F.used[o.id] = (F.used[o.id] || 0) + 1; if(o.once === 'gen') F.genUsed[o.id] = 1;
+  if(o.meth) F.meth = F.meth || [];
+  const before = F.st; const msg = o.run(F, TURNS[i], i, R);
+  if(o.meth && F.st !== before) F.meth.push(o.meth);
+  if(o.meth && o.id === 's_napsok' && F.st === before) F.meth.push('납속(명예 관직)');
+  if(o.meth && o.id === 's_gm' && F.st === before) F.meth.push('공명첩');
+  return msg;
+}
+
+/* ---- 턴 시작 시 사건 효과 ---- */
+function turnStart(F, i, R){
+  const T = TURNS[i]; const msgs = [];
+  if(T.id === 'jangsi' || T.id === 'coin' || T.id === 'tonggong') F.jangsi++;
+  if(F.disguise && i > 0 && R() < (F.passed ? 0.2 : 0.12)){
+    F.disguise = false; F.st = 'nobi_s'; F.exempt = false; F.honor = 0; F.money = Math.floor(Math.max(0, F.money) / 3); F.land = 0; F.hard = true;
+    msgs.push('**정체가 드러났다!** 옛 고향 사람이 우리 가장을 알아보았다. 가짜 족보는 불태워지고, 집안은 다시 노비가 되었다.');
+  }
+  if(T.id === 'geomseo' && F.st === 'seol'){
+    if(F.petition && R() < 0.65){ F.geomseo = true; F.honor += 12; F.money += 6; msgs.push('우리 집안 사람이 **규장각 검서관**으로 뽑혔다! 집단 상소에 이름을 올린 보람이 있었다.'); }
+    else if(F.petition) msgs.push('이번에는 우리 집안 사람이 뽑히지 못했다. 그래도 서얼에게 벼슬길이 조금 열렸다.');
+    else msgs.push('상소에 이름을 올리지 않은 우리 집안은 이 소식을 멀리서 들을 뿐이었다.');
+  }
+  return msgs;
+}
+
+/* ---- 날씨 ---- */
+function rollWeather(T, R){ if(T.drought) return 'drought'; const r = R(); return r < .25 ? 'good' : r < .78 ? 'normal' : 'drought'; }
+const WEATHER = {good:{n:'풍년', m:1.5, mm:3}, normal:{n:'보통', m:1, mm:2}, drought:{n:'가뭄', m:.5, mm:.4}};
+
+/* ---- 결산: [항목, 금액] 목록을 돌려줌 ---- */
+function settle(F, i, weather, R){
+  const T = TURNS[i]; const L = []; const W = WEATHER[weather];
+  const mult = F.monae ? W.mm : W.m;
+  if(F.land > 0) L.push(['내 땅 ' + F.land + '마지기 수확 (' + W.n + (F.monae ? ', 모내기법' : '') + ')', Math.round(F.land * mult)]);
+  if(F.rent > 0){ const h = Math.round(F.rent * mult); L.push(['빌린 땅 ' + F.rent + '마지기 수확', h]); L.push(['소작료 (수확의 절반)', -Math.round(h / 2)]); }
+  if(F.crop){ const p = R() * 1.5 + 0.3 + (F.jangsi >= 2 ? 0.2 : 0); L.push(['담배·인삼 판매 (값 ' + (p >= 1.1 ? '좋음' : p >= .7 ? '보통' : '폭락') + ')', Math.round(farmLand(F) * 0.8 * p)]); }
+  if(isNobi(F.st)){ const v = F.hard ? 1 : RULE.nobiPay; L.push([(F.st === 'nobi_s' ? '주인 땅 밖에서 일한 몫' : '관청 일을 하고 받은 몫') + (F.hard ? ' (고된 일)' : ''), v]); if(F.st === 'nobi_s') L.push(['신공 (주인에게 바치는 몸값)', -1]); F.hard = false; }
+  if(F.merchant){ const luck = 0.5 + R(); L.push(['장시를 돌며 장사 (장시 ' + (F.jangsi + 1) + '단계)', Math.round((4 + F.jangsi * 2.5) * luck)]); }
+  if((F.st === 'sangmin' || F.st === 'jung') && !F.exempt){ let g = i >= 5 ? RULE.gunpoAfter : RULE.gunpo; if(F.st === 'jung') g = Math.ceil(g / 2); L.push([F.st === 'jung' ? '가벼워진 군역 부담 (중간 직역)' : '군포 (' + (i >= 5 ? '1필' : '2필') + ')', -g]); }
+  if(T.g === 4 && !isNobi(F.st)) L.push(['삼정의 문란 (환곡 이자 등)', F.st === 'yangban' ? -1 : -2]);
+  L.push(['먹고 사는 데 든 돈', -RULE.live]);
+  if(RULE.face[F.st]) L.push(['체면 유지비 (손님 대접·제사)', -RULE.face[F.st]]);
+  const sum = L.reduce((a, b) => a + b[1], 0); F.money += sum;
+  const notes = [];
+  if(F.st === 'yangban' && F.money < 3){ F.honor = Math.max(0, F.honor - 4); notes.push('돈이 없어 제사와 손님 대접을 제대로 못 했다. 양반 체면이 깎였다. (인정 −4)'); }
+  if(F.money < 0){
+    let need = -F.money; let sold = 0;
+    while(need > 0 && F.land > 0){ F.land--; F.money += 4; need -= 4; sold++; }
+    if(sold) notes.push('빚을 갚으려고 땅 ' + sold + '마지기를 팔았다.');
+    if(F.money < 0 && F.rent > 0 && F.money < -6){ F.rent = Math.max(0, F.rent - 5); notes.push('소작료를 못 내 빌린 땅 일부를 빼앗겼다.'); }
+  }
+  F.honor = Math.min(100, F.honor);
+  return {lines:L, sum, notes};
+}
+
+/* ---- 대 바뀜 ---- */
+function genChange(F, R){
+  const msgs = []; const old = F.st;
+  if(F.childFree && isNobi(F.st)){ F.st = 'sangmin'; F.childFree = false; msgs.push('노비종모법에 따라 양인 어머니에게서 난 자식은 **양인(상민)**이 되었다! 처음으로 성씨와 본관을 갖게 되었다. 하지만 이제 군포를 내야 한다.'); }
+  if(F.gen === 3 && F.st === 'nobi_g'){ F.st = 'sangmin'; msgs.push('1801년, 나라에서 **공노비를 해방**했다. 우리 집안은 이제 양인이다!'); }
+  if(F.gen === 3 && F.st === 'nobi_s') msgs.push('1801년, 공노비가 해방되었다는 소문이 들렸다. 하지만 우리는 **사노비**라 그대로다.');
+  if(F.st === 'yuhak' && !F.disguise && F.honor < 25 && R() < 0.4){ F.st = 'jung'; F.exempt = false; msgs.push('다음 호적에서 우리 집은 「유학」이 아니라 「교생」으로 내려 적혔다. 상층 직역을 지키기는 쉽지 않았다. (인정이 낮으면 이런 일이 생긴다)'); }
+  if(F.st === 'yuhak' && F.honor >= RULE.promoteHonor){ F.st = 'yangban'; msgs.push('마을 양반들이 드디어 우리 집안을 **양반**으로 대하기 시작했다.'); }
+  if(F.st === 'yangban') F.honor = Math.min(100, F.honor + 2);
+  F.runBlock = false; F.genUsed = {};
+  F.gen++; F.hist.push({g:F.gen, st:F.st, money:F.money, honor:F.honor});
+  return {msgs, changed: old !== F.st};
+}
+function will(F){
+  if(F.st === 'nobi_s' || F.st === 'nobi_g') return F.childFree ? '내 손주는 꼭 성(姓)을 가진 양인으로 살게 해 다오.' : '너희만은 노비로 살지 않기를…';
+  if(F.st === 'jung') return '군역은 가벼워졌지만 아직 사다리 중간이구나. 너희 대에는 「유학」을 칭해 보거라.';
+  if(F.disguise) return '이 집안의 비밀은 너희 대에서도 무덤까지 가지고 가거라…';
+  if(F.st === 'sangmin') return F.exempt ? '명예 관직이라도 있으니 군포 걱정은 덜었구나. 이제 집안을 일으켜라.' : '해마다 군포 걱정… 우리 손자 대에는 군포 걱정 없이 살거라.';
+  if(F.st === 'seol') return F.geomseo ? '닫혔던 문이 조금 열렸다. 공부를 게을리하지 마라.' : '양반의 핏줄인데 벼슬길이 막혀 있구나. 언젠가 그 문을 열어라.';
+  if(F.st === 'yuhak') return F.honor >= 40 ? '호적만 바꾼다고 양반이 되는 게 아니더구나. 글과 예절로 인정받아라.' : '호적에는 유학이라 적혔지만 이웃 양반들은 우리를 낮춰 보는구나…';
+  return F.money < 5 ? '가난해도 양반의 체면만은 지켜라.' : '조상의 이름을 더럽히지 말고 집안을 이어 가거라.';
+}
+
+/* ---- 엔딩 ---- */
+const ENDINGS = {
+  true:   {n:'진짜 양반 가문', grade:'최고', img:'end_true', line:'사람들은 이제 우리 집안을 \'대대로 양반\'이라 부른다.',
+           fam:'여러 대에 걸친 노력으로 이웃 양반들에게 인정받는 집안이 되었다.', hist:'조선 후기에는 신분 상승이 가능해졌지만, 진짜 양반으로 인정받기까지는 여러 세대가 걸렸다. 단성현 수봉의 후손도 본관을 바꾸고 양자로 대를 잇는 등 양반 문화를 따라 하며 약 2세기에 걸쳐 올라갔다(권내현, 2012).'},
+  paper:  {n:'호적만 양반', grade:'보통', img:'end_paper', line:'호적에는 유학이라 적혔지만, 마을 양반들은 우리를 같은 자리에 앉히지 않았다.',
+           fam:'군포는 면했지만 \'새로 양반 행세하는 집\'이라는 눈길은 그대로였다.', hist:'호적에 유학으로 기록된 사람이 크게 늘었지만, 모두 양반 대접을 받은 것은 아니었다(생각하기 (다)). 수봉의 증손 김광오는 호적에 유학으로 올랐다가 3년 뒤 교생으로 내려 적혔다.'},
+  faded:  {n:'체면만 남은 양반 집', grade:'보통', img:'end_faded', line:'양반이라는 이름은 남았지만, 우리 집 곳간은 텅 비었다.',
+           fam:'양반 신분은 지켰지만 가난해져 인정도 예전 같지 않다.', hist:'권력 다툼에서 밀려난 양반 가운데에는 일반 농민과 다를 바 없는 처지가 된 몰락 양반이 많았다.'},
+  gate:   {n:'문을 두드린 서얼 집안', grade:'좋음', img:'end_gate', line:'닫혀 있던 벼슬길의 문이, 우리 집안 앞에서 조금 열렸다.',
+           fam:'집단 상소 끝에 규장각 검서관을 낸 집안이 되었다.', hist:'서얼은 여러 차례 집단 상소를 올려 정조 때 규장각 검서관으로 진출했다. 하지만 차별이 완전히 사라지지는 않았다.'},
+  freed:  {n:'사슬을 끊은 집', grade:'좋음', img:'end_freed', line:'증조할아버지의 이름 앞에 처음으로 성(姓)이 붙었다.',
+           fam:'노비였던 집안이 양인이 되었다.', hist:'노비들은 군공·납속·도망으로 신분을 벗어났고, 노비종모법과 공노비 해방으로 노비의 수는 점차 줄었다. 단성현의 외거노비 수봉도 재산을 모아 곡식을 바치고(납속) 노비에서 벗어나 김해 김씨가 되었다.'},
+  still:  {n:'여전히 노비', grade:'슬픔', img:'end_still', line:'공노비가 풀려났다는 소문도 우리 집 대문 앞에서 멈췄다.',
+           fam:'4대가 지나도록 노비 신분에서 벗어나지 못했다.', hist:'1801년에 해방된 것은 관청의 공노비였다. 개인이 가진 사노비는 1894년 갑오개혁 때에야 법으로 신분제가 없어졌다.'},
+  mid:    {n:'사다리 중간에 선 집', grade:'보통', img:'end_mid', line:'군포를 내던 평민에서 「업유」·「교생」으로, 우리 집안은 사다리를 한 칸 올랐다.',
+           fam:'양반은 아니지만 군역 평민보다 한 칸 높은 중간 직역을 얻었다.', hist:'평민들은 군역 부담을 줄이려고 업무·업유·교생 같은 중간 직역으로 올라갔다. 단성현 수봉의 후손 대부분이 중간층이 된 것도 노비에서 벗어난 지 약 한 세기 뒤였다(권내현, 2012).'},
+  mask:   {n:'끝내 들키지 않은 비밀', grade:'아슬아슬', img:'end_mask', line:'우리 집안의 족보 첫 장에는 아무도 모르는 이야기가 숨어 있다.',
+           fam:'노비에서 도망쳐 이름과 조상을 바꾸고 양반 행세를 하며 4대를 살아남았다.', hist:'노비 이만강은 도망쳐 \'엄택주\'로 이름을 바꾸고 문과에 급제해 현감·판관까지 지냈지만, 1745년 정체가 드러나 흑산도로 유배되었다. 이런 도망 노비가 늘면서 노비제는 흔들렸다.'},
+  rich:   {n:'곳간이 큰 집', grade:'좋음', img:'end_rich', line:'신분은 그대로였지만, 우리 곳간은 양반 집보다 컸다.',
+           fam:'신분 대신 재산을 키운 부농·거상 집안이 되었다.', hist:'농업과 상공업이 발달하면서 신분은 낮아도 큰 재산을 모은 부농과 상인이 나타났다.'},
+  plain:  {n:'군포를 내며 버틴 집', grade:'보통', img:'end_plain', line:'큰 부자도, 양반도 되지 못했지만, 우리는 4대를 버텨 냈다.',
+           fam:'상민으로 꿋꿋이 살아남았다.', hist:'조선 후기 대부분의 백성은 신분을 바꾸지 못한 채 군포와 세금을 내며 살아갔다.'},
+  ruin:   {n:'몰락', grade:'슬픔', img:'end_ruin', line:'땅을 잃은 우리 가족은 광산으로 품을 팔러 떠났다.',
+           fam:'재산과 땅을 모두 잃었다.', hist:'변화에 적응하지 못한 농민은 땅을 잃고 소작농·머슴이 되거나 도시·포구·광산의 임노동자가 되었다.'}
+};
+const END_ORDER = ['true', 'gate', 'freed', 'mask', 'rich', 'mid', 'paper', 'faded', 'plain', 'still', 'ruin'];
+function endingOf(F){
+  const startNobi = isNobi(F.st0);
+  if(F.st === 'nobi_s' || F.st === 'nobi_g') return 'still';
+  if(F.money <= 0 && F.land === 0 && F.st !== 'yangban' && !startNobi) return 'ruin';
+  if(F.disguise && (F.st === 'yuhak' || F.st === 'yangban')) return 'mask';
+  if((F.st === 'yangban' || F.st === 'yuhak') && F.honor >= RULE.trueHonor) return 'true';
+  if(startNobi) return 'freed';
+  if(F.st === 'seol' && F.geomseo) return 'gate';
+  if(F.st === 'yuhak') return 'paper';
+  if(F.st === 'yangban') return 'faded';
+  if(F.money >= 60 || F.land >= 20) return 'rich';
+  if(F.st === 'jung') return 'mid';
+  if(F.money <= 0 && F.land === 0) return 'ruin';
+  return 'plain';
+}
+if(typeof module !== 'undefined') module.exports = {applyOpt, ST, CARDS, TURNS, KINGS, OPTS, RULE, ENDINGS, END_ORDER, newFamily, optionsFor, turnStart, rollWeather, settle, genChange, will, endingOf, isNobi, farmLand, WEATHER};
+/* ============ 「사다리를 오르는 사람들」 화면 진행 ============ */
+const VERSION = '판 2026-10-30 ②';
+const R = Math.random;
+let S = null, PLAYER = null;
+const DEFAULT_W = Object.fromEntries(CARDS.map(c => [c.id, c.w]));
+const FB = {nobi_s:'奴', nobi_g:'奴', sangmin:'民', jung:'中', seol:'庶', yuhak:'幼', yangban:'班'};
+const W_ICO = {good:'☀️', normal:'⛅', drought:'🔥'};
+const sGong = () => tone([98,147,196], 1.8, 'sine', .16);
+const R_CAT = st => ST[st].cat;
+
+function pic(name, glyph){ return '<div class="pic"><div class="fb">' + esc(glyph || '家') + '</div><img data-fb="1" data-name="' + esc(name) + '" alt=""></div>'; }
+function loadPics(root){ root.querySelectorAll('img[data-name]').forEach(im => loadImg(im, im.dataset.name)); }
+function stage(html, cls){ const st = $('#stage'); st.innerHTML = '<div class="card ' + (cls || '') + '">' + html + '</div>'; st.scrollTop = 0; loadPics(st); return st.firstChild; }
+
+/* ---------- 위 표시줄 ---------- */
+let LAST = null;
+function bump(sel, d){ const el = $(sel); if(!el || !d) return; const x = document.createElement('div'); x.className = 'dv ' + (d > 0 ? 'p' : 'm'); x.textContent = (d > 0 ? '+' : '') + d; el.appendChild(x); el.classList.add('flash'); setTimeout(() => { x.remove(); el.classList.remove('flash'); }, 1600); }
+function renderHud(){
+  const F = S.F; const T = TURNS[Math.min(S.i, 11)];
+  $('#hGen').textContent = F.gen + '대 가장'; $('#hFam').textContent = F.fam;
+  $('#hYear').textContent = S.i < 0 ? 1690 : T.y; $('#hKing').textContent = KINGS[F.gen - 1] + ' 때';
+  $('#sMoney').textContent = F.money; $('#sLand').textContent = F.land;
+  $('#sLandSub').textContent = '마지기' + (F.rent ? ' (+빌린 땅 ' + F.rent + ')' : '');
+  $('#sRank').textContent = ST[F.st].n; $('#sHonor').textContent = F.honor; $('#hFill').style.width = clamp(F.honor, 0, 100) + '%';
+  if(LAST){ bump('.st.money', F.money - LAST.money); bump('.st.land', F.land - LAST.land); bump('.st.honor', F.honor - LAST.honor); if(LAST.st !== F.st) bump('.st.rank', ST[F.st].rank >= ST[LAST.st].rank ? 1 : -1); }
+  LAST = {money:F.money, land:F.land, honor:F.honor, st:F.st};
+  const fl = [];
+  if(F.monae) fl.push('모내기법'); if(F.crop) fl.push('상품 작물'); if(F.merchant) fl.push('보부상(장사)');
+  if(F.exempt || F.st === 'yangban') fl.push('군포 면제'); else if(F.st === 'sangmin') fl.push('<span class="warn">군포를 냄</span>'); else if(F.st === 'jung') fl.push('군역 절반');
+  if(F.disguise) fl.push('<span class="warn">신분 세탁 (비밀)</span>'); if(F.passed) fl.push('과거 급제'); if(F.bongwan) fl.push('본관 바꿈'); if(F.adopt) fl.push('양자로 대 이음');
+  if(F.petition) fl.push('상소에 이름 올림'); if(F.geomseo) fl.push('검서관을 낸 집안'); if(F.childFree) fl.push('다음 대는 양인');
+  if(F.money < 0) fl.push('<span class="warn">빚 ' + (-F.money) + '냥</span>');
+  $('#flags').innerHTML = fl.map(f => f.startsWith('<span') ? f : '<span>' + f + '</span>').join('');
+  const tr = [1,2,3,4].map(g => '<div class="gen' + (g === F.gen ? ' cur' : '') + '"><b>' + g + '대</b>' + [0,1,2].map(k => { const n = (g - 1) * 3 + k; return '<i class="' + (n < S.i ? 'done' : n === S.i ? 'now' : '') + '" title="' + TURNS[n].y + ' ' + esc(TURNS[n].title) + '"></i>'; }).join('') + '</div>').join('');
+  $('#track').innerHTML = tr;
+}
+
+/* ---------- 시작 ---------- */
+function goFullscreen(){ try{ const d = document.documentElement; if(!document.fullscreenElement && d.requestFullscreen && matchMedia('(pointer:coarse)').matches) d.requestFullscreen().catch(() => {}); }catch(e){} }
+function beginPlay(){
+  goFullscreen(); if(!AC){ try{ AC = new (window.AudioContext || window.webkitAudioContext)(); }catch(e){ AC = null; } } if(AC && AC.state === 'suspended') AC.resume();
+  $('#title').classList.add('hidden'); $('#ending').classList.add('hidden'); $('#game').classList.remove('hidden');
+  $('#whoMe').textContent = PLAYER ? PLAYER.sid + ' ' + PLAYER.name : '연습 모드';
+  S = {F:null, i:-1}; LAST = null; showDeck();
+}
+function weightedCard(){
+  const w = (PLAYER && PLAYER.weights) || DEFAULT_W; const list = CARDS.map(c => [c, Math.max(0, +w[c.id] || 0)]);
+  let tot = list.reduce((a, b) => a + b[1], 0); if(tot <= 0){ list.forEach(x => x[1] = 1); tot = list.length; }
+  let r = R() * tot; for(const [c, v] of list){ r -= v; if(r < 0) return c; } return list[list.length - 1][0];
+}
+function showDeck(){
+  $('#hud').style.visibility = 'hidden'; $('#flags').innerHTML = ''; $('#track').innerHTML = '';
+  const el = stage('<div class="kick">1690년, 숙종 때</div><h2>우리 집안은 어떤 집안일까?</h2><p>카드를 뽑아 내가 태어날 집안을 정하세요. 어떤 집안에서 태어날지는 아무도 고를 수 없었습니다.</p>'
+    + '<div class="deck">' + CARDS.map((c, k) => '<div class="dcard shuffle" style="animation-delay:' + (k * .07) + 's" data-id="' + c.id + '"><div class="b">家</div><div class="f">' + esc(c.fam) + '<br><small>' + esc(ST[c.st].n) + '</small></div></div>').join('') + '</div>'
+    + '<div class="btnRow" style="justify-content:center"><button class="btn" id="drawBtn">카드 뽑기</button></div>');
+  $('#drawBtn').onclick = () => {
+    $('#drawBtn').disabled = true; sTick();
+    const card = weightedCard();
+    const ds = [...document.querySelectorAll('.dcard')];
+    setTimeout(() => { ds.forEach(d => d.classList.remove('shuffle')); ds.forEach((d, k) => setTimeout(() => { d.classList.add('flip'); sTick(); }, k * 110)); }, 600);
+    setTimeout(() => { ds.forEach(d => d.classList.toggle('dim', d.dataset.id !== card.id)); ds.find(d => d.dataset.id === card.id).classList.add('pickd'); sGood(); }, 600 + ds.length * 110 + 400);
+    setTimeout(() => showBirth(card), 600 + ds.length * 110 + 1700);
+  };
+}
+function showBirth(card){
+  S.F = newFamily(card); S.card = card; S.i = 0;
+  $('#hud').style.visibility = ''; renderHud();
+  stage('<div class="birthGrid">' + pic(card.img, FB[card.st]) + '<div><div class="kick">당신이 태어난 집안</div><h2>' + esc(card.fam) + '</h2><p>' + fmt(card.desc) + '</p>'
+    + '<div class="startStats"><span>신분: <b>' + esc(ST[card.st].n) + '</b></span><span>재산: <b>' + card.money + '냥</b></span><span>내 땅: <b>' + card.land + '마지기</b>' + (card.rent ? ' (+빌린 땅 ' + card.rent + ')' : '') + '</span><span>인정: <b>' + card.honor + '</b></span></div>'
+    + '<p class="goal">목표: ' + esc(card.goal) + '</p>'
+    + '<p style="font-size:14.5px;color:#6b5636">한 대에 3번, 큰 사건이 있는 해마다 결심을 하나씩 고릅니다. 4대가 지나 1858년이 되면 우리 집안의 결말이 정해집니다.</p>'
+    + '<div class="btnRow"><button class="btn" id="goBtn">1692년, 이야기 시작 →</button></div></div></div>');
+  $('#goBtn').onclick = () => startTurn(0);
+  if(PLAYER) saveStart();
+}
+
+/* ---------- 사건이 있는 해 ---------- */
+const REACT = {
+  gyunyeok: F => F.disguise ? '"…엄택주라는 이름을 들을 때마다 가슴이 철렁한다."' : F.st === 'sangmin' && !F.exempt ? '"드디어 숨통이 트이는구나. 군포가 절반이라니!"' : (F.st === 'yangban' || F.st === 'yuhak' || F.exempt) ? '"우리는 원래 군포를 안 내니 상관없는 일이지." (군포를 안 내려고 양반이 되려 한 까닭을 알겠지?)' : isNobi(F.st) ? '"군포는 양인들 이야기지… 우리에겐 먼 이야기다."' : '"우리 집안 살림에는 큰 차이가 없구나."',
+  jongmo: F => isNobi(F.st) ? '"양인 아내를 얻으면… 내 아이는 노비가 아니게 된다!" (이제 「양인 여성과 혼인하기」를 고를 수 있어요)' : '"양인이 늘어나면 나라에 군포 낼 사람도 늘겠군."',
+  famine: F => (F.st === 'sangmin' || F.st === 'jung') ? '"곡식만 있으면 군포를 면할 수 있다고?" (이번 해에만 공명첩·납속을 고를 수 있어요)' : isNobi(F.st) ? '"곡식을 바치면 노비에서 풀려날 수 있다고?" (이번 해에만 납속을 고를 수 있어요)' : '"흉년이라 모두가 힘들구나."',
+  hojeok: F => F.st === 'sangmin' ? '"이번 호적에 \'유학\'이라 적히면 군포를 안 내도 된다던데…"' : F.st === 'yuhak' ? '"우리 집도 호적에는 유학이지. 하지만 마을 양반들은 여전히…"' : '"호적에 적힌 한 줄이 집안의 이름이 되는구나."',
+  geomseo: F => F.st === 'seol' ? '"서얼도 재주만 있으면 쓰일 수 있다니!"' : '"서얼 출신이 규장각에 들어갔다더군."',
+  socheong: F => F.st === 'seol' ? '"우리 같은 중인들의 목소리를 나라가 들어 줄까?" (이번 해에만 소청 운동을 도울 수 있어요)' : '"중인들도 차별을 없애 달라고 나섰다는군."',
+  samjeong: F => isNobi(F.st) ? '"양인이 되어도 세금이 이렇게 무거우면…"' : '"환곡 이자까지 내라니, 살기가 점점 어려워진다."'
+};
+function startTurn(i){
+  S.i = i; const F = S.F; const T = TURNS[i]; F.turn = i;
+  const msgs = (S.pendingMsgs || []).concat(turnStart(F, i, R)); S.pendingMsgs = [];
+  renderHud(); sPage();
+  const voice = REACT[T.id] ? REACT[T.id](F) : '';
+  stage('<div class="evGrid">' + pic(T.img, '事') + '<div><div class="kick">' + T.y + '년 · ' + esc(KINGS[T.g - 1]) + ' 때 · ' + F.gen + '대 가장 (' + (i % 3 + 1) + '/3)</div><h2>' + esc(T.title) + '</h2><p>' + fmt(T.txt) + '</p>'
+    + '<span class="tie">학습지 연결: ' + esc(T.tie) + '</span>'
+    + (voice ? '<div class="voice">' + fmt(voice) + '</div>' : '')
+    + (T.rumor ? '<div class="newsMsg">📣 <b>소문</b>: ' + fmt(T.rumor) + '</div>' : '')
+    + msgs.map(m => '<div class="newsMsg">' + fmt(m) + '</div>').join('')
+    + '<div class="btnRow"><button class="btn" id="toChoose">올해의 결심 고르기 →</button></div></div></div>');
+  if(msgs.length) renderHud();
+  $('#toChoose').onclick = showChoices;
+}
+function showChoices(){
+  const F = S.F; const i = S.i; const T = TURNS[i]; const opts = optionsFor(F, i);
+  let k = 0; const keyMap = {};
+  const col = grp => opts.filter(o => o.grp === grp).map(o => {
+    const can = o.cost === 0 || o.cost <= F.money; const n = ++k; if(can) keyMap[n] = o;
+    const hot = (T.sell && (o.id === 's_gm' || o.id === 's_napsok')) || (T.id === 'socheong' && o.id === 's_socheong');
+    return '<button class="opt' + (hot ? ' hot' : '') + '" data-id="' + o.id + '"' + (can ? '' : ' disabled') + '><span class="k">' + n + '</span><span class="cost' + (o.cost ? '' : ' free') + '">' + (o.cost ? o.cost + '냥' + (can ? '' : ' (부족)') : '돈 안 듦') + '</span><b>' + esc(o.n) + '</b><small>' + fmt(o.d) + '</small></button>';
+  }).join('');
+  stage('<div class="optHead"><div><div class="kick">' + T.y + '년 · ' + esc(T.title) + '</div><h2>올해, 우리 집안은 무엇을 할까?</h2></div><p style="margin:0;font-size:14px;color:#6b5636">가진 돈: <b>' + F.money + '냥</b> · 하나만 고를 수 있어요 (숫자 키도 됩니다)</p></div>'
+    + '<div class="optCols"><div class="optCol"><h3>살림 <i>돈을 벌고 땅을 늘리는 결심</i></h3>' + col('살림') + '</div><div class="optCol"><h3>신분 <i>신분과 인정을 바꾸는 결심</i></h3>' + (col('신분') || '<p style="font-size:14px;color:#8a6a35">지금 우리 집안이 고를 수 있는 신분 결심이 없어요.</p>') + '</div></div>'
+    + '<p style="font-size:13px;color:#8a6a35;margin-top:4px">수확·장사·군포·생활비는 결심을 고른 뒤 한꺼번에 계산됩니다.</p>');
+  document.querySelectorAll('.opt').forEach(b => b.onclick = () => { if(!b.disabled) doChoice(OPTS.find(o => o.id === b.dataset.id)); });
+  S.keyMap = keyMap;
+}
+document.addEventListener('keydown', e => {
+  if(!S || !S.keyMap || $('#game').classList.contains('hidden')) return;
+  if(/^[1-9]$/.test(e.key) && document.querySelector('.opt')){ const o = S.keyMap[+e.key]; if(o) doChoice(o); }
+});
+function doChoice(o){
+  S.keyMap = null; const F = S.F; const i = S.i; const T = TURNS[i];
+  const stBefore = F.st;
+  const msg = applyOpt(F, o, i, R); F.picks.push(o.n);
+  const weather = rollWeather(T, R);
+  const res = settle(F, i, weather, R);
+  F.ledger.push({y:T.y, pick:o.n, sum:res.sum});
+  const up = ST[F.st].rank > ST[stBefore].rank, down = msg.includes('들켜') || msg.includes('붙잡혀') || msg.includes('잃었다');
+  const rows = res.lines.map(([t, v]) => '<tr><td>' + esc(t) + '</td><td class="v ' + (v >= 0 ? 'p' : 'm') + '">' + (v > 0 ? '+' : '') + v + '냥</td></tr>').join('')
+    + '<tr class="sum"><td>이번 결산</td><td class="v ' + (res.sum >= 0 ? 'p' : 'm') + '">' + (res.sum > 0 ? '+' : '') + res.sum + '냥</td></tr>';
+  const last = i === 11, genEnd = i % 3 === 2;
+  stage('<div class="resGrid"><div><div class="kick">' + T.y + '년의 결심</div><p class="myPick">' + esc(o.n) + '</p><p>' + fmt(msg) + '</p>'
+    + (up ? '<div class="newsMsg">신분이 <b>' + esc(ST[stBefore].n) + '</b>에서 <b>' + esc(ST[F.st].n) + '</b>(으)로 바뀌었다!</div>' : '')
+    + '<div class="weather"><span class="wIco spin" id="wIco">⛅</span><div><small>올해 날씨</small><br><b id="wTxt">하늘을 보는 중…</b></div></div></div>'
+    + '<div><h3 style="margin:0 0 6px;color:#5d100b">올해 살림 결산</h3><table class="ledger"><tbody>' + rows + '</tbody></table><div class="notes">' + res.notes.map(n => '<p>' + fmt(n) + '</p>').join('') + '</div>'
+    + '<div class="btnRow"><button class="btn hidden" id="nextBtn">' + (last ? '4대의 마지막 이야기 →' : genEnd ? F.gen + '대를 마무리하기 →' : '다음 사건이 있는 해로 →') + '</button></div></div></div>');
+  if(up) sGood(); else if(down) sBad(); else sPage();
+  setTimeout(() => { const ic = $('#wIco'); if(!ic) return; ic.classList.remove('spin'); ic.textContent = W_ICO[weather]; $('#wTxt').textContent = WEATHER[weather].n + (weather === 'drought' && T.drought ? ' (대기근)' : '') + (F.monae && weather === 'drought' ? ' · 모를 못 심었다!' : '');
+    const trs = [...document.querySelectorAll('.ledger tr')]; trs.forEach((tr, k) => setTimeout(() => { tr.classList.add('on'); sTick(); }, 180 * k));
+    setTimeout(() => { renderHud(); const b = $('#nextBtn'); if(b){ b.classList.remove('hidden'); b.focus(); } }, 180 * trs.length + 200); }, 1100);
+  $('#nextBtn').onclick = () => last || genEnd ? showGen() : startTurn(i + 1);
+}
+
+/* ---------- 대 바뀜 ---------- */
+const BAD = /(씨발|시발|ㅅㅂ|ㅆㅂ|병신|ㅂㅅ|좆|개새|존나|ㅈㄴ|닥쳐|꺼져|미친놈|미친년|fuck|shit)/gi;
+function showGen(){
+  const F = S.F; const last = S.i === 11; const g = F.gen;
+  const w = will(F);
+  stage('<div class="genGrid">' + pic(last ? 'gen_4' : 'gen_' + (g + 1), '代') + '<div><div class="kick">' + (last ? '1858년, 4대 가장의 마지막 해' : g + '대 가장이 세상을 떠나다') + '</div><h2>' + (last ? '우리 집안 4대의 끝에서' : g + '대 가장의 마지막 말') + '</h2>'
+    + '<div class="will" id="willTxt"></div>'
+    + '<div class="diary"><label for="dIn">✍ 한 줄 일기: 지금 ' + g + '대 가장은 어떤 마음일까요? 그 사람이 되어 써 보세요.</label><textarea id="dIn" maxlength="60" placeholder="예) 땅을 판 날 밤, 아버지께 죄송해서 잠이 오지 않았다."></textarea><div class="cnt"><span id="dCnt">0</span>/60자 · 5자 이상</div></div>'
+    + '<div class="btnRow"><button class="btn" id="genBtn" disabled>' + (last ? '우리 집안의 결말 보기 →' : (g + 1) + '대로 이어 가기 →') + '</button></div></div></div>');
+  sGong(); typeText($('#willTxt'), '"' + w + '"');
+  const ta = $('#dIn'); ta.oninput = () => { $('#dCnt').textContent = ta.value.length; $('#genBtn').disabled = ta.value.trim().length < 5; };
+  $('#genBtn').onclick = () => {
+    let d = ta.value.trim().replace(/\s+/g, ' ');
+    if(BAD.test(d)){ BAD.lastIndex = 0; toast('바르고 고운 말로 다시 써 주세요.'); return; }
+    F.diaries.push(d);
+    if(last){ showEnding(); return; }
+    const r = genChange(F, R); S.pendingMsgs = r.msgs; LAST = null; startTurn(S.i + 1);
+  };
+}
+function typeText(el, text){ el.textContent = ''; let k = 0; const t = setInterval(() => { if(!el.isConnected){ clearInterval(t); return; } el.textContent = text.slice(0, ++k); if(k >= text.length) clearInterval(t); }, 45); }
+
+/* ---------- 엔딩 ---------- */
+function showEnding(){
+  const F = S.F; const key = endingOf(F); const E = ENDINGS[key]; S.endKey = key;
+  F.hist.push({g:5, st:F.st, money:F.money, honor:F.honor});
+  $('#game').classList.add('hidden'); $('#ending').classList.remove('hidden'); $('#ending').scrollTop = 0;
+  if(key === 'still' || key === 'ruin') sBad(); else sGood();
+  const maxM = Math.max(10, ...F.hist.map(h => Math.abs(h.money)));
+  const trow = F.hist.map((h, k) => '<tr><td>' + (k < 4 ? (k + 1) + '대 시작' : '1858년 끝') + '</td><td>' + esc(ST[h.st].n) + '</td><td><span class="bar" style="width:' + Math.round(Math.max(0, h.money) / maxM * 90) + 'px"></span>' + h.money + '냥</td><td><span class="bar h" style="width:' + Math.round(h.honor * .9) + 'px"></span>' + h.honor + '</td></tr>').join('');
+  const meth = (F.meth || []);
+  $('#eInner').innerHTML = '<div class="endHero">' + pic(E.img, '終') + '<div><span class="grade">' + esc(E.grade) + ' 엔딩</span><div class="endName goldText">' + esc(E.n) + '</div><p class="endLine">' + esc(E.line) + '</p>'
+    + '<div class="evals"><div><b>우리 집안의 평가</b>' + esc(F.fam) + ': ' + esc(E.fam) + '</div><div><b>역사의 평가</b>' + esc(E.hist) + '</div></div>'
+    + '<p class="saveMsg" id="saveMsg">' + (PLAYER ? '결과를 저장하는 중…' : '연습 모드: 결과가 저장되지 않습니다') + '</p></div></div>'
+    + '<div class="eGrid"><div class="panel navyCard"><h3>우리 집안 4대의 기록</h3><div class="tblwrap"><table class="treeT"><thead><tr><th>때</th><th>신분</th><th>재산</th><th>인정</th></tr></thead><tbody>' + trow + '</tbody></table></div>'
+    + '<p class="sub" style="margin-top:8px">처음 신분 <b>' + esc(ST[F.st0].n) + '</b> → 마지막 신분 <b>' + esc(ST[F.st].n) + '</b> · 땅 ' + F.land + '마지기' + (F.rent ? '(+빌린 땅 ' + F.rent + ')' : '') + '<br>신분을 바꾼 방법: ' + (meth.length ? esc(meth.join(' → ')) : '없음') + '</p></div>'
+    + '<div class="panel navyCard"><h3>대대로 쓴 일기</h3><div class="diaryList">' + F.diaries.map((d, k) => '<p><small>' + (k + 1) + '대</small>' + esc(d) + '</p>').join('') + '</div></div></div>'
+    + '<div class="panel navyCard"><h3>학습지와 이어 생각하기</h3><div class="endQ">우리 집안의 이야기를 근거로 생각해 보세요. 조선 후기 신분 질서의 변화는 <b>\'양반 중심 신분 질서의 붕괴\'</b>였을까요? 호적에 적힌 신분과 사람들의 실제 대접(인정)은 같았나요? (학습지 역사로 생각하기 4번)</div>'
+    + '<div class="row" style="margin-top:14px"><button class="big primary" id="againBtn">다른 집안으로 다시 하기</button><button class="big" id="homeBtn">첫 화면</button></div></div>';
+  loadPics($('#eInner'));
+  $('#againBtn').onclick = beginPlay;
+  $('#homeBtn').onclick = () => { $('#ending').classList.add('hidden'); $('#title').classList.remove('hidden'); };
+  if(PLAYER) saveResult();
+}
+
+/* ---------- 버튼·처음 ---------- */
+$('#muteBtn').onclick = () => { muted = !muted; $('#muteBtn').textContent = muted ? '소리 끔' : '소리 켬'; };
+$('#fsBtn').onclick = () => { try{ if(document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen(); }catch(e){} };
+$('#ver').textContent = VERSION;
+loadImg($('#titleImg'), 'title');
+findImg('bg_village').then(u => { if(u){ const b = $('#bg'); b.style.backgroundImage = 'url("' + u + '")'; b.classList.add('img'); } });
+const CRC = (() => { const t = []; for(let n=0;n<256;n++){ let c = n; for(let k=0;k<8;k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+const crc32 = b => { let c = 0xFFFFFFFF; for(let i=0;i<b.length;i++) c = CRC[(c ^ b[i]) & 255] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; };
+function zip(files){
+  const enc = new TextEncoder(), parts = [], cd = []; let off = 0;
+  const u16 = v => [v & 255, (v >>> 8) & 255], u32 = v => [v & 255, (v >>> 8) & 255, (v >>> 16) & 255, (v >>> 24) & 255];
+  files.forEach(f => { const name = enc.encode(f.name), data = enc.encode(f.data), crc = crc32(data);
+    const head = [].concat(u32(0x04034b50), u16(20), u16(0x0800), u16(0), u16(0), u16(0x21), u32(crc), u32(data.length), u32(data.length), u16(name.length), u16(0));
+    parts.push(new Uint8Array(head), name, data);
+    cd.push(new Uint8Array([].concat(u32(0x02014b50), u16(20), u16(20), u16(0x0800), u16(0), u16(0), u16(0x21), u32(crc), u32(data.length), u32(data.length), u16(name.length), u16(0), u16(0), u16(0), u16(0), u32(0), u32(off))), name);
+    off += head.length + name.length + data.length; });
+  let size = 0; cd.forEach(x => { parts.push(x); size += x.length; });
+  parts.push(new Uint8Array([].concat(u32(0x06054b50), u16(0), u16(0), u16(files.length), u16(files.length), u32(size), u32(off), u16(0))));
+  return new Blob(parts, {type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+}
+const xesc = s => String(s == null ? '' : s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const colName = i => { let s = ''; i += 1; while(i > 0){ const m = (i - 1) % 26; s = String.fromCharCode(65 + m) + s; i = Math.floor((i - 1) / 26); } return s; };
+function makeXlsx(head, rows, widths, sheetName){
+  const all = [head].concat(rows), x = [];
+  all.forEach((r, ri) => { x.push(`<row r="${ri+1}">`); r.forEach((v, ci) => { const ref = colName(ci) + (ri+1), sty = ri === 0 ? ' s="1"' : ' s="2"';
+    x.push(typeof v === 'number' && isFinite(v) ? `<c r="${ref}"${sty}><v>${v}</v></c>` : `<c r="${ref}"${sty} t="inlineStr"><is><t xml:space="preserve">${xesc(v)}</t></is></c>`); }); x.push('</row>'); });
+  const cols = '<cols>' + widths.map((w, i) => `<col min="${i+1}" max="${i+1}" width="${w}" customWidth="1"/>`).join('') + '</cols>';
+  const X = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
+  return zip([
+    {name:'[Content_Types].xml', data: X + '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>'},
+    {name:'_rels/.rels', data: X + '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'},
+    {name:'xl/workbook.xml', data: X + '<workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="' + xesc(sheetName || '결과') + '" sheetId="1" r:id="rId1"/></sheets></workbook>'},
+    {name:'xl/_rels/workbook.xml.rels', data: X + '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>'},
+    {name:'xl/styles.xml', data: X + '<styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><fonts count="2"><font><sz val="11"/><name val="맑은 고딕"/></font><font><b/><sz val="11"/><name val="맑은 고딕"/></font></fonts><fills count="3"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill><fill><patternFill patternType="solid"><fgColor rgb="FFE3EAF6"/><bgColor indexed="64"/></patternFill></fill></fills><borders count="1"><border><left/><right/><top/><bottom/><diagonal/></border></borders><cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs><cellXfs count="3"><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/><xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1"/><xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf></cellXfs><cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles></styleSheet>'},
+    {name:'xl/worksheets/sheet1.xml', data: X + '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetViews><sheetView workbookViewId="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>' + cols + '<sheetData>' + x.join('') + '</sheetData></worksheet>'}
+  ]);
+}
+/* ============ 저장소: 토론 광장·기울어진 저울과 같은 Firebase 프로젝트·규칙을 그대로 씀 (경로 tg/방코드) ============
+   방 코드는 'SD'로 시작해 다른 게임 방과 겹치지 않음. 연결이 안 되면 '체험 모드'(이 브라우저 안에서만) */
+const FIREBASE = {
+  apiKey: "AIzaSyCHFNiRp77fxKtWXRmDXOgLk7tY_SB-zBY",
+  authDomain: "debate-42cd9.firebaseapp.com",
+  databaseURL: "https://debate-42cd9-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "debate-42cd9",
+  storageBucket: "debate-42cd9.firebasestorage.app",
+  messagingSenderId: "881025534515",
+  appId: "1:881025534515:web:e99f49704491f78ea5f146"
+};
+const KIND = 'sadari10';
+
+function fbCheck(obj, path){ // Firebase처럼 잘못된 키·undefined를 막음 (체험 모드에서도 같은 오류를 미리 잡기 위해)
+  if(obj === undefined) throw new Error('undefined 값: ' + path);
+  if(obj && typeof obj === 'object') for(const [k,v] of Object.entries(obj)){ if(/[.#$\[\]\/]/.test(k)) throw new Error('잘못된 키: ' + path + '/' + k); fbCheck(v, path + '/' + k); }
+}
+function makeMock(){
+  const KEY = 'sd_mock_db'; const load = () => ls.get(KEY, {rooms:{}}); const save = db => { ls.set(KEY, db); subs.forEach(f => f()); };
+  const subs = []; let uid = ls.get('sd_mock_uid', null); if(!uid){ uid = 'm' + Math.random().toString(36).slice(2, 10); ls.set('sd_mock_uid', uid); }
+  addEventListener('storage', e => { if(e.key === KEY) subs.forEach(f => f()); });
+  return {
+    mock:true,
+    async init(){ return uid; },
+    async getRoom(c){ const r = load().rooms[c]; return r ? r.doc : null; },
+    async createRoom(c, data){ fbCheck(data, 'doc'); const db = load(); db.rooms[c] = {doc:data, players:{}}; save(db); },
+    async getPlayer(c, id){ const r = load().rooms[c]; return r && r.players ? r.players[id] || null : null; },
+    async setPlayer(c, id, data){ fbCheck(data, 'player'); const db = load(); if(!db.rooms[c]) throw new Error('방 없음'); db.rooms[c].players = db.rooms[c].players || {}; db.rooms[c].players[id] = data; save(db); },
+    async updatePlayer(c, id, patch){ fbCheck(patch, 'player'); const db = load(); if(!db.rooms[c]) throw new Error('방 없음'); const p = db.rooms[c].players[id] || {}; db.rooms[c].players[id] = {...p, ...patch}; save(db); },
+    watchPlayers(c, cb){ const f = () => { const r = load().rooms[c]; cb(r ? r.players || {} : {}); }; subs.push(f); f(); return () => subs.splice(subs.indexOf(f), 1); },
+    async updateRoom(c, patch){ fbCheck(patch, 'doc'); const db = load(); if(!db.rooms[c]) throw new Error('방 없음'); db.rooms[c].doc = {...db.rooms[c].doc, ...patch}; save(db); },
+    watchRoom(c, cb){ const f = () => { const r = load().rooms[c]; cb(r ? r.doc : null); }; subs.push(f); f(); return () => subs.splice(subs.indexOf(f), 1); }
+  };
+}
+async function makeFirebase(cfg){
+  const V = '10.12.2';
+  const {initializeApp} = await import(`https://www.gstatic.com/firebasejs/${V}/firebase-app.js`);
+  const {getAuth, signInAnonymously, onAuthStateChanged} = await import(`https://www.gstatic.com/firebasejs/${V}/firebase-auth.js`);
+  const D = await import(`https://www.gstatic.com/firebasejs/${V}/firebase-database.js`);
+  const app = initializeApp(cfg, 'sadari10'); const auth = getAuth(app); const db = D.getDatabase(app);
+  const base = c => `tg/${c}`;
+  return {
+    mock:false,
+    async init(){ await signInAnonymously(auth); return new Promise(res => onAuthStateChanged(auth, u => u && res(u.uid))); },
+    async getRoom(c){ const s = await D.get(D.ref(db, base(c) + '/doc')); return s.exists() ? s.val() : null; },
+    async createRoom(c, data){ fbCheck(data, 'doc'); await D.set(D.ref(db, base(c) + '/doc'), data); },
+    async getPlayer(c, id){ const s = await D.get(D.ref(db, `${base(c)}/players/${id}`)); return s.exists() ? s.val() : null; },
+    async setPlayer(c, id, data){ fbCheck(data, 'player'); await D.set(D.ref(db, `${base(c)}/players/${id}`), data); },
+    async updatePlayer(c, id, patch){ fbCheck(patch, 'player'); await D.update(D.ref(db, `${base(c)}/players/${id}`), patch); },
+    watchPlayers(c, cb){ return D.onValue(D.ref(db, base(c) + '/players'), s => cb(s.val() || {})); },
+    async updateRoom(c, patch){ fbCheck(patch, 'doc'); await D.update(D.ref(db, base(c) + '/doc'), patch); },
+    watchRoom(c, cb){ return D.onValue(D.ref(db, base(c) + '/doc'), s => cb(s.val())); }
+  };
+}
+let DB = null, UID = null, dbPromise = null;
+function withTimeout(p, ms){ return Promise.race([p, new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), ms))]); }
+function getDB(){
+  if(dbPromise) return dbPromise;
+  dbPromise = (async () => {
+    const forceMock = /[?&]mock=1/.test(location.search);
+    if(!forceMock){
+      try{ const fb = await withTimeout(makeFirebase(FIREBASE), 12000); UID = await withTimeout(fb.init(), 12000); DB = fb; return DB; }
+      catch(e){ console.warn('[저장] Firebase 연결 실패, 체험 모드로 전환', e); toast('서버에 연결하지 못했어요. 체험 모드(이 기기 안에서만 저장)로 진행합니다.', 5000); }
+    }
+    DB = makeMock(); UID = await DB.init(); return DB;
+  })();
+  return dbPromise;
+}
+
+/* ============ 학생 입장 ============ */
+const qsRoom = (location.search.match(/[?&]room=([A-Za-z0-9]+)/) || [])[1];
+if(qsRoom) $('#inRoom').value = qsRoom.toUpperCase();
+(function(){ const last = ls.get('sd_me', null); if(last){ if(!qsRoom && last.room) $('#inRoom').value = last.room; $('#inSid').value = last.sid || ''; $('#inName').value = last.name || ''; } })();
+$('#inRoom').addEventListener('input', e => { e.target.value = e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, ''); });
+$('#inSid').addEventListener('input', e => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 5); });
+function formMsg(t){ $('#formMsg').textContent = t || ''; }
+let starting = false;
+$('#startBtn').onclick = async () => {
+  if(starting) return;
+  const room = $('#inRoom').value.trim().toUpperCase(), sid = $('#inSid').value.trim(), name = $('#inName').value.trim();
+  if(!room){ formMsg('선생님이 알려 준 방 코드를 입력하세요. (방 코드 없이 해 보려면 [연습하기])'); $('#inRoom').focus(); return; }
+  if(!/^\d{5}$/.test(sid)){ formMsg('학번은 숫자 5자리로 입력하세요. 예) 30101'); $('#inSid').focus(); return; }
+  if(!name){ formMsg('이름을 입력하세요.'); $('#inName').focus(); return; }
+  starting = true; formMsg(''); $('#startBtn').textContent = '확인하는 중…';
+  try{
+    await getDB();
+    const doc = await withTimeout(DB.getRoom(room), 10000);
+    if(!doc || doc.kind !== KIND){ formMsg('방 코드 「' + room + '」를 찾을 수 없어요. 다시 확인해 주세요.'); return; }
+    const old = await DB.getPlayer(room, UID) || {};
+    const t = Date.now();
+    await DB.setPlayer(room, UID, {...old, sid, name, status:'playing', plays: old.plays || 0, joinedAt: old.joinedAt || t, seenAt: t});
+    PLAYER = {room, sid, name, weights: doc.weights || null}; ls.set('sd_me', {room, sid, name});
+    beginPlay();
+  }catch(e){ console.error(e); formMsg('입장하지 못했어요. 인터넷 연결을 확인하고 다시 눌러 주세요.'); }
+  finally{ starting = false; $('#startBtn').textContent = '집안 뽑기'; }
+};
+$('#practiceBtn').onclick = () => { PLAYER = null; formMsg(''); beginPlay(); };
+
+async function saveStart(){
+  try{ await getDB(); await withTimeout(DB.updatePlayer(PLAYER.room, UID, {status:'playing', curCard:S.card.fam, seenAt:Date.now()}), 10000); }catch(e){ console.warn(e); }
+}
+async function saveResult(){
+  const msg = $('#saveMsg'); const F = S.F; const E = ENDINGS[S.endKey];
+  try{
+    await getDB();
+    const old = await DB.getPlayer(PLAYER.room, UID) || {};
+    const t = Date.now(); const picks = {};
+    for(let k = 0; k < 12; k++) picks['p' + (k + 1)] = F.picks[k] || '';
+    const ends = {...(old.ends || {})}; ends[S.endKey] = (ends[S.endKey] || 0) + 1;
+    const patch = {sid:PLAYER.sid, name:PLAYER.name, status:'done', plays:(old.plays || 0) + 1, ends,
+      lastFam:F.fam, lastStart:ST[F.st0].cat, lastEndSt:ST[F.st].cat, lastEndStN:ST[F.st].n, lastKey:S.endKey, lastEnd:E.grade + ' · ' + E.n,
+      lastMoney:F.money, lastLand:F.land, lastHonor:F.honor, lastMeth:(F.meth || []).join('·'),
+      d1:F.diaries[0] || '', d2:F.diaries[1] || '', d3:F.diaries[2] || '', d4:F.diaries[3] || '', lastAt:t, ...picks};
+    await withTimeout(DB.updatePlayer(PLAYER.room, UID, patch), 12000);
+    if(msg){ msg.className = 'saveMsg ok'; msg.textContent = '✓ 결과가 저장되었습니다' + (DB.mock ? ' (체험 모드: 이 기기에만)' : '') + ' · 도전 ' + patch.plays + '회째'; }
+  }catch(e){ console.error(e); if(msg){ msg.className = 'saveMsg fail'; msg.innerHTML = '저장하지 못했어요. <button class="chip" id="retrySave">다시 저장</button>'; const b = $('#retrySave'); if(b) b.onclick = () => { msg.className = 'saveMsg'; msg.textContent = '결과를 저장하는 중…'; saveResult(); }; } }
+}
+
+/* ============ 교사 화면 ============ */
+let TROOM = null, unwatchT = null, TPLAYERS = {}, SHOWNAME = false;
+const CODE_CH = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+function myRooms(){ return ls.get('sd_rooms', []); }
+$('#teacherBtn').onclick = () => { $('#title').classList.add('hidden'); $('#teacher').classList.remove('hidden'); tcHome(); };
+function tcShell(inner){ $('#tcInner').innerHTML = '<div class="tcHead"><h2 class="goldText">선생님 화면 · 사다리를 오르는 사람들</h2><button class="big" id="tcBack">← 첫 화면</button></div>' + inner;
+  $('#tcBack').onclick = () => { if(unwatchT){ unwatchT(); unwatchT = null; } $('#teacher').classList.add('hidden'); $('#title').classList.remove('hidden'); }; }
+async function tcHome(){
+  const w = ls.get('sd_weights', DEFAULT_W);
+  tcShell('<div class="panel navyCard" style="margin-top:16px"><p class="sub" id="tcConn">서버에 연결하는 중…</p>'
+    + '<div class="row" style="justify-content:flex-start"><input id="memoIn" maxlength="20" placeholder="방 이름(선택) 예: 3학년 2반" style="padding:12px 14px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.07);color:var(--cream);font-size:15px;font-family:inherit;min-width:220px"><button class="big primary" id="newRoom">새 방 만들기</button></div>'
+    + '<h3 style="margin-top:14px">출생 카드 비율 <small style="font-size:13px;color:var(--muted);font-weight:400">숫자가 클수록 그 집안이 자주 나와요 (0이면 안 나옴)</small></h3><div class="wtGrid">'
+    + CARDS.map(c => '<label>' + esc(c.fam) + ' <small style="color:var(--muted)">' + esc(ST[c.st].n) + '</small><input type="number" min="0" max="9" data-id="' + c.id + '" value="' + (w[c.id] != null ? w[c.id] : c.w) + '"></label>').join('') + '</div>'
+    + '<p class="sub">기본값: 노비 3 : 상민 5 : 서얼 1 : 몰락 양반 1 (실제 호적 비율이 아니라 수업용 비율)</p>'
+    + '<h3 style="margin-top:16px">이 기기에서 만든 방</h3><div class="roomList" id="roomList"></div></div>');
+  const rl = myRooms(); $('#roomList').innerHTML = rl.length ? rl.slice().reverse().map(r => '<button data-c="' + esc(r.code) + '">' + esc(r.code) + '<small>' + esc(nowStr(r.at)) + (r.memo ? ' · ' + esc(r.memo) : '') + '</small></button>').join('') : '<p class="sub">아직 만든 방이 없습니다.</p>';
+  document.querySelectorAll('#roomList button').forEach(b => b.onclick = () => tcRoom(b.dataset.c));
+  $('#newRoom').onclick = tcNewRoom;
+  await getDB(); const c = $('#tcConn'); if(c) c.textContent = DB.mock ? '체험 모드입니다(이 브라우저 안에서만 저장). 실제 수업에서는 인터넷에 연결된 상태로 여세요.' : '서버에 연결되었습니다. 반마다 새 방을 만들면 결과를 반별로 볼 수 있어요.';
+}
+async function tcNewRoom(){
+  await getDB();
+  const memo = (($('#memoIn') && $('#memoIn').value) || '').trim().slice(0, 20);
+  const weights = {}; document.querySelectorAll('.wtGrid input').forEach(i => { weights[i.dataset.id] = clamp(Math.round(+i.value || 0), 0, 9); });
+  ls.set('sd_weights', weights);
+  let code = ''; for(let k=0;k<6;k++){ code = 'SD' + Array.from({length:4}, () => CODE_CH[Math.floor(Math.random()*CODE_CH.length)]).join(''); if(!(await DB.getRoom(code))) break; }
+  try{ await DB.createRoom(code, {hostUid:UID, kind:KIND, title:'사다리를 오르는 사람들(주제 10)', memo, weights, createdAt:Date.now()}); }
+  catch(e){ console.error(e); toast('방을 만들지 못했어요. 인터넷 연결을 확인해 주세요.'); return; }
+  const rl = myRooms(); rl.push({code, at:Date.now(), memo}); ls.set('sd_rooms', rl.slice(-30));
+  tcRoom(code);
+}
+async function tcRoom(code){
+  await getDB(); TROOM = code;
+  const link = location.origin + location.pathname + '?room=' + code;
+  tcShell('<div class="tcGrid"><div class="panel navyCard"><p class="kicker">방 코드</p><div class="codeBig goldText">' + esc(code) + '</div><div class="qr" id="qr"></div><p class="linkTxt">' + esc(link) + '</p>'
+    + '<div class="tcBtns" style="margin-top:10px"><button class="chip" id="copyLink">링크 복사</button><button class="chip" id="otherRoom">다른 방</button></div></div>'
+    + '<div class="panel navyCard"><h3>우리 반 호적 <small style="font-size:13px;color:var(--muted);font-weight:400">게임을 끝낸 학생의 최근 결과</small></h3><div class="chart" id="chart"></div><div class="tcRow2" style="margin-top:12px"><div><h3 style="font-size:16px">신분을 바꾼 방법</h3><div class="rankList" id="methList"></div></div><div><h3 style="font-size:16px">엔딩</h3><div class="rankList" id="endList"></div></div></div></div></div>'
+    + '<div class="panel navyCard"><div class="tcHead"><h3 style="margin:0">한 줄 일기 모음</h3><button class="chip" id="nameTg">이름 보이기</button></div><div class="dList" id="dList" style="margin-top:8px"></div></div>'
+    + '<div class="panel navyCard"><div class="tcHead"><h3 style="margin:0">참여 학생 <span id="pCount"></span></h3><button class="btn" id="xlsxBtn">엑셀 내려받기</button></div>'
+    + '<div class="tblwrap" style="margin-top:10px"><table><thead><tr><th>학번</th><th>이름</th><th>상태</th><th>도전</th><th>최근 집안</th><th>처음 → 마지막 신분</th><th>최근 엔딩</th><th>재산·땅·인정</th><th>신분을 바꾼 방법</th></tr></thead><tbody id="pBody"></tbody></table></div></div>');
+  try{ drawQR($('#qr'), link, 240); }catch(e){}
+  $('#copyLink').onclick = () => { try{ navigator.clipboard.writeText(link); toast('링크를 복사했어요.'); }catch(e){ toast(link); } };
+  $('#otherRoom').onclick = () => { if(unwatchT){ unwatchT(); unwatchT = null; } tcHome(); };
+  $('#xlsxBtn').onclick = downloadXlsx;
+  $('#nameTg').onclick = () => { SHOWNAME = !SHOWNAME; $('#nameTg').textContent = SHOWNAME ? '이름 가리기' : '이름 보이기'; renderPlayers(); };
+  const doc = await DB.getRoom(code); if(!doc) toast('이 방을 찾을 수 없어요.');
+  if(unwatchT) unwatchT();
+  unwatchT = DB.watchPlayers(code, ps => { TPLAYERS = ps || {}; renderPlayers(); });
+}
+function sortedPlayers(){ return Object.entries(TPLAYERS).map(([id,p]) => ({id, ...p})).sort((a,b) => String(a.sid).localeCompare(String(b.sid)) || String(a.name).localeCompare(String(b.name))); }
+const CATS = [['양반','#d8b46a'],['호적상 양반','#f3dfae'],['중인·중간층','#9fb4e8'],['상민','#7fdca5'],['노비','#b07a6a']];
+const REAL_HTML = '<div class="hint" style="margin-top:10px"><b>실제 호적과 비교하기</b> · 경상도 단성현 도산면 남자 호주의 직역(권내현, 「양반을 향한 긴 여정」, 2012)<br>'
+  + '1678년: 상층(유학 등) <b>10.6%</b> · 노비 <b>42.9%</b> → 1780년: 상층 40.2% · 노비 7.1% → 1867년: 상층 <b>67.3%</b> · 노비 <b>1.4%</b><br>'
+  + '<small>※ 호적에서 빠진 가난한 사람들이 많아, 실제 양반 비율은 이보다 훨씬 낮았다. 호적의 \'유학\'이 곧 진짜 양반은 아니었다.</small></div>';
+function chartSVG(done){
+  const bar = (label, key, y) => {
+    const n = done.length || 1; let x = 120; let s = '<text x="110" y="' + (y + 26) + '" text-anchor="end" font-size="15" fill="#f4ead2">' + label + '</text>';
+    CATS.forEach(([c, col]) => { const k = done.filter(p => p[key] === c).length; if(!k) return; const w = 560 * k / n;
+      s += '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="40" fill="' + col + '" stroke="#1d223a"/>' + (w > 34 ? '<text x="' + (x + w / 2) + '" y="' + (y + 26) + '" text-anchor="middle" font-size="13" font-weight="700" fill="#1d223a">' + Math.round(k / n * 100) + '%</text>' : ''); x += w; });
+    return s; };
+  return '<svg viewBox="0 0 700 170">' + bar('1690년(1대)', 'lastStart', 10) + bar('1858년(4대)', 'lastEndSt', 64)
+    + CATS.map(([c, col], k) => '<rect x="' + (120 + k * 116) + '" y="130" width="14" height="14" fill="' + col + '"/><text x="' + (139 + k * 116) + '" y="142" font-size="13" fill="#cfcbd8">' + c + '</text>').join('') + '</svg>'
+    + '<p class="sub" style="margin-top:6px">완료한 학생 ' + done.length + '명. 토의: 양반이 늘어난 가장 큰 계기는? 호적상 양반은 정말 대접이 달라졌나?</p>' + REAL_HTML;
+}
+function renderPlayers(){
+  const ps = sortedPlayers(); const b = $('#pBody'); if(!b) return;
+  const done = ps.filter(p => p.lastKey);
+  $('#pCount').textContent = '(' + ps.length + '명)';
+  $('#chart').innerHTML = done.length ? chartSVG(done) : '<p class="sub">아직 게임을 끝낸 학생이 없습니다.</p>';
+  const mc = {}; done.forEach(p => (p.lastMeth || '').split('·').filter(Boolean).forEach(m => mc[m] = (mc[m] || 0) + 1));
+  const ml = Object.entries(mc).sort((a, b) => b[1] - a[1]); const mx = Math.max(1, ...ml.map(x => x[1]));
+  $('#methList').innerHTML = ml.length ? ml.map(([m, v]) => '<div><span style="min-width:110px">' + esc(m) + '</span><i style="width:' + Math.round(v / mx * 140) + 'px"></i><b>' + v + '</b></div>').join('') : '<p class="sub">아직 없음</p>';
+  const ec = {}; done.forEach(p => ec[p.lastKey] = (ec[p.lastKey] || 0) + 1);
+  const el = END_ORDER.filter(k => ec[k]); const ex = Math.max(1, ...el.map(k => ec[k]));
+  $('#endList').innerHTML = el.length ? el.map(k => '<div><span style="min-width:150px">' + esc(ENDINGS[k].n) + '</span><i style="width:' + Math.round(ec[k] / ex * 110) + 'px"></i><b>' + ec[k] + '</b></div>').join('') : '<p class="sub">아직 없음</p>';
+  const ds = []; done.forEach(p => [1,2,3,4].forEach(k => { if(p['d' + k]) ds.push([p, k]); }));
+  $('#dList').innerHTML = ds.length ? ds.map(([p, k]) => '<p><small>' + (SHOWNAME ? esc(p.sid + ' ' + p.name) + ' · ' : '') + esc(p.lastFam || '') + ' ' + k + '대</small>' + esc(p['d' + k]) + '</p>').join('') : '<p class="sub">아직 일기가 없습니다.</p>';
+  b.innerHTML = ps.length ? ps.map(p => '<tr><td>' + esc(p.sid) + '</td><td>' + esc(p.name) + '</td><td class="' + (p.status === 'done' ? 'st-done' : 'st-play') + '">' + (p.status === 'done' ? '완료' : '하는 중' + (p.curCard ? '<br><small>' + esc(p.curCard) + '</small>' : '')) + '</td><td>' + (p.plays || 0) + '</td><td>' + esc(p.lastFam || '-') + '</td><td>' + (p.lastKey ? esc(p.lastStart) + ' → ' + esc(p.lastEndStN) : '-') + '</td><td>' + esc(p.lastEnd || '-') + '</td><td>' + (p.lastKey ? p.lastMoney + '냥 · ' + p.lastLand + ' · ' + p.lastHonor : '-') + '</td><td>' + esc(p.lastMeth || '-') + '</td></tr>').join('')
+    : '<tr><td colspan="9" style="color:#aeb2c8">아직 들어온 학생이 없습니다. 학생들에게 방 코드나 QR을 알려 주세요.</td></tr>';
+}
+function downloadXlsx(){
+  const ps = sortedPlayers();
+  const head = ['학번','이름','상태','도전 횟수','최근 집안','처음 신분','마지막 신분','최근 엔딩','재산(냥)','땅(마지기)','인정','신분을 바꾼 방법','1대 일기','2대 일기','3대 일기','4대 일기'].concat(TURNS.map(t => t.y + ' ' + t.title)).concat(['최근 완료 시각','처음 들어온 시각']);
+  const rows = ps.map(p => [p.sid || '', p.name || '', p.status === 'done' ? '완료' : '하는 중', p.plays || 0, p.lastFam || '', p.lastStart || '', p.lastEndStN || '', p.lastEnd || '', p.lastMoney != null ? p.lastMoney : '', p.lastLand != null ? p.lastLand : '', p.lastHonor != null ? p.lastHonor : '', p.lastMeth || '', p.d1 || '', p.d2 || '', p.d3 || '', p.d4 || '']
+    .concat(TURNS.map((t, k) => p['p' + (k + 1)] || '')).concat([p.lastAt ? nowStr(p.lastAt) : '', p.joinedAt ? nowStr(p.joinedAt) : '']));
+  const widths = [9,10,8,9,10,11,16,24,9,9,7,24,30,30,30,30].concat(TURNS.map(() => 22)).concat([17,17]);
+  const blob = makeXlsx(head, rows, widths, '사다리 결과');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); const d = new Date();
+  a.download = '사다리를오르는사람들_' + TROOM + '_' + d.getFullYear() + String(d.getMonth() + 1).padStart(2,'0') + String(d.getDate()).padStart(2,'0') + '.xlsx';
+  document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+}
+</script>
+</body></html>
