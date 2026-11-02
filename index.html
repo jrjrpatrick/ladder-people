@@ -560,6 +560,97 @@ td small{color:var(--muted)}
  .roul .rs{width:78px;height:78px}
 }
 .job small.inc{color:#2e6b3c;font-weight:700}
+
+/* ===================== ⑤ 56칸 판 · 도움말 · 칸 미리보기 · 차례 띠 ===================== */
+#board{min-width:760px}
+.zRow{grid-template-columns:96px 1fr}
+.zBody{display:flex;flex-direction:column;gap:0}
+.zTiles{grid-template-columns:repeat(7,1fr)!important;gap:7px}
+.zIn{height:22px;position:relative}
+.zIn i{position:absolute;right:calc(100% / 14 - 6px);top:0;width:12px;height:22px;background:repeating-linear-gradient(180deg,#c8a96a 0 6px,transparent 6px 10px);border-radius:4px}
+.zTurn{height:46px;position:relative;margin:2px 0}
+.zTurn i.ladder{position:absolute;left:calc(96px + 8px + (100% - 104px) / 14 - 20px);top:-6px;width:40px;height:58px;z-index:2;
+ background:linear-gradient(90deg,#4a2c0c 0 7px,transparent 7px calc(100% - 7px),#4a2c0c calc(100% - 7px)),repeating-linear-gradient(180deg,transparent 0 6px,#5a3a14 6px 12px,transparent 12px 16px);
+ filter:drop-shadow(0 3px 3px rgba(0,0,0,.45))}
+.zTurn span{position:absolute;left:calc(96px + 8px + (100% - 104px) / 14 + 28px);top:12px;font-weight:900;font-size:14px;color:#4a2c0c;background:#f3dfae;border:2px solid #4a2c0c;border-radius:999px;padding:2px 12px}
+.zTurn.R,.zTurn.L{display:none}
+.tile{min-height:122px;padding:16px 3px 40px}
+.tile.pass::after,.tile.pay::after{content:none!important}
+.tile .yr{font-size:11px;font-weight:700;color:#7a5a2a;margin-top:1px}
+.tile .passTag{font-size:10.5px;font-weight:900;color:#fff;background:#b3241c;border-radius:999px;padding:1px 7px;margin-top:3px;white-space:nowrap}
+.t-pay .passTag,.t-baby .passTag{background:#2e6b3c}
+.tile .tn{font-size:13.5px}
+.tile .toks .tok{width:34px;height:34px;font-size:15px;border-width:2.5px}
+.tile .toks{bottom:4px;gap:2px}
+.tile .toks .tok img+b{width:16px;height:16px;font-size:10px}
+.tile .toks .pin{width:8px;height:8px}
+.pcB s.m30{left:30%;background:#ffd54a}
+#turnBanner{position:sticky;top:0;z-index:6;margin:-4px -4px 8px;border-radius:12px;padding:10px 16px;font-size:18px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+#turnBanner.me{background:var(--goldGrad);color:#2a1d08;animation:meFlash 1s ease-in-out 3}
+#turnBanner.other{background:#4a4f63;color:#fff}
+#turnBanner.ai{background:#2f3b5c;color:#e8e2d0}
+@keyframes meFlash{50%{transform:scale(1.03);box-shadow:0 0 0 6px rgba(255,213,74,.5)}}
+#side.notMine #throwBox{opacity:.55;filter:grayscale(.5)}
+#side.notMine #throwBtn{box-shadow:none}
+#throwBtn:not(:disabled){animation:btnGlow 1.2s ease-in-out infinite}
+@keyframes btnGlow{50%{box-shadow:0 0 0 6px rgba(255,213,74,.45)}}
+#tipPop{position:fixed;z-index:25;background:#fffaf0;color:#3a2a16;border-radius:14px;box-shadow:0 0 0 2px #b99d62,0 16px 40px rgba(0,0,0,.45);padding:12px 14px;font-size:14px;line-height:1.55;max-height:70vh;overflow:auto}
+#tipPop .tHead{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+#tipPop .tHead b{font-family:var(--serif);font-size:18px;color:#5d100b}
+#tipPop .tHead small{color:#8a6a35}
+#tipPop .ic2{font-size:22px}
+.tX{margin-left:auto;width:30px;height:30px;border-radius:50%;border:1.5px solid #b99d62;background:#f3e6c4;color:#5d100b;font-weight:900;font-size:15px;flex:none}
+.tTag{display:inline-block;font-size:12px;font-weight:900;border-radius:999px;padding:2px 10px;background:#e6dcc6;color:#5d4a2a}
+.tTag.on{background:#b3241c;color:#fff}.tTag.stop{background:#c62828;color:#fff}
+#tipPop ul{margin:8px 0 0;padding-left:18px}
+#tipPop li{margin:3px 0}
+.tMine{margin-top:8px;padding:8px 10px;border-radius:10px;background:#efe3c3}
+.tMine ul{margin-top:4px!important}
+#helpBox{position:fixed;inset:0;z-index:30;background:rgba(10,12,24,.6);display:flex;align-items:center;justify-content:center;padding:14px}
+.hIn{width:min(860px,100%);max-height:calc(100dvh - 28px);overflow:auto}
+.hHead{display:flex;align-items:center}.hHead h2{margin:0}
+.hTabs{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.hTabs button{border:1.5px solid #c8a96a;background:#fffaf0;color:#5d100b;border-radius:999px;padding:6px 14px;font-weight:700}
+.hTabs button.on{background:#5d100b;color:#f3dfae;border-color:#5d100b}
+.hBody{font-size:15.5px;line-height:1.65;color:#3a2a16}
+.hl li{margin:5px 0}
+.icG{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px}
+.icG div{display:grid;grid-template-columns:34px 1fr;align-items:center;background:#fffaf0;border:1px solid #d8c18f;border-radius:10px;padding:6px 8px}
+.icG span{font-size:24px;grid-row:span 2}.icG small{color:#6b5636;font-size:12.5px}
+.tipMe{background:#fbe9c8;border-left:5px solid #b3241c;padding:10px 12px;border-radius:0 10px 10px 0}
+.wordL p,.gloss p{margin:4px 0}
+.gloss{margin-top:10px;background:#f3ead4;border-radius:10px;padding:6px 12px;font-size:14px}
+.gloss summary{cursor:pointer;font-weight:700;color:#5d100b}
+.chip.help{background:var(--goldGrad);color:#2a1d08;font-weight:900}
+@media(max-width:980px){#board{min-width:0}}
+@media(max-width:600px){
+ .zRow{grid-template-columns:1fr}
+ .zTiles{gap:3px}
+ .tile{min-height:78px;padding:9px 1px 26px}
+ .tile .passTag{font-size:7.5px;padding:0 3px;display:inline-block}
+ .tile .yr{display:block;font-size:8px}
+ .tile .tn{font-size:9.5px}
+ .tile .toks .tok{width:22px;height:22px;font-size:10px}
+ .zTurn i.ladder{left:calc(100% / 14 - 16px);width:32px}
+ .zTurn span{left:calc(100% / 14 + 22px);font-size:12px}
+ #turnBanner{font-size:14px;padding:8px}
+}
+
+/* ⑥ 8칸 줄 · 빈 칸 · 땅 룰렛 */
+.zTiles{grid-template-columns:repeat(8,1fr)!important}
+.tile.ghost{background:transparent;border:none;box-shadow:none;cursor:default;display:grid;place-items:center}
+.tile.ghost::before{content:none}
+.tile.ghost span{font-size:30px;color:#4a2c0c;font-weight:900}
+.zIn i{right:calc(100% / 16 - 6px)!important}
+.zTurn i.ladder{left:calc(96px + 8px + (100% - 104px) / 16 - 20px)!important}
+.zTurn span{left:calc(96px + 8px + (100% - 104px) / 16 + 28px)!important}
+.landRoul{margin-top:10px;padding:12px;border-radius:12px;background:#fff4d6;font-size:20px;text-align:center;border:2px dashed #b3241c}
+@media(max-width:600px){.zTurn i.ladder{left:calc(100% / 16 - 16px)!important}.zTurn span{left:calc(100% / 16 + 22px)!important}.tile.ghost span{font-size:18px}}
+.stT{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}.stT th,.stT td{border:1px solid rgba(255,255,255,.12);padding:4px;text-align:center}.stT small{color:var(--muted)}
+
+/* ⑦ 옥 */
+.jailBox{margin:8px 0;padding:8px 12px;border:3px solid #3b2a20;background:#f3e3d0;font-weight:900;text-align:center;border-radius:8px;font-size:1.05em}
+.pcS .due{font-size:.8em;color:#7a2e1d;flex-basis:100%}
 </style></head><body>
 <div id="bg"></div>
 
@@ -577,8 +668,8 @@ td small{color:var(--muted)}
     <div class="row"><button class="big primary" id="startBtn">방 들어가기</button><button class="big" id="practiceBtn">연습하기 (컴퓨터 3집과)</button></div>
     <details class="more"><summary>게임 방법 보기</summary>
       <div class="how">
-        <div><b>주사위나 윷</b><span>던진 만큼 말이 움직입니다(윷·모는 한 번 더). 판은 1대~4대 네 구역, 40칸. 한 구역이 한 가장의 일생입니다.</span></div>
-        <div><b>생업과 장날</b><span>재주(📖글·💪힘·🪙셈)에 맞는 생업을 고르고, 🏮장날·🌾추수 마당을 지날 때마다 수입을 받습니다. ⛔ 역사 칸은 지나가도 카드를 받습니다.</span></div>
+        <div><b>주사위</b><span>던진 만큼 말이 움직입니다. 판은 1대~4대 네 구역, 56칸. 한 구역이 한 가장의 일생입니다. 칸을 누르면 무슨 일이 생기는지 미리 볼 수 있어요.</span></div>
+        <div><b>지나쳐도 적용</b><span>⛔ 역사 칸, 🏮 장날, 🌾 추수 마당, 👶 자식 칸은 멈추지 않고 지나가기만 해도 적용됩니다. 나머지 칸은 딱 멈춰야 카드가 나옵니다.</span></div>
         <div><b>멈춤 칸</b><span>💍 혼인 칸과 🕯 대 잇기 칸에서는 반드시 멈춥니다. 혼인해 자식 핀을 얻고, 대를 이을 자식을 고릅니다.</span></div>
         <div><b>호적 발표식</b><span>1858년에 부자상·인정상·사다리상·종합 1등을 발표합니다. 그다음 4대 가장의 일기를 씁니다.</span></div>
       </div>
@@ -597,7 +688,7 @@ td small{color:var(--muted)}
 <!-- 게임 화면 -->
 <div id="game" class="hidden">
   <div id="topBar"><div class="tbL"><b class="goldText">사다리를 오르는 사람들</b><span id="roomTag"></span></div>
-    <div class="tbR"><button class="chip" id="fastBtn">컴퓨터 빠르게</button><button class="chip" id="muteBtn">소리 켬</button><button class="chip" id="fsBtn">전체화면</button><button class="chip" id="quitBtn">그만하기</button></div></div>
+    <div class="tbR"><button class="chip help" id="helpBtn">❓ 도움말</button><button class="chip" id="fastBtn">컴퓨터 빠르게</button><button class="chip" id="muteBtn">소리 켬</button><button class="chip" id="fsBtn">전체화면</button><button class="chip" id="quitBtn">그만하기</button></div></div>
   <div id="gWrap">
     <div id="boardBox"><div id="board"></div></div>
     <aside id="side">
@@ -608,6 +699,8 @@ td small{color:var(--muted)}
     </aside>
   </div>
 </div>
+<div id="tipPop" class="hidden"></div>
+<div id="helpBox" class="hidden"></div>
 <div id="modal" class="hidden"><div class="mBox card" id="mBox"></div></div>
 
 <div id="ending" class="screen hidden"><div class="eInner" id="eInner"></div></div>
@@ -1923,58 +2016,58 @@ const sPage = () => tone([440,554], .25, 'sine', .05, .06);
 const sTick = () => tone([660], .12, 'square', .03);
 /* ============ 「사다리를 오르는 사람들」 ④ 인생게임판 규칙 (화면과 분리: node 모의 시험에서도 씀) ============ */
 const ST = {
-  nobi_s:{n:'사노비', cat:'노비', rank:0}, nobi_g:{n:'공노비', cat:'노비', rank:0},
-  sangmin:{n:'상민', cat:'상민', rank:1}, jung:{n:'중간층(업유·교생)', cat:'중인·중간층', rank:2}, seol:{n:'서얼(중인)', cat:'중인·중간층', rank:2},
-  yuhak:{n:'호적상 양반(유학)', cat:'호적상 양반', rank:3}, yangban:{n:'양반', cat:'양반', rank:4}
+  nobi_s:{n:'사노비', cat:'노비', rank:0}, nobi_g:{n:'공노비', cat:'노비', rank:1},
+  sangmin:{n:'상민', cat:'상민', rank:2}, jung:{n:'중간층', cat:'중인·중간층', rank:3}, jungin:{n:'기술직 중인', cat:'중인·중간층', rank:3}, seol:{n:'서얼', cat:'중인·중간층', rank:3},
+  yuhak:{n:'호적상 양반(유학)', cat:'호적상 양반', rank:4}, yangban:{n:'양반', cat:'양반', rank:5}, gwonse:{n:'권세가', cat:'양반', rank:6}
 };
 const isNobi = s => s === 'nobi_s' || s === 'nobi_g';
-const isUpper = s => s === 'yuhak' || s === 'yangban';
-const STAT = {g:{n:'글', ico:'📖'}, h:{n:'힘', ico:'💪'}, s:{n:'셈', ico:'🪙'}};
-const HOUSE = [null, {n:'움막', v:2, img:'house_1'}, {n:'초가', v:8, img:'house_2'}, {n:'큰 초가', v:16, img:'house_3'}, {n:'기와집', v:30, img:'house_4'}];
-const HOUSE_COST = {2:8, 3:12, 4:20};
+const isUpper = s => s === 'yuhak' || s === 'yangban' || s === 'gwonse';
+const isNoble = s => s === 'yangban' || s === 'gwonse';
+const STAT = {g:{n:'글', ico:'📖'}, h:{n:'힘', ico:'💪'}, s:{n:'셈', ico:'🧮'}};
+const HOUSE = [{n:'집 없음', v:0, img:'house_1'}, {n:'움막', v:2, img:'house_1'}, {n:'초가', v:8, img:'house_2'}, {n:'큰 초가', v:16, img:'house_3'}, {n:'기와집', v:30, img:'house_4'}];
+const HOUSE_COST = {1:2, 2:8, 3:12, 4:20};
 const DOCS = {land:{n:'땅문서', img:'doc_land'}, gm:{n:'공명첩', img:'doc_gongmyeong'}, sok:{n:'속량 문서', img:'doc_sokryang'}, jokbo:{n:'족보', img:'doc_jokbo'}, hong:{n:'홍패', img:'doc_hongpae'}};
 
 const CARDS = [
-  {id:'dolsoe', fam:'돌쇠네', tk:'돌', color:'#8b6b52', st:'nobi_s', money:4, land:0, rent:0, honor:0, g:0, h:3, s:1, job:'oegeo', house:1, w:2, img:'birth_dolsoe',
+  {id:'dolsoe', fam:'돌쇠네', tk:'돌', color:'#8b6b52', st:'nobi_s', money:4, grain:2, land:0, rent:0, honor:0, g:0, h:3, s:1, job:'oegeo', house:1, w:1, img:'birth_dolsoe',
    desc:'주인과 따로 살며 해마다 **신공**(노비가 바치는 몸값)을 바치는 **외거노비** 집안. 노비는 사람이 아니라 재산으로 여겨져 \'강아지\', \'도야지\' 같은 이름으로 불리기도 했다.',
-   goal:'자손을 양인으로 만들기', goalOk:P => !isNobi(P.st)},
-  {id:'maksun', fam:'막순이네', tk:'막', color:'#9a7b5b', st:'nobi_g', money:4, land:0, rent:0, honor:0, g:0, h:2, s:1, job:'gwanno', house:1, w:1, img:'birth_maksun',
-   desc:'관청에 딸린 **공노비** 집안. 관청에 일과 물건을 바치며 살아간다.',
+   goal:'양인이 되어 내 땅 갖기 (3마지기 이상)', goalOk:P => !isNobi(P.st) && P.land >= 3},
+  {id:'maksun', fam:'막순이네', tk:'막', color:'#9a7b5b', st:'nobi_g', money:4, grain:2, land:0, rent:0, honor:0, g:0, h:2, s:1, job:'oegeo', house:1, w:1, img:'birth_maksun',
+   desc:'중앙 관청(한양)에 딸린 **공노비** 집안. 관청 밖에서 따로 살며 해마다 관청에 **신공**(몸값)을 바치는 **외거노비**다.',
    goal:'1801년 공노비 해방 전에 스스로 노비에서 벗어나기', goalOk:P => P.freedBefore1801},
-  {id:'kim', fam:'김씨네', tk:'김', color:'#4f8a5b', st:'sangmin', money:8, land:0, rent:10, honor:5, g:0, h:3, s:1, job:'sojak', house:2, w:2, img:'birth_kim',
+  {id:'kim', fam:'김씨네', tk:'김', color:'#4f8a5b', st:'sangmin', money:8, grain:4, land:0, rent:10, honor:5, g:0, h:3, s:1, job:'sojak', house:2, w:1, img:'birth_kim',
    desc:'남의 땅 10마지기를 빌려 짓는 **소작농** 집안. 수확의 절반을 땅 주인에게 바치고, 군포도 낸다.',
    goal:'자작농 되기 (내 땅 3마지기 이상)', goalOk:P => P.land >= 3},
-  {id:'park', fam:'박씨네', tk:'박', color:'#3f7fb5', st:'sangmin', money:6, land:6, rent:0, honor:5, g:1, h:3, s:1, job:'jajak', house:2, w:2, img:'birth_park',
+  {id:'park', fam:'박씨네', tk:'박', color:'#3f7fb5', st:'sangmin', money:6, grain:8, land:6, rent:0, honor:5, g:1, h:3, s:1, job:'jajak', house:2, w:1, img:'birth_park',
    desc:'자기 땅 6마지기를 가진 **자작농** 집안. 해마다 군포를 낸다.',
    goal:'호적에 「유학」 이상으로 오르기', goalOk:P => isUpper(P.st)},
-  {id:'lee', fam:'이씨네', tk:'이', color:'#c07a2c', st:'sangmin', money:12, land:0, rent:0, honor:5, g:1, h:1, s:3, job:'bobusang', house:2, w:1, img:'birth_lee',
+  {id:'lee', fam:'이씨네', tk:'이', color:'#c07a2c', st:'sangmin', money:12, grain:0, land:0, rent:0, honor:5, g:1, h:1, s:3, job:'bobusang', house:2, w:1, img:'birth_lee',
    desc:'장시를 돌며 물건을 파는 **보부상** 집안. 땅은 없지만 장사 솜씨가 있다.',
    goal:'객주(큰 상인) 되기', goalOk:P => P.job === 'gaekju'},
-  {id:'choi', fam:'최씨네', tk:'최', color:'#7b5ea7', st:'seol', money:10, land:3, rent:0, honor:20, g:4, h:1, s:2, job:'hunjang', house:3, w:1, img:'birth_choi',
-   desc:'양반 아버지와 첩 어머니에게서 태어난 **서얼** 집안. 글을 배웠지만 문과에 응시할 수 없다.',
+  {id:'choi', fam:'최씨네', tk:'최', color:'#7b5ea7', st:'seol', money:6, grain:4, land:3, rent:0, honor:10, g:4, h:1, s:2, job:'hunjang', house:3, w:1, img:'birth_choi',
+   desc:'양반 아버지와 첩 어머니에게서 태어난 **서얼** 집안. 글을 배웠지만 서얼이라는 이유로 벼슬길(과거)이 막혀 있다.',
    goal:'벼슬길 열기 (규장각 검서관)', goalOk:P => P.geomseo},
-  {id:'jeong', fam:'정씨네', tk:'정', color:'#b3241c', st:'yangban', money:6, land:3, rent:0, honor:45, g:4, h:1, s:0, job:'seonbi', house:4, w:1, img:'birth_jeong',
+  {id:'jeong', fam:'정씨네', tk:'정', color:'#b3241c', st:'yangban', money:6, grain:3, land:3, rent:0, honor:45, g:4, h:1, s:0, job:'seonbi', house:4, w:1, img:'birth_jeong',
    desc:'권력 다툼에서 밀려나 가난해진 **몰락 양반** 집안. 군포는 안 내지만 체면을 지키는 데 돈이 든다. 집은 기와집이지만 낡았다.',
-   goal:'양반 이름 지키기 (인정 70 이상)', goalOk:P => P.st === 'yangban' && P.honor >= 70}
+   goal:'양반 이름 지키기 (인정 70 이상)', goalOk:P => isNoble(P.st) && P.honor >= 70}
 ];
 
 /* ---------- 생업 (인생게임의 직업) ---------- */
 const MERCH = {bobusang:1, gaekju:1, jangin:1, deokdae:1, pumpal:1};
 const JOBS = {
-  pumpal:  {n:'품팔이', ico:'🧺', img:'job_pumpal', key:'h', need:'누구나', ok:P => true, m:3, hv:3},
-  oegeo:   {n:'외거노비', ico:'⛓', img:'birth_dolsoe', key:'h', need:'사노비', ok:P => P.st === 'nobi_s', m:4, hv:4, d:'주인 땅 밖에서 따로 농사·장사를 한다.'},
-  gwanno:  {n:'관청 노비', ico:'🏯', img:'birth_maksun', key:'h', need:'공노비', ok:P => P.st === 'nobi_g', m:4, hv:4},
+  pumpal:  {n:'임노동자', ico:'🧺', img:'job_pumpal', key:'h', need:'양인', ok:P => !isNobi(P.st), m:3, hv:3},
+  oegeo:   {n:'외거노비', ico:'⛓', img:'birth_dolsoe', key:'h', need:'노비', ok:P => isNobi(P.st), m:4, hv:4, d:'주인집(관청) 밖에서 따로 농사를 짓고 신공을 바친다. (노비는 보부상으로 장사도 할 수 있다)'},
   sojak:   {n:'소작농', ico:'🌾', img:'job_sojak', key:'h', need:'양인, 💪2', ok:P => !isNobi(P.st) && P.h >= 2, m:2, hv:2, d:'남의 땅 10마지기를 빌려 짓고 수확의 절반을 낸다.'},
   jajak:   {n:'자작농', ico:'🐂', img:'job_jajak', key:'h', need:'내 땅 3마지기', ok:P => !isNobi(P.st) && P.land >= 3, m:3, hv:3},
-  bobusang:{n:'보부상', ico:'🎒', img:'job_bobusang', key:'s', need:'🪙3', ok:P => P.st !== 'nobi_g' && P.s >= 3, m:'trade', hv:2, d:'장날마다 크게 번다.'},
-  gaekju:  {n:'객주', ico:'🏬', img:'job_gaekju', key:'s', need:'양인, 🪙6, 가게 15냥', ok:P => !isNobi(P.st) && P.s >= 6, cost:15, m:'trade2', hv:4, d:'포구에서 물건을 맡아 팔고 숙박·돈놀이도 하는 큰 상인.'},
-  jangin:  {n:'장인(유기·옹기)', ico:'🔨', img:'job_jangin', key:'s', need:'양인, 💪3, 🪙3', ok:P => !isNobi(P.st) && P.h >= 3 && P.s >= 3, m:5, hv:3},
-  deokdae: {n:'덕대(광산 경영)', ico:'⛏', img:'job_deokdae', key:'s', need:'양인, 🪙5, 정조 때부터', ok:P => !isNobi(P.st) && P.s >= 5 && P.pos >= 21, m:7, hv:4, d:'운 칸에서 광산이 무너질 수 있다.'},
+  bobusang:{n:'보부상', ico:'🎒', img:'job_bobusang', key:'s', need:'🧮3', ok:P => P.s >= 3, m:'trade', hv:2, d:'장날마다 크게 번다.'},
+  gaekju:  {n:'객주', ico:'🏬', img:'job_gaekju', key:'s', need:'양인, 🧮6, 가게 15냥', ok:P => !isNobi(P.st) && P.s >= 6, cost:15, m:'trade2', hv:4, d:'포구에서 물건을 맡아 팔고 숙박·돈놀이도 하는 큰 상인.'},
+  jangin:  {n:'장인(유기·옹기)', ico:'🔨', img:'job_jangin', key:'s', need:'양인, 💪3, 🧮3', ok:P => !isNobi(P.st) && P.h >= 3 && P.s >= 3, m:5, hv:3},
+  deokdae: {n:'덕대(광산 경영)', ico:'⛏', img:'job_deokdae', key:'s', need:'양인, 🧮5, 정조 때부터', ok:P => !isNobi(P.st) && P.s >= 5 && ZONE_OF(P.pos) >= 2, m:7, hv:4, d:'운 칸에서 광산이 무너질 수 있다.'},
   hunjang: {n:'훈장', ico:'📚', img:'job_hunjang', key:'g', need:'양인, 📖4', ok:P => !isNobi(P.st) && P.g >= 4, m:3, hv:3, honor:1, d:'인정이 조금씩 오른다.'},
-  yeokgwan:{n:'역관·의관', ico:'🗣', img:'job_yeokgwan', key:'g', need:'서얼, 📖6', ok:P => P.st === 'seol' && P.g >= 6, m:8, hv:4, d:'기술직 중인. 무역으로 돈을 번다.'},
+  yeokgwan:{n:'역관·의관', ico:'🗣', img:'job_yeokgwan', key:'g', need:'잡과 합격', ok:P => P.office === 'jap', m:8, hv:4, d:'기술직 중인. 통역하며 무역으로 돈을 번다.'},
   seonbi:  {n:'선비', ico:'🖌', img:'job_seonbi', key:'g', need:'유학·양반', ok:P => isUpper(P.st), m:0, hv:0, honor:2, d:'생업 없이 글을 읽는다. 돈은 못 벌지만 인정이 오른다.'}
 };
-const JOB_ORDER = ['pumpal', 'oegeo', 'gwanno', 'sojak', 'jajak', 'bobusang', 'gaekju', 'jangin', 'deokdae', 'hunjang', 'yeokgwan', 'seonbi'];
+const JOB_ORDER = ['pumpal', 'oegeo', 'sojak', 'jajak', 'bobusang', 'gaekju', 'jangin', 'deokdae', 'hunjang', 'yeokgwan', 'seonbi'];
 
 const ZONES = [
   {n:'모가 자라는 들판', king:'숙종', era:'1690~1720', strip:'zone_1'},
@@ -1986,82 +2079,111 @@ const ZONES = [
 /* 판: 0 출발 ~ 40 도착. stop = STOP 칸, pass = 지나가도 카드, pay = 장날·추수 마당(지나가도 수입) */
 const SP = [
   {t:'start', n:'출발', ico:'🏠', icon:'icon_start', y:1690},
-  /* 1구역 숙종 */
+  /* 1대 숙종 */
   {t:'pay', kind:'m', n:'장날', ico:'🏮', icon:'icon_market', pay:true},
-  {t:'event', id:'monae', n:'모내기법', ico:'⛔', icon:'icon_history', pass:true, y:1692, img:'ev_monae', title:'모내기법이 퍼지다',
+  {t:'event', id:'monae', n:'모내기법', ico:'⛔', icon:'icon_history', pass:true, yt:'17세기 후반', img:'ev_monae', title:'모내기법이 퍼지다',
    txt:'마을마다 모를 따로 키워 논에 옮겨 심는 집이 늘고 있다. 잡초 뽑는 일손은 줄고 수확은 늘어난다는데… **바로 다음 칸이 갈림길**이다.', tie:'개념 노트 1절'},
   {t:'branch', n:'갈림길', ico:'🔀', icon:'icon_branch', lanes:{a:{n:'모내기 길', d:'추수 때 수확 2배! 가뭄이면 크게 망한다.'}, b:{n:'옛 농법 길', d:'안전하지만 수확은 보통.'}}},
-  {t:'marry', n:'혼인', ico:'💍', icon:'icon_marry', stop:true},
+  {t:'school', n:'서당', ico:'🏫', icon:'icon_school'},
   {t:'event', id:'famine', n:'을병 대기근', ico:'⛔', icon:'icon_history', pass:true, y:1695, img:'ev_famine', title:'을병 대기근', sell:true,
-   txt:'큰 흉년이 들어 굶주리는 사람이 넘쳐난다. 나라에서는 곡식을 모으려고 **공명첩**을 팔고(모두 합쳐 2장뿐!), 곡식을 바치면(**납속**) 혜택을 준다.', tie:'개념 노트 3절 · 공명첩'},
+   txt:'큰 흉년이 들어 굶주리는 사람이 넘쳐난다. 나라에서는 곡식을 모으려고 **공명첩**을 팔고(2장뿐!), 곡식을 바치면(**납속**) 혜택을 준다.', tie:'개념 노트 3절 · 공명첩'},
   {t:'rumor', id:'subong', n:'소문', ico:'📣', icon:'icon_rumor', img:'ev_rumor', title:'외거노비 수봉 이야기',
    txt:'경상도 단성현의 외거노비 수봉은 주인에게 신공을 바치며 따로 농사와 장사를 해 재산을 모았다. 그리고 곡식을 바쳐 노비에서 벗어나 **김해 김씨**가 되었다. 그 후손이 호적에 \'유학\'으로 오르기까지는 약 150년이 걸렸다.', tie:'권내현, 「양반을 향한 긴 여정」'},
-  {t:'baby', n:'자식', ico:'👶', icon:'icon_baby', pass:true},
+  {t:'marry', n:'혼인', ico:'💍', icon:'icon_marry', stop:true},
   {t:'pay', kind:'h', n:'추수 마당', ico:'🌾', icon:'icon_harvest', pay:true},
+  {t:'jokbo', n:'족보 장수', ico:'📜', icon:'icon_jokbo'},
+  {t:'baby', n:'자식', ico:'👶', icon:'icon_baby', pass:true},
+  {t:'exam', n:'과거 시험장', ico:'🏛', icon:'icon_exam'},
+  {t:'luck', n:'운', ico:'☁', icon:'icon_luck'},
+  {t:'buy', n:'공명첩·납속', ico:'🎫', icon:'icon_buy'},
   {t:'house', n:'집 짓기', ico:'🏡', icon:'icon_house'},
   {t:'gen', n:'대 잇기', ico:'🕯', icon:'icon_heir', stop:true, y:1720},
-  /* 2구역 영조 */
+  /* 2대 영조 */
   {t:'pay', kind:'h', n:'추수 마당', ico:'🌾', icon:'icon_harvest', pay:true},
   {t:'event', id:'jongmo', n:'노비종모법', ico:'⛔', icon:'icon_history', pass:true, y:1731, img:'ev_jongmo', title:'노비종모법',
    txt:'"아버지가 노비라도 어머니가 양인이면 그 자녀는 양인"이 되었다. 양인이 줄어 군역을 질 사람이 모자랐기 때문이다. **바로 다음 칸이 혼인 칸**이다.', tie:'생각하기 (나) 『영조실록』'},
   {t:'marry', n:'혼인', ico:'💍', icon:'icon_marry', stop:true},
   {t:'branch', n:'갈림길', ico:'🔀', icon:'icon_branch', lanes:{a:{n:'장삿길', d:'셈 +2. 장사로 돈을 번다. 보부상이 될 수 있다.'}, b:{n:'농삿길', d:'거친 땅을 일구어(개간) 내 땅 3마지기를 얻는다.'}}},
+  {t:'pay', kind:'m', n:'장날', ico:'🏮', icon:'icon_market', pay:true},
   {t:'office', n:'아전의 방', ico:'🏢', icon:'icon_office'},
   {t:'event', id:'gyunyeok', n:'균역법', ico:'⛔', icon:'icon_history', pass:true, y:1750, img:'ev_gyunyeok', title:'균역법',
    txt:'**군포가 2필에서 1필로** 줄었다! 해마다 군포를 내던 상민들의 부담이 절반이 되었다.', tie:'주제 9 영조의 개혁',
    rumor:'5년 전(1745), 노비 출신으로 이름을 바꿔 과거에 급제하고 사또까지 지낸 **엄택주**(본명 이만강)가 정체가 드러나 흑산도로 유배되었다고 한다.'},
-  {t:'pay', kind:'m', n:'장날', ico:'🏮', icon:'icon_market', pay:true},
   {t:'school', n:'서당', ico:'🏫', icon:'icon_school'},
   {t:'baby', n:'자식', ico:'👶', icon:'icon_baby', pass:true},
+  {t:'jokbo', n:'족보 장수', ico:'📜', icon:'icon_jokbo'},
+  {t:'luck', n:'운', ico:'☁', icon:'icon_luck'},
+  {t:'exam', n:'과거 시험장', ico:'🏛', icon:'icon_exam'},
+  {t:'buy', n:'공명첩·납속', ico:'🎫', icon:'icon_buy'},
+  {t:'house', n:'집 짓기', ico:'🏡', icon:'icon_house'},
   {t:'gen', n:'대 잇기', ico:'🕯', icon:'icon_heir', stop:true, y:1760},
-  /* 3구역 정조 */
+  /* 3대 정조 */
   {t:'pay', kind:'h', n:'추수 마당', ico:'🌾', icon:'icon_harvest', pay:true},
+  {t:'school', n:'서당', ico:'🏫', icon:'icon_school'},
   {t:'event', id:'geomseo', n:'서얼 검서관', ico:'⛔', icon:'icon_history', pass:true, y:1779, img:'ev_geomseo', title:'서얼, 규장각 검서관이 되다',
    txt:'정조가 유득공·박제가·이덕무 같은 **서얼**을 규장각 검서관으로 뽑았다. 서얼들이 여러 차례 올린 집단 상소의 결과였다.', tie:'개념 노트 3절'},
   {t:'branch', n:'갈림길', ico:'🔀', icon:'icon_branch', lanes:{a:{n:'공부의 길', d:'글 +2, 인정 +3. 서원과 책이 있는 길.'}, b:{n:'돈의 길', d:'은광에서 품을 판다. (+8냥)'}}},
   {t:'marry', n:'혼인', ico:'💍', icon:'icon_marry', stop:true},
-  {t:'jokbo', n:'족보 장수', ico:'📜', icon:'icon_jokbo'},
-  {t:'event', id:'tonggong', n:'시전 특권 폐지', ico:'⛔', icon:'icon_history', pass:true, y:1791, img:'ev_tonggong', title:'시전 상인의 특권이 없어지다',
-   txt:'한양 시전 상인의 특권이 없어져 누구나 장사하기가 쉬워졌다. **사상**들의 활동이 더욱 활발해진다.', tie:'개념 노트 2절'},
-  {t:'pay', kind:'m', n:'장날', ico:'🏮', icon:'icon_market', pay:true},
-  {t:'baby', n:'자식', ico:'👶', icon:'icon_baby', pass:true},
-  {t:'luck', n:'운', ico:'☁', icon:'icon_luck'},
-  {t:'gen', n:'대 잇기', ico:'🕯', icon:'icon_heir', stop:true, y:1801},
-  /* 4구역 순조~철종 */
-  {t:'event', id:'samjeong', n:'삼정의 문란', ico:'⛔', icon:'icon_history', pass:true, y:1830, img:'ev_samjeong', title:'삼정의 문란',
-   txt:'세금을 걷는 관리들의 부정이 심해졌다. 빌리지도 않은 환곡의 이자까지 내라고 한다.', tie:'주제 11 미리 보기'},
-  {t:'branch', id:'reverse', n:'역전의 장터', ico:'🎲', icon:'icon_reverse', img:'ev_reverse', lanes:{a:{n:'인삼 밀무역 길', d:'가진 돈의 절반을 건다. 반반 확률로 세 배가 되거나 모두 잃는다.'}, b:{n:'금광 투자 길', d:'10냥을 댄다. 10번에 4번은 45냥을 번다.'}, c:{n:'그냥 지나가기', d:'위험한 일에 손대지 않는다.'}}},
   {t:'pay', kind:'m', n:'장날', ico:'🏮', icon:'icon_market', pay:true},
   {t:'exam', n:'과거 시험장', ico:'🏛', icon:'icon_exam'},
+  {t:'event', id:'tonggong', n:'시전 특권 폐지', ico:'⛔', icon:'icon_history', pass:true, y:1791, img:'ev_tonggong', title:'시전 상인의 특권이 없어지다',
+   txt:'한양 시전 상인의 특권이 없어져 누구나 장사하기가 쉬워졌다. **사상**들의 활동이 더욱 활발해진다.', tie:'개념 노트 2절'},
+  {t:'jokbo', n:'족보 장수', ico:'📜', icon:'icon_jokbo'},
+  {t:'baby', n:'자식', ico:'👶', icon:'icon_baby', pass:true},
+  {t:'luck', n:'운', ico:'☁', icon:'icon_luck'},
+  {t:'buy', n:'공명첩·납속', ico:'🎫', icon:'icon_buy'},
+  {t:'house', n:'집 짓기', ico:'🏡', icon:'icon_house'},
+  {t:'event', id:'gongno', n:'공노비 해방', ico:'⛔', icon:'icon_history', pass:true, y:1801, img:'end_freed', title:'순조, 중앙 관청의 공노비를 해방하다',
+   txt:'1801년(순조 1년), 나라는 **중앙 관청의 공노비**를 해방했다. 하지만 지방 관아의 노비와 개인이 가진 **사노비**는 해방되지 않고 그대로 노비로 남았다.', tie:'개념 노트 3절'},
+  {t:'gen', n:'대 잇기', ico:'🕯', icon:'icon_heir', stop:true, y:1801},
+  /* 4대 순조~철종 */
+  {t:'event', id:'samjeong', n:'삼정의 문란', ico:'⛔', icon:'icon_history', pass:true, yt:'19세기', img:'ev_samjeong', title:'삼정의 문란',
+   txt:'세금을 걷는 관리들의 부정이 심해졌다. 빌리지도 않은 환곡의 이자까지 내라고 한다.', tie:'주제 11 미리 보기'},
+  {t:'pay', kind:'m', n:'장날', ico:'🏮', icon:'icon_market', pay:true},
+  {t:'branch', id:'reverse', n:'역전의 장터', ico:'🎲', icon:'icon_reverse', img:'ev_reverse', lanes:{a:{n:'인삼 밀무역 길', d:'가진 돈의 절반을 건다. 반반 확률로 세 배가 되거나 모두 잃는다.'}, b:{n:'금광 투자 길', d:'10냥을 댄다. 10번에 4번은 45냥을 번다.'}, c:{n:'그냥 지나가기', d:'위험한 일에 손대지 않는다.'}}},
   {t:'marry', n:'혼인', ico:'💍', icon:'icon_marry', stop:true},
+  {t:'school', n:'서당', ico:'🏫', icon:'icon_school'},
+  {t:'baby', n:'자식', ico:'👶', icon:'icon_baby', pass:true},
+  {t:'exam', n:'과거 시험장', ico:'🏛', icon:'icon_exam'},
   {t:'event', id:'socheong', n:'소청 운동', ico:'⛔', icon:'icon_history', pass:true, y:1851, img:'ev_socheong', title:'기술직 중인의 소청 운동',
-   txt:'중인들이 관직 진출 제한을 풀어 달라고 대규모로 요청했다. 하지만 요구는 받아들여지지 않았다.', tie:'개념 노트 3절'},
-  {t:'office', n:'아전의 방', ico:'🏢', icon:'icon_office'},
-  {t:'house', n:'집 짓기', ico:'🏡', icon:'icon_house', pay:true, kind:'h', n2:'추수'},
+   txt:'역관·의관 같은 **기술직 중인**들이 높은 관직에도 오를 수 있게 해 달라고 대규모로 요청했다(소청 운동). 하지만 요구는 받아들여지지 않았다.', tie:'개념 노트 3절'},
+  {t:'pay', kind:'h', n:'추수 마당', ico:'🌾', icon:'icon_harvest', pay:true},
+  {t:'jokbo', n:'족보 장수', ico:'📜', icon:'icon_jokbo'},
+  {t:'luck', n:'운', ico:'☁', icon:'icon_luck'},
+  {t:'buy', n:'공명첩·납속', ico:'🎫', icon:'icon_buy'},
+  {t:'house', n:'집 짓기', ico:'🏡', icon:'icon_house'},
   {t:'event', id:'hojeok', n:'호적 정리', ico:'⛔', icon:'icon_history', pass:true, y:1858, img:'ev_hojeok', title:'호적을 새로 만드는 해', sell:true,
-   txt:'3년마다 호적을 새로 만드는 해다. 호적에 무엇이라 적히느냐가 집안의 이름을 정한다. 나라 살림이 모자라 공명첩도 판다(2장뿐).', tie:'생각하기 (가) 『일성록』'},
+   txt:'3년마다 호적을 새로 만드는 해다. 호적에 무엇이라 적히느냐가 집안의 이름을 정한다. ', tie:'생각하기 (가) 『일성록』'},
   {t:'finish', n:'1858 도착', ico:'🏁', icon:'icon_finish', stop:true, y:1858}
 ];
 const LAST = SP.length - 1;
-const ZONE_OF = i => Math.min(3, Math.floor(Math.max(0, i - 1) / 10));
-const RULE = {live:4, face:{yangban:3, yuhak:2, seol:1}, landPrice:12, landAdd:3, trueHonor:75, promoteHonor:55, gmStock:2, gunpo:{10:4, 20:3, 30:2, 40:2}};
-function throwDice(R){ const v = 1 + Math.floor(R() * 6); return {name:v + '', steps:v, again:false}; }
+const ZPER = 15; const ZONE_OF = i => Math.min(3, Math.floor(Math.max(0, i - 1) / ZPER));
+const IDX = id => SP.findIndex(x => x.id === id); const JONGMO_I = IDX('jongmo'); const GEN3_I = 3 * ZPER; const GONGNO_I = IDX('gongno'); const GEOMSEO_I = IDX('geomseo');
+const RULE = {singong:{s:6, g:5}, royalHonor:70, faceLine:30, promoteLine:55, live:4, face:{gwonse:5, yangban:3, yuhak:2, seol:1, jungin:1}, landPrice:12, landAdd:3, trueHonor:75, rice:1, promoteHonor:55, gmStock:2, gunpo:{15:4, 30:3, 45:2, 60:2}};
+const DIE_FACES = [1, 2, 3, 4, 5, 6];
+function throwDice(R){ const v = DIE_FACES[Math.floor(R() * 6)]; return {name:v + '', steps:v, again:false}; }
 const YUT = [['도',1,.20],['개',2,.35],['걸',3,.30],['윷',4,.10],['모',5,.05]];
 function throwYut(R){ let r = R(); for(const [n, v, p] of YUT){ if(r < p) return {name:n, steps:v, again:v >= 4}; r -= p; } return {name:'개', steps:2, again:false}; }
-const throwOf = (G, R) => G.move === 'yut' ? throwYut(R) : throwDice(R);
+const throwOf = (G, R) => throwDice(R);
 function pct(R, p){ return R() < p; }
 
 function newPlayer(card, opt){
   return Object.assign({card:card.id, fam:card.fam, tk:card.tk, color:card.color, st:card.st, st0:card.st, money:card.money, land:card.land, rent:card.rent, honor:card.honor,
-    g:card.g, h:card.h, s:card.s, job:card.job, house:card.house, wife:false, wifeFree:false, kids:[], docs:{land:card.land ? 1 : 0, gm:0, sok:0, jokbo:0, hong:0},
+    g:card.g, h:card.h, s:card.s, job:card.job, house:card.house, grain:card.grain || 0, wife:false, wifeFree:false, kids:[], docs:{land:card.land ? 1 : 0, gm:0, sok:0, jokbo:0, hong:0},
     monae:false, exempt:false, petition:false, geomseo:false, passed:false, disguise:false, bongwan:false, adopt:false, lane:{}, talent:null,
     skip:0, runBlock:false, freedBefore1801:false, pos:0, gen:1, done:false, meth:[], picks:[], log:[],
     hist:[{g:1, st:card.st, money:card.money, honor:card.honor, land:card.land, job:card.job, house:card.house}]}, opt || {});
 }
-const cap = P => { ['g', 'h', 's'].forEach(k => P[k] = Math.max(0, Math.min(10, P[k]))); P.honor = Math.max(0, Math.min(100, P.honor)); };
+const cap = P => { ['g', 'h', 's'].forEach(k => P[k] = Math.max(0, Math.min(10, P[k]))); P.honor = isNobi(P.st) ? 0 : Math.max(0, Math.min(100, P.honor));
+  if(P.st === 'yuhak' && !P.disguise && P.honor >= RULE.promoteLine){ P.st = 'yangban'; P.meth.push('인정으로 양반'); P.flash = '🎉 인정이 ' + RULE.promoteLine + '(양반 인정선)을 넘었다! 마을 양반들이 우리 집안을 **양반**으로 대하기 시작했다.'; } };
 function talentRoll(P, R){ const k = ['g', 'h', 's'][Math.floor(R() * 3)]; P[k] += 2; P.talent = k; cap(P); return k; }
-function setFree(P, how){ if(!isNobi(P.st)) return; P.st = 'sangmin'; if(P.pos < 30) P.freedBefore1801 = true; P.meth.push(how); if(!JOBS[P.job].ok(P)) P.job = P.h >= 2 ? 'sojak' : 'pumpal'; }
-function assets(P){ return P.money + P.land * 4 + (HOUSE[P.house] ? HOUSE[P.house].v : 0); }
+const SELF_FREE = ['납속', '속량', '군공', '도망'];
+function setFree(P, how){ if(!isNobi(P.st)) return; P.st = 'sangmin'; if(P.pos < GONGNO_I) P.freedBefore1801 = true; P.meth.push(how); if(SELF_FREE.includes(how)) P.selfFree = P.pos < JONGMO_I ? 'early' : P.pos < GONGNO_I ? 'mid' : ''; if(!JOBS[P.job].ok(P)) P.job = P.h >= 2 ? 'sojak' : 'pumpal'; }
+function assets(P){ return P.money + (P.grain || 0) + P.land * 4 + (HOUSE[P.house] ? HOUSE[P.house].v : 0); }
+/* 값 치르기: m = 돈만(공명첩 등), g = 곡식만(납속), a = 돈이나 곡식 아무거나(족보·호적 위조 등) */
+function canPay(P, o){ if(!o.cost) return true; const k = o.pay || 'm'; return k === 'm' ? P.money >= o.cost : k === 'g' ? (P.grain || 0) >= o.cost : P.money + (P.grain || 0) >= o.cost; }
+function payCost(P, o){ if(!o.cost) return; const k = o.pay || 'm'; if(k === 'm') P.money -= o.cost; else if(k === 'g') P.grain -= o.cost; else { const m = Math.min(Math.max(0, P.money), o.cost); P.money -= m; P.grain -= o.cost - m; } }
+const costTxt = o => !o.cost ? '' : o.cost + ((o.pay || 'm') === 'm' ? '냥' : o.pay === 'g' ? '석(곡식)' : '냥·석');
 
 /* ---------- 장날·추수 마당: 생업 수입 ---------- */
 function weatherRoll(R){ const r = R(); return r < .25 ? 'good' : r < .78 ? 'normal' : 'drought'; }
@@ -2069,15 +2191,17 @@ const WEATHER = {good:{n:'풍년', ico:'☀️', m:1.5, mm:3}, normal:{n:'보통
 function payOf(G, P, kind){
   const R = G.R; const J = JOBS[P.job]; const z = ZONE_OF(P.pos); const L = []; let w = null;
   const base = kind === 'm' ? J.m : J.hv;
+  const FARM = {oegeo:1, sojak:1, jajak:1};
   let v = base === 'trade' ? Math.round((5 + z * 3) * (0.6 + R())) : base === 'trade2' ? Math.round((10 + z * 4) * (0.6 + R())) : base;
-  if(v) L.push([J.ico + ' ' + J.n + (kind === 'm' ? ' 장날 벌이' : ' 일한 몫'), v]);
+  if(P.noPay){ P.noPay = 0; v = 0; L.push(['📚 문과 공부하느라 이번엔 일을 못 했다', 0]); }
+  if(v){ if(kind === 'h' && FARM[P.job]){ P.grain += v; L.push([J.ico + ' ' + J.n + ' 농사 (곡식)', v, 'g']); } else L.push([J.ico + ' ' + J.n + (kind === 'm' ? ' 장날 벌이' : ' 일한 몫'), v]); }
+  if(P.office) L.push(['🏛 녹봉 (' + OFFICE[P.office].n + ')', OFFICE[P.office].pay]);
   if(kind === 'h'){ w = weatherRoll(R); const W = WEATHER[w]; const m = P.monae ? W.mm : W.m;
-    if(P.land > 0) L.push(['🌾 내 땅 ' + P.land + '마지기 수확 (' + W.ico + W.n + (P.monae ? ', 모내기법' : '') + ')', Math.round(P.land * m * .5)]);
-    if(P.job === 'sojak' && P.rent > 0){ const h = Math.round(P.rent * m * .8); L.push(['🌾 빌린 땅 ' + P.rent + '마지기 수확 (' + W.ico + W.n + ')', h], ['소작료 (수확의 절반)', -Math.round(h / 2)]); }
+    if(P.land > 0){ const gq = Math.round(P.land * m * .5); P.grain += gq; L.push(['🌾 내 땅 ' + P.land + '마지기 수확 (' + W.ico + W.n + (P.monae ? ', 모내기법' : '') + ')', gq, 'g']); }
+    if(P.job === 'sojak' && P.rent > 0){ const h = Math.round(P.rent * m * .8); P.grain += h - Math.round(h / 2); L.push(['🌾 빌린 땅 ' + P.rent + '마지기 수확 (' + W.ico + W.n + ')', h, 'g'], ['소작료 (수확의 절반, 땅 주인에게)', -Math.round(h / 2), 'g']); }
     const hands = P.kids.filter(k => !isUpper(k.st)).length; if(hands && !isUpper(P.st)) L.push(['👶 자식 일손 ' + hands + '명', hands]); }
   if(P.wife) L.push(['💍 아내의 길쌈', 1]);
-  if(P.st === 'nobi_s') L.push(['⛓ 주인에게 바치는 신공', -1]);
-  const sum = L.reduce((a, b) => a + b[1], 0); P.money += sum;
+  const sum = L.filter(x => x[2] !== 'g').reduce((a, b) => a + b[1], 0); P.money += sum;
   if(J.honor){ P.honor += J.honor; L.push([J.ico + ' ' + J.n + '라 인정 +' + J.honor, 0]); }
   if(isUpper(P.st) && MERCH[P.job]){ P.honor -= 2; L.push(['양반 집안이 장사를 한다는 수군거림 (인정 −2)', 0]); }
   P[J.key] += 1; cap(P);
@@ -2086,44 +2210,84 @@ function payOf(G, P, kind){
 function passSpace(G, P, i){ const S = SP[i]; if(!S.pay) return null; return payOf(G, P, S.kind); }
 
 /* ---------- 선택지 ---------- */
-const O = (id, n, d, cost, ok, run) => ({id, n, d, cost:cost || 0, ok:!!ok, run});
-function optGm(G, P, i){ return O('s_gm', '공명첩 사기 (남은 ' + (G.gm[i] || 0) + '장)', '이름 칸이 빈 관직 임명장. 호적상 양반이 되고 군포를 안 낸다.', 20,
-  (G.gm[i] || 0) > 0 && (P.st === 'sangmin' || P.st === 'jung'), () => { G.gm[i]--; P.st = 'yuhak'; P.exempt = true; P.honor += 4; P.docs.gm++; P.meth.push('공명첩'); return '공명첩에 우리 가장의 이름을 적어 넣었다. 이제 호적에 「유학」으로 오른다! (📜 공명첩 카드)'; }); }
-function optNapsok(P){ return O('s_napsok', '곡식을 바치기 (납속)', isNobi(P.st) ? '곡식을 바치고 노비에서 벗어난다. (속량 문서)' : '명예 관직(납속절충장군)을 받아 군포를 면제받는다.', 12,
-  isNobi(P.st) || (P.st === 'sangmin' && !P.exempt), () => { if(isNobi(P.st)){ setFree(P, '납속'); P.docs.sok++; return '곡식을 바치고 노비 신분에서 풀려났다! 성씨와 본관도 얻었다. 마을에 가장 흔한 본관을 골라 눈에 띄지 않게 했다. (📜 속량 문서 카드, 이제 군포를 낸다)'; } P.exempt = true; P.honor += 3; P.meth.push('납속(명예 관직)'); return '곡식을 바치고 명예 관직을 받았다. 이제 군포를 내지 않는다.'; }); }
+const O = (id, n, d, cost, ok, run, pay) => ({id, n, d, cost:cost || 0, ok:!!ok, run, pay:pay || 'm'});
+function optGm(G, P, i){ return O('s_gm', '공명첩 사기 (남은 ' + (G.gm[i] || 0) + '장)', '이름 칸이 빈 관직 임명장. 돈으로 산다. 호적상 양반이 되고 군포를 안 낸다.', 20,
+  (G.gm[i] || 0) > 0 && (P.st === 'sangmin' || P.st === 'jung' || P.st === 'jungin'), () => { G.gm[i]--; P.st = 'yuhak'; P.exempt = true; P.docs.gm++; P.meth.push('공명첩'); return '공명첩에 우리 가장의 이름을 적어 넣었다. 이제 호적에 「유학」으로 오른다! (📜 공명첩 카드) 하지만 돈으로 산 이름이라 이웃 양반들의 대접(인정)은 그대로다.'; }); }
+function optNapsok(P){ return O('s_napsok', '곡식을 바치기 (납속)', isNobi(P.st) ? '곡식을 바치고 노비에서 벗어나 상민이 된다. (양반이 되려면 한 번 더 바쳐야 한다)' : P.st === 'seol' ? '곡식을 바치고 허통(문과 응시 자격)을 얻는다.' : '곡식을 바치고 호적상 양반(유학)이 된다.', 20,
+  isNobi(P.st) || P.st === 'sangmin' || P.st === 'jungin' || (P.st === 'seol' && !P.seolOK), () => { if(isNobi(P.st)){ setFree(P, '납속'); P.docs.sok++; return '곡식을 바치고 노비 신분에서 풀려났다! 성씨와 본관도 얻었다. 마을에 가장 흔한 본관을 골라 눈에 띄지 않게 했다. (📜 속량 문서 카드, 이제 군포를 낸다)'; }
+    if(P.st === 'seol'){ P.seolOK = true; P.meth.push('납속 허통'); return '곡식을 바치고 허통되었다. 이제 서얼도 문과를 볼 수 있다!'; }
+    P.st = 'yuhak'; P.exempt = true; P.meth.push('납속'); return '곡식을 바치고 호적에 「유학」(호적상 양반)으로 올랐다. 이제 군포를 내지 않는다. (인정은 그대로)'; }, 'g'); }
 function optBribe(G, P, i){ const p = (SP[i].id === 'hojeok' ? .7 : .55) + (P.st === 'jung' ? .1 : 0);
-  return O('s_bribe', '아전에게 뇌물 주고 호적에 「유학」 적기', '공명첩보다 싸지만 들킬 수 있다 (성공 약 ' + Math.round(p * 100) + '%).', 12, P.st === 'sangmin' || P.st === 'jung',
-    () => { if(pct(G.R, p)){ P.st = 'yuhak'; P.exempt = true; P.meth.push('호적 뇌물'); return '호적에 「유학」이라 적혔다. 이제 군포를 내지 않는다.'; } P.money -= 6; P.honor -= 5; cap(P); return '들켜 버렸다! 벌금 6냥을 내고 마을에 소문이 났다. (인정 −5)'; }); }
-function optJung(G, P){ return O('s_jung', '호적에 「업유」·「교생」으로 올리기', '군역 평민에서 한 칸 위로! 군포가 절반이 된다. (📖 2 이상)', 6, P.st === 'sangmin' && P.g >= 2,
-  () => { if(pct(G.R, .8)){ P.st = 'jung'; P.honor += 3; P.meth.push('중간 직역'); return '이번 호적에 우리 가장은 「업유」로 적혔다. 사다리를 한 칸 올랐다.'; } return '아전이 "아직은 안 된다"며 고개를 저었다.'; }); }
-function optEdu(P){ return O('s_edu', '자식들을 서당에 보내기', '다음 가장의 글 +2, 인정 +5. (자식이 있어야 함)', 5, !isNobi(P.st) && P.kids.length > 0,
-  () => { P.kids.forEach(k => k.edu = (k.edu || 0) + 1); P.honor += 5; return '아이들이 천자문을 떼었다. 마을 사람들이 우리 집을 달리 본다.'; }); }
-function optSelf(P){ return O('s_self', '가장이 밤마다 글 배우기', '📖 글 +2', 3, true, () => { P.g += 2; cap(P); return '호롱불 아래에서 글을 익혔다. (📖 +2)'; }); }
+  return O('s_bribe', '호적 위조: 아전에게 뇌물 주고 「유학」 적기', '돈이나 곡식으로. 들킬 수 있다 (성공 약 ' + Math.round(p * 100) + '%).', 15, P.st === 'sangmin' || P.st === 'jung' || P.st === 'jungin',
+    () => { if(pct(G.R, p)){ P.st = 'yuhak'; P.exempt = true; P.meth.push('호적 위조'); return '호적에 「유학」이라 적혔다. 이제 군포를 내지 않는다. (돈으로 산 이름이라 인정은 오르지 않는다)'; } P.money -= 6; P.honor -= 5; cap(P); return '들켜 버렸다! 벌금 6냥을 내고 마을에 소문이 났다. (인정 −5)'; }, 'a'); }
+const learnW = P => P.st === 'seol' || isNoble(P.st) ? 2 : 1; /* 서얼·양반은 배움 가중치 */
+function optEdu(P){ return O('s_edu', '자식들을 서당에 보내기', '다음 가장의 글 +' + 2 * learnW(P) + ', 인정 +5. (자식이 있어야 함)' + (learnW(P) > 1 ? ' (서얼·양반 집안이라 배움 효과 2배)' : ''), 5, !isNobi(P.st) && P.kids.length > 0,
+  () => { P.kids.forEach(k => k.edu = (k.edu || 0) + learnW(P)); P.honor += 5; return '아이들이 천자문을 떼었다. 마을 사람들이 우리 집을 달리 본다.'; }); }
+function optSelf(P){ const w = learnW(P) > 1 ? 3 : 2; return O('s_self', '가장이 밤마다 글 배우기', '📖 글 +' + w + (w > 2 ? ' (서얼·양반 배움 가중치)' : ''), 3, true, () => { P.g += w; cap(P); return '호롱불 아래에서 글을 익혔다. (📖 +' + w + ')'; }); }
 function optWon(P){ return O('s_won', '아들을 서원 원생으로 올리기', '양반 자제들 틈에서 공부한다. (인정 +5)', 5, P.st === 'sangmin' || P.st === 'jung', () => { P.honor += 5; return '아들이 서원의 원생이 되었다.'; }); }
 function optSeowon(P){ return O('s_seowon', '서원·향약 모임에 드나들기', '양반들과 어울려 인정을 받는다. (인정 +6)', 5, isUpper(P.st), () => { P.honor += 6; return '서원 모임에 이름을 올렸다. 처음엔 눈치를 보았지만 조금씩 자리가 생긴다.'; }); }
 function optPetition(P){ return O('s_petition', '서얼 집단 상소에 이름 올리기', '"서얼에게도 벼슬길을 열어 주십시오!" (인정 +3)', 2, P.st === 'seol' && !P.petition, () => { P.petition = true; P.honor += 3; P.meth.push('상소'); return '수백 명의 서얼과 함께 상소에 이름을 올렸다.'; }); }
-function optExam(G, P){ const p = .12 + Math.max(0, P.g - 4) * .04; return O('s_exam', '과거 시험 보기 (붙을 확률 ' + Math.round(p * 100) + '%)', '양반들도 10년 넘게 공부하는 시험. 글이 높을수록 잘 붙는다. (유학·양반, 인정 40 이상)', 5,
-  isUpper(P.st) && P.honor >= 40, () => { if(pct(G.R, p)){ P.passed = true; P.honor += 20; P.money += 10; P.docs.hong++; P.meth.push('과거 급제'); return '합격자 명단에 이름이 올랐다! 붉은 합격 증서(📜 홍패)를 받았다.'; } return '낙방했다. 다음을 기약해야 한다.'; }); }
 function optLand(P){ return O('e_land', '땅 3마지기 사기', '내 땅이 늘면 추수 때 더 거둔다. (📜 땅문서)', RULE.landPrice, !isNobi(P.st), () => { P.land += RULE.landAdd; P.docs.land++; return '땅 문서를 받았다. 이제 우리 땅이 ' + P.land + '마지기다.'; }); }
 function optHouse(P){ const nx = P.house + 1; const c = HOUSE_COST[nx];
   return O('e_house', (HOUSE[nx] ? HOUSE[nx].n : '') + '으로 집 고치기', HOUSE[P.house].n + ' → ' + (HOUSE[nx] ? HOUSE[nx].n : '') + (nx === 4 ? ' (인정 +5)' : '') + '. 집값이 총자산에 들어간다.', c || 0,
-    !!c && !(nx === 4 && isNobi(P.st)), () => { P.house = nx; if(nx === 4) P.honor += 5; return '새 ' + HOUSE[nx].n + '에 들어갔다!'; }); }
+    !!c, () => { P.house = nx; if(nx === 4) P.honor += 5; return '새 ' + HOUSE[nx].n + '에 들어갔다!'; }); }
 function optWage(){ return O('e_wage', '남의 일 돕고 품삯 받기', '+3냥', 0, true, P => { P.money += 3; return '하루 품삯을 받았다.'; }); }
 function jobOpts(P, free){ return JOB_ORDER.filter(k => k !== P.job && JOBS[k].ok(P)).map(k => { const J = JOBS[k];
   return O('j_' + k, J.ico + ' ' + J.n + '(으)로 생업 바꾸기', (J.d ? J.d + ' ' : '') + '(조건: ' + J.need + ')', free ? 0 : (J.cost || 0), true, () => { P.job = k; if(k === 'gaekju') P.meth.push('객주'); return J.n + '(이)가 되었다!'; }); }); }
 
 /* 혼인 STOP: 혼처 카드 */
 function marryOpts(P){
-  const before1731 = P.pos < 12;
+  const before1731 = P.pos < JONGMO_I;
   const L = [O('m_same', '같은 처지의 집안과 혼인', '혼수 2냥. 아내가 길쌈으로 장날마다 +1냥.', 2, !P.wife, () => { P.wife = true; P.wifeFree = !isNobi(P.st); return '이웃 마을 같은 처지의 집안과 혼인했다.'; })];
   if(isNobi(P.st)) L.push(O('m_free', '양인 집안의 딸과 혼인', before1731 ? '아직은 부모 한쪽만 노비여도 자식은 노비다(일천즉천). 1731년부터 달라진다.' : '노비종모법! 어머니가 양인이면 자식은 양인으로 태어난다.', 4, !P.wife,
     () => { P.wife = true; P.wifeFree = true; return before1731 ? '양인 집안의 딸과 혼인했다. 하지만 아직 법은 아이를 노비로 정한다…' : '양인 집안의 딸과 혼인했다. 우리 아이는 양인으로 태어날 것이다!'; }));
-  else L.push(O('m_up', '한 단계 높은 집안과 혼인', '혼수 8냥. 인정 +6. (인정 15 이상)', 8, !P.wife && P.honor >= 15, () => { P.wife = true; P.wifeFree = true; P.honor += 6; return '우리보다 형편이 나은 집안과 사돈이 되었다.'; }));
-  if(isUpper(P.st) || P.st === 'seol') L.push(O('m_noble', '이름난 양반 집안과 혼인', '혼수가 많이 든다. 집안의 격이 크게 오른다. (인정 +12, 유학·양반, 인정 35 이상)', 15, !P.wife && isUpper(P.st) && P.honor >= 35,
+  else L.push(O('m_up', '한 단계 높은 집안과 혼인', '혼수 8냥. 인정 +6. (인정 30 체면선 이상)', 8, !P.wife && P.honor >= RULE.faceLine, () => { P.wife = true; P.wifeFree = true; P.honor += 6; return '우리보다 형편이 나은 집안과 사돈이 되었다.'; }));
+  if(isUpper(P.st) || P.st === 'seol') L.push(O('m_noble', '이름난 양반 집안과 혼인', '혼수가 많이 든다. 집안의 격이 크게 오른다. (인정 +12, 유학·양반, 인정 55 이상)', 15, !P.wife && isUpper(P.st) && P.honor >= RULE.promoteLine,
     () => { P.wife = true; P.wifeFree = true; P.honor += 12; P.meth.push('양반가 혼인'); return '이름난 양반 집안과 사돈이 되었다.'; }));
   return L;
 }
-function kidStatus(P){ if(!isNobi(P.st)) return P.st; return P.wifeFree && P.pos >= 12 ? 'sangmin' : P.st; }
+function kidStatus(P){ if(!isNobi(P.st)) return P.st; return P.wifeFree && P.pos >= JONGMO_I ? 'sangmin' : P.st; }
+
+/* ---------- 재주 이벤트: 📖글·💪힘·🧮셈이 높을수록 잘 풀린다 ---------- */
+const STAT_EV = [
+  {k:'g', need:4, t:'관아에서 글 아는 사람을 찾는다', ok:'호적 대장을 베껴 써 주고 품삯을 받았다.', ok2:P => { P.money += 5; P.honor += 2; return '+5냥, 인정 +2'; }, no:'글을 몰라 일을 맡지 못했다.'},
+  {k:'g', need:5, t:'이웃이 소송 문서를 써 달라고 부탁한다', ok:'억울한 이웃의 소장(소송 문서)을 대신 써 주었다.', ok2:P => { P.money += 3; P.honor += 4; return '+3냥, 인정 +4'; }, no:'글솜씨가 모자라 다른 사람이 써 주었다.'},
+  {k:'g', need:5, t:'서당 훈장이 아파 아이들을 대신 가르칠 사람을 찾는다', ok:'아이들에게 천자문을 가르쳤다.', ok2:P => { P.money += 4; P.honor += 3; return '+4냥, 인정 +3 (배움)'; }, no:'글을 몰라 나서지 못했다.'},
+  {k:'h', need:4, t:'고을에서 둑 쌓기 일꾼을 모은다', ok:'힘든 둑 쌓기 일을 끝까지 해냈다.', ok2:P => { P.money += 6; return '+6냥'; }, no:'몸이 버텨 주지 못해 하루 만에 그만두었다.'},
+  {k:'h', need:6, t:'마을 활쏘기 대회가 열렸다', ok:'활쏘기 대회에서 이겼다!', ok2:P => { P.money += 5; return '상품으로 +5냥'; }, no:'과녁을 모두 빗나갔다.'},
+  {k:'h', need:7, t:'도적 떼가 마을을 덮쳤다', ok:'앞장서서 도적 떼를 물리쳐 공을 세웠다 (군공).', ok2:P => { if(isNobi(P.st)){ setFree(P, '군공'); return '군공을 인정받아 **노비에서 풀려났다!**'; } P.honor += 8; if(P.st === 'sangmin' && !P.exempt){ P.exempt = true; return '군공으로 군포를 면제받는다, 인정 +8'; } return '인정 +8'; }, no:'도적에게 곡식을 빼앗겼다.', fail:P => { P.money -= 2; return '−2냥'; }},
+  {k:'s', need:4, t:'객주가 장부 정리를 맡긴다', ok:'셈을 틀리지 않고 장부를 정리했다.', ok2:P => { P.money += 5; return '+5냥'; }, no:'셈이 틀려 일을 놓쳤다.'},
+  {k:'s', need:5, t:'쌀값이 크게 오르내린다', ok:'쌀값이 쌀 때 사 두었다가 비쌀 때 팔았다.', ok2:P => { P.money += 8; return '+8냥'; }, no:'비쌀 때 사서 쌀 때 팔고 말았다.', fail:P => { P.money -= 3; return '−3냥'; }},
+  {k:'s', need:7, t:'청나라와 무역하는 상단이 동업자를 찾는다', ok:'무역 상단의 동업자가 되었다.', ok2:P => { P.money += 14; return '+14냥'; }, no:'셈이 어두워 동업을 거절당했다.'}
+];
+function statEvent(G, P){
+  const E = STAT_EV[Math.floor(G.R() * STAT_EV.length)]; const v = P[E.k]; const ok = v >= E.need;
+  const res = ok ? E.ok2(P) : (E.fail ? E.fail(P) : ''); cap(P);
+  return {t:E.t, line:STAT[E.k].ico + ' ' + STAT[E.k].n + ' ' + v + (ok ? ' ≥ ' : ' < ') + E.need + (ok ? ' 성공! ' + E.ok : ' 실패… ' + E.no) + (res ? ' (' + res + ')' : ''), ok};
+}
+function optSok(P){ return O('s_sok', '주인에게 몸값을 치르고 풀려나기 (속량)', '모은 돈으로 몸값을 치른다. (📜 속량 문서)', 18, isNobi(P.st),
+  () => { setFree(P, '속량'); P.docs.sok++; return '몸값을 치르고 노비 문서에서 이름을 지웠다! 이제 양인이다. (📜 속량 문서 카드)'; }); }
+/* 과거: 양인 이상이면 볼 수 있지만 시간과 돈이 든다. 잡과 → 무과 → 문과 순으로 까다롭다. 합격하면 녹봉. */
+const OFFICE = {jap:{n:'기술관(잡과)', pay:4}, mu:{n:'무관(무과)', pay:4}, mun:{n:'문관(문과)', pay:6}};
+const OFF_RANK = {jap:1, mu:1, mun:2};
+function setOffice(P, k){ if(!P.office || OFF_RANK[k] >= OFF_RANK[P.office]) P.office = k; }
+/* 응시 자격: 양인 이상. 서얼은 1779년 검서관 사건 뒤부터. 무과·문과 합격률은 양반(유학)보다 기술직 중인·서얼·상민이 낮다. */
+const canExam = P => !isNobi(P.st);
+const seolMun = P => P.st !== 'seol' || P.pos > GEOMSEO_I || P.seolOK; /* 서얼 문과: 검서관 뒤 또는 공명첩·납속 허통 */
+const examF = P => isUpper(P.st) ? 1 : (P.st === 'jungin' || P.st === 'seol') ? .6 : .7;
+function passRecord(P){ P.passGens = P.passGens || []; if(!P.passGens.includes(P.gen)) P.passGens.push(P.gen);
+  if(P.st === 'yangban' && [0, 1, 2].every(d => P.passGens.includes(P.gen - d))){ P.royalReady = true; return ' 3대 연속 급제! 인정이 ' + RULE.royalHonor + ' 이상이면 왕실에서 혼인 이야기가 올 것이다.'; } return ''; }
+function royalOffer(P){ return P.royalReady && !P.royalAsked && P.st === 'yangban' && P.honor >= RULE.royalHonor; }
+function royalAccept(P){ P.royalAsked = true; P.st = 'gwonse'; P.honor += 10; P.meth.push('왕실 혼인(외척)'); cap(P); return '왕실과 혼인해 **외척**이 되었다. 우리 집안은 이제 나라의 큰 힘을 가진 **권세가**다!'; }
+function optJapgwa(G, P){ const p = Math.min(.5, .3 + Math.max(0, P.g - 4) * .05); return O('s_japgwa', '잡과(기술관 시험) 보기 · 붙을 확률 ' + Math.round(p * 100) + '%', '통역·의학 같은 기술관을 뽑는다. (📖4 이상) 합격하면 **기술직 중인**이 되고 녹봉 +4냥, 인정 +6.', 4,
+  canExam(P) && P.g >= 4 && !P.office, () => { if(pct(G.R, p)){ setOffice(P, 'jap'); P.meth.push('잡과'); const up = P.st === 'sangmin'; if(up) P.st = 'jungin'; P.honor += 6; cap(P); return '잡과에 붙었다!' + (up ? ' 우리 집안은 이제 **기술직 중인**이다.' : '') + ' 장날·추수마다 녹봉 4냥. (인정 +6, 역관·의관 생업도 고를 수 있다)'; } return '잡과에서 떨어졌다.'; }); }
+function optMugwa(G, P){ const p = Math.min(.4, .15 + Math.max(0, P.h - 5) * .06) * examF(P); return O('s_mugwa', '무과 보기 · 붙을 확률 ' + Math.round(p * 100) + '%', '활쏘기·말타기 시험. (💪5 이상) 합격하면 「출신」, 군포 면제, 녹봉 +4냥, 인정 +8.' + (examF(P) < 1 ? ' (양반이 아니라 합격률이 낮다)' : ''), 6,
+  canExam(P) && P.h >= 5 && !P.office, () => { if(pct(G.R, p)){ setOffice(P, 'mu'); P.exempt = true; P.honor += 8; P.meth.push('무과'); const g = passRecord(P); cap(P); return '무과에 붙어 「출신」이 되었다! 군포 면제, 장날·추수마다 녹봉 4냥. (인정 +8)' + g; } return '활쏘기와 말타기 시험에서 떨어졌다.'; }); }
+function optMungwa(G, P){ const p = Math.min(.2, .05 + Math.max(0, P.g - 7) * .05) * examF(P); return O('s_mungwa', '문과 보기 · 붙을 확률 ' + Math.round(p * 100) + '%', '가장 어려운 시험. 몇 년 동안 공부하느라 다음 장날·추수 때 생업 수입이 없다. (📖7 이상) 합격하면 홍패와 관직, 녹봉 +6냥, 인정 +20.' + (examF(P) < 1 ? ' (양반이 아니라 합격률이 낮다)' : ''), 10,
+  canExam(P) && seolMun(P) && P.g >= 7 && P.office !== 'mun', () => { P.noPay = 1; if(pct(G.R, p)){ setOffice(P, 'mun'); P.passed = true; P.honor += 20; P.docs.hong++; P.meth.push('문과 급제'); const up = !isNoble(P.st); if(up){ P.st = 'yangban'; P.exempt = true; } const g = passRecord(P); cap(P); return '문과에 급제했다! 붉은 합격증(📜 홍패)을 받고 관리가 되었다.' + (up ? ' 우리 집안은 이제 **양반**이다!' : '') + ' 장날·추수마다 녹봉 6냥. (인정 +20)' + g; } return '낙방했다. 공부한 시간과 돈만 들었다.'; }); }
+function bungdang(P, R, p){ if(!isNoble(P.st) || !pct(R, p)) return '';
+  P.honor -= 8; P.money -= 4; const lost = P.office ? ' 벼슬과 녹봉도 잃었다.' : ''; P.office = null; let d = ''; if(P.st === 'gwonse'){ P.st = 'yangban'; d = ' 권세가의 힘을 잃고 보통 양반이 되었다.'; } cap(P);
+  return '⚔ 붕당 싸움에서 우리 편이 져서 가장이 지방으로 쫓겨났다(유배).' + lost + d + ' (−4냥, 인정 −8)'; }
 
 /* ---------- 칸 카드: auto는 이미 적용된 결과, opts는 고를 결심 ---------- */
 function landCard(G, P, landing){
@@ -2133,21 +2297,24 @@ function landCard(G, P, landing){
   switch(S.t){
     case 'pay': card.title = S.n; card.img = S.kind === 'm' ? 'ev_jangsi' : 'ev_monae';
       card.txt = S.kind === 'm' ? '5일마다 열리는 장날. 우리 집 생업으로 번 돈을 센다.' : '가을걷이를 하는 추수 마당.';
-      card.opts.push(...jobOpts(P)); if(S.kind === 'h') card.opts.push(optLand(P)); break;
+      { const se = statEvent(G, P); card.auto.push(['🎯 재주 기회: ' + se.t, 0], [se.line, 0]); }
+      card.opts.push(...jobOpts(P), optSok(P)); if(S.kind === 'h') card.opts.push(optLand(P)); break;
     case 'event': {
       const id = S.id;
       if(id === 'famine'){ if(P.land > 0) card.auto.push(['우리 곳간에 곡식이 있어 버텼다', 0]); else add('흉년으로 곡식값이 크게 올랐다', -2);
         card.opts.push(optGm(G, P, i), optNapsok(P)); }
+      if(id === 'gongno'){ if(P.st === 'nobi_g'){ P.st = 'sangmin'; P.meth.push('공노비 해방'); P.job = P.h >= 2 ? 'sojak' : 'pumpal'; if(P.job === 'sojak' && !P.rent) P.rent = 10; card.auto.push(['우리 집안은 이제 **양인(상민)**이다! (나라의 해방이라 자력 해방 점수는 없다)', 0]); card.voice = '"노비 문서가 불타는 연기를 보며 온 가족이 울었다."'; }
+        else if(P.st === 'nobi_s') card.auto.push(['우리는 **사노비**라 그대로다…', 0]); }
       if(id === 'jongmo' && isNobi(P.st)) card.voice = '"양인 아내를 얻으면… 내 아이는 노비가 아니게 된다!"';
-      if(id === 'jongmo' && P.st === 'seol'){ card.voice = '"서얼들이 모여 벼슬길을 열어 달라는 상소를 준비한다는데…"'; card.opts.push(optPetition(P)); }
       if(id === 'gyunyeok') card.voice = P.disguise ? '"…엄택주라는 이름을 들을 때마다 가슴이 철렁한다."' : (P.st === 'sangmin' || P.st === 'jung') && !P.exempt ? '"드디어 숨통이 트이는구나. 군포가 절반이라니!"' : (isUpper(P.st) || P.exempt) ? '"우리는 원래 군포를 안 내니 상관없는 일이지." (군포를 안 내려고 양반이 되려 한 까닭을 알겠지?)' : isNobi(P.st) ? '"군포는 양인들 이야기지… 우리에겐 먼 이야기다."' : '';
       if(id === 'geomseo' && P.st === 'seol'){
         if(pct(R, P.petition ? .7 : P.g >= 6 ? .3 : 0)){ P.geomseo = true; P.honor += 12; add('우리 집안 사람이 **규장각 검서관**으로 뽑혔다!', 6); P.meth.push('검서관'); }
         else card.auto.push([P.petition ? '이번에는 우리 집안 사람이 뽑히지 못했다.' : '상소에 이름을 올리지 않은 우리 집안은 이 소식을 멀리서 들을 뿐이었다. (상소를 올렸거나 📖 6 이상이면 뽑힐 수 있었다)', 0]); }
       if(id === 'tonggong' && (P.job === 'bobusang' || P.job === 'gaekju')) add('장사 길이 넓어져 장사가 잘된다', 5);
-      if(id === 'samjeong' && !isNobi(P.st)) add('환곡 이자와 덧붙은 세금', P.st === 'yangban' ? -1 : -3);
-      if(id === 'socheong'){ card.opts.push(O('s_socheong', '중인들의 소청 운동 돕기', '관직 진출 제한을 풀어 달라는 요청에 힘을 보탠다.', 3, P.st === 'seol' || P.st === 'jung', () => { P.honor -= 2; cap(P); P.meth.push('소청 운동'); return '요구는 받아들여지지 않았다. 그래도 목소리를 냈다는 사실은 남았다.'; })); }
-      if(id === 'hojeok'){ card.opts.push(optGm(G, P, i), optBribe(G, P, i), optNapsok(P)); }
+      if(id === 'samjeong'){ const v = isNoble(P.st) ? 0 : P.st === 'yuhak' ? 2 : (P.st === 'jungin' || P.st === 'seol') ? 3 : P.st === 'sangmin' ? 5 : 6;
+        if(v) add(isNobi(P.st) ? '원래 세금을 내지 않는 노비에게까지 환곡과 덧붙은 세금이 떠넘겨졌다' : '환곡 이자와 덧붙은 세금', -v); else card.auto.push(['권세 있는 양반 집안은 세금을 피했다. 부담은 아래로 떠넘겨졌다.', 0]); }
+      if(id === 'socheong'){ card.opts.push(O('s_socheong', '소청 운동에 이름 올리기 (성공 확률 10%)', '기술직 중인도 높은 관직에 오를 수 있게 해 달라고 요청한다. 실제 역사에서는 받아들여지지 않았다.', 3, P.st === 'jungin', () => { P.meth.push('소청 운동'); if(pct(R, .1)){ P.honor += 10; cap(P); return '뜻밖에 요청이 일부 받아들여져 우리 집안 사람이 높은 관직에 올랐다! (인정 +10) (실제 역사에서는 실패했다)'; } return '요구는 받아들여지지 않았다. 실제 역사에서도 기술직 중인의 소청 운동은 성과를 거두지 못했다.'; })); }
+      if(id === 'hojeok'){ card.opts.push(optBribe(G, P, i), optNapsok(P)); }
       break; }
     case 'rumor': break;
     case 'marry': card.title = '혼인'; card.img = 'stop_marry'; card.stopSign = true;
@@ -2164,24 +2331,25 @@ function landCard(G, P, landing){
     case 'house': card.title = '집 짓기'; card.img = HOUSE[Math.min(4, P.house + 1)].img;
       card.txt = '지금 우리 집은 **' + HOUSE[P.house].n + '**이다. 집값은 마지막 총자산에 들어간다.'; card.opts.push(optHouse(P), optLand(P)); break;
     case 'office': card.title = '아전의 방'; card.img = 'ev_hojeok'; card.txt = '호적을 맡은 아전이 앉아 있다. 호적에 무엇이라 적히느냐에 따라 군포가 달라진다.';
-      card.opts.push(optJung(G, P), optBribe(G, P, i));
-      if(i > 30) card.opts.push(O('s_bon', '본관을 이름난 본관으로 바꾸기', '우리 마을에 그 본관 양반이 거의 남지 않았다 (성공 75%, 인정 +10).', 6, P.st === 'yuhak' && !P.bongwan,
-        () => { if(pct(R, .75)){ P.bongwan = true; P.honor += 10; P.meth.push('본관 변경'); return '다음 호적에 우리 집 본관이 이름난 양반 본관으로 적혔다.'; } P.honor -= 3; cap(P); return '이웃 노인이 "그 집 원래 본관은 따로 있지 않았나?" 하고 수군거렸다.'; }));
+      card.opts.push(optBribe(G, P, i), optNapsok(P));
       break;
-    case 'school': card.title = '서당'; card.img = 'ev_school'; card.txt = '마을 서당에서 아이들이 천자문을 읽는다.'; card.opts.push(optEdu(P), optSelf(P), optWon(P), optPetition(P)); break;
+    case 'school': card.title = '서당'; card.img = 'ev_school'; card.txt = '마을 서당에서 아이들이 천자문을 읽는다.' + (P.st === 'seol' ? ' 글 배운 서얼들이 벼슬길을 열어 달라는 상소문에 이름을 모으고 있다.' : ''); card.opts.push(optEdu(P), optSelf(P), optWon(P), optPetition(P)); break;
     case 'jokbo': card.title = '족보 장수'; card.img = 'ev_jokbo'; card.txt = '몰락한 양반 집안의 족보를 판다는 사람이 찾아왔다.';
-      card.opts.push(O('s_jokbo', '양반 가문의 족보 사기', '아주 비싸다. 족보에 이름을 올려 호적상 양반이 된다.', 25, P.st === 'sangmin' || P.st === 'jung', () => { P.st = 'yuhak'; P.exempt = true; P.honor += 3; P.docs.jokbo++; P.meth.push('족보'); return '몰락한 양반 집안의 족보에 우리 조상 이름을 끼워 넣었다. (📜 족보 카드)'; })); break;
+      card.opts.push(O('s_jokbo', '양반 가문의 족보 사기', '족보 매매: 돈이나 곡식으로. 족보에 이름을 올려 호적상 양반이 된다. (인정은 오르지 않는다)', 25, P.st === 'sangmin' || P.st === 'jungin', () => { P.st = 'yuhak'; P.exempt = true; P.docs.jokbo++; P.meth.push('족보 매매'); return '몰락한 양반 집안의 족보에 우리 조상 이름을 끼워 넣었다. (📜 족보 카드)'; }, 'a')); break;
     case 'luck': { const k = Math.floor(R() * 5); const B = [['흉년이 들었다', -3], ['전염병이 돌아 약값이 들었다', -2], ['불이 나서 집을 고쳤다', -4], ['빌려준 돈을 돌려받았다', 4], ['뒷산에서 산삼을 캤다!', 6]][k];
       card.title = k >= 3 ? '뜻밖의 행운' : '불운'; card.img = k >= 3 ? null : 'ev_bad'; add(B[0], B[1]);
       if(P.job === 'deokdae'){ if(pct(R, .4)) add('⛏ 광산 굴이 무너져 고쳤다', -8); else add('⛏ 광산에서 좋은 금맥을 찾았다', 6); }
+      { const se = statEvent(G, P); card.auto.push(['🎯 재주 기회: ' + se.t, 0], [se.line, 0]); }
+      { const b = bungdang(P, R, .35); if(b){ card.auto.push([b, 0]); card.title = '붕당 싸움'; } }
       break; }
-    case 'exam': card.title = '과거 시험장'; card.img = 'ev_exam'; card.txt = '과거 시험장에 선비들이 모여 있다.'; card.opts.push(optExam(G, P)); break;
+    case 'exam': card.title = '과거 시험장'; card.img = 'ev_exam'; card.txt = '과거는 **양인이면 누구나** 볼 수 있었다. 하지만 오래 공부할 시간과 책·노잣돈이 필요해, 날마다 일해야 하는 상민은 응시하기 어려웠다. 잡과 → 무과 → 문과 순으로 어렵다.' + (P.st === 'seol' && !seolMun(P) ? ' (서얼은 1779년 검서관 사건 전에는 문과를 볼 수 없다. 공명첩이나 납속으로 허통하면 볼 수 있다)' : ''); card.opts.push(optJapgwa(G, P), optMugwa(G, P), optMungwa(G, P)); break;
+    case 'buy': card.title = '공명첩·납속'; card.img = 'doc_gongmyeong'; card.txt = '나라 살림을 채우려고 **공명첩**(돈)을 팔고, **납속**(곡식)을 받는다. 족보 매매·족보 위조·호적 위조는 돈이나 곡식으로 할 수 있다. 모자라면 집이나 땅을 팔아 신분을 살 수도 있다.'; card.opts.push(...buyOpts(G, P)); break;
     case 'branch': return laneCard(G, P, card);
   }
   /* 같은 칸 이웃과 사돈 맺기 */
   const nb = others.find(q => q.pos === i && !q.done && i > 0 && i < LAST);
-  if(nb && S.t !== 'gen' && !P.wife) card.opts.push(O('x_marry', nb.fam + '와 사돈 맺기', isNobi(P.st) !== isNobi(nb.st) ? '노비와 양인의 혼인. ' + (P.pos >= 12 ? '1731년 뒤라 자식은 양인이 된다.' : '아직은 자식이 노비가 된다.') : '두 집안이 서로 기대어 산다. (두 집 모두 인정 +3)', 3, true,
-    () => { P.wife = true; P.wifeFree = !isNobi(nb.st); if(isNobi(P.st) !== isNobi(nb.st)) return nb.fam + '와 사돈이 되었다.' + (isNobi(P.st) && P.pos >= 12 ? ' 우리 아이는 양인으로 태어난다!' : ''); P.honor += 3; nb.honor += 3; cap(P); cap(nb); return nb.fam + '와 사돈을 맺었다. 두 집안 모두 이웃의 인정을 받는다.'; }));
+  if(nb && S.t !== 'gen' && !P.wife) card.opts.push(O('x_marry', nb.fam + '와 사돈 맺기', isNobi(P.st) !== isNobi(nb.st) ? '노비와 양인의 혼인. ' + (P.pos >= JONGMO_I ? '1731년 뒤라 자식은 양인이 된다.' : '아직은 자식이 노비가 된다.') : '두 집안이 서로 기대어 산다. (두 집 모두 인정 +3)', 3, true,
+    () => { P.wife = true; P.wifeFree = !isNobi(nb.st); if(isNobi(P.st) !== isNobi(nb.st)) return nb.fam + '와 사돈이 되었다.' + (isNobi(P.st) && P.pos >= JONGMO_I ? ' 우리 아이는 양인으로 태어난다!' : ''); P.honor += 3; nb.honor += 3; cap(P); cap(nb); return nb.fam + '와 사돈을 맺었다. 두 집안 모두 이웃의 인정을 받는다.'; }));
   card.opts = card.opts.filter(o => o.ok);
   return card;
 }
@@ -2196,6 +2364,27 @@ function laneCard(G, P, card){
   card.opts = card.opts.filter(o => o.ok);
   return card;
 }
+/* ---------- 공명첩·납속 칸: 신분을 사고, 자산을 판다 ---------- */
+function buyOpts(G, P){
+  const L = [];
+  const st = P.st;
+  L.push(O('b_gm', '공명첩 사기 (돈)', isNobi(st) ? '면천첩: 노비에서 벗어나 상민이 된다. (양반이 되려면 한 번 더 사야 한다)' : st === 'seol' ? '허통: 서얼도 문과를 볼 수 있다.' : '호적상 양반(유학)이 되고 군포를 안 낸다. (인정은 그대로)', 25,
+    isNobi(st) || st === 'sangmin' || st === 'jungin' || (st === 'seol' && !P.seolOK), () => { P.docs.gm++;
+      if(isNobi(st)){ setFree(P, '공명첩'); return '공명첩(면천첩)을 사서 노비에서 벗어났다! (📜 공명첩 카드)'; }
+      if(st === 'seol'){ P.seolOK = true; P.meth.push('공명첩 허통'); return '공명첩으로 허통되었다. 이제 서얼도 문과를 볼 수 있다! (📜 공명첩 카드)'; }
+      P.st = 'yuhak'; P.exempt = true; P.meth.push('공명첩'); return '공명첩에 가장의 이름을 적어 넣었다. 이제 호적에 「유학」으로 오른다! (📜 공명첩 카드)'; }, 'm'));
+  L.push(optNapsok(P));
+  L.push(O('b_jokbo', '족보 매매 (돈·곡식)', '몰락 양반 집안의 족보를 사서 이름을 올린다. 호적상 양반(유학)이 된다.', 30, st === 'sangmin' || st === 'jungin',
+    () => { P.st = 'yuhak'; P.exempt = true; P.docs.jokbo++; P.meth.push('족보 매매'); return '몰락 양반 집안의 족보에 우리 조상 이름을 올렸다. (📜 족보 카드)'; }, 'a'));
+  L.push(O('b_fake', '족보 위조 (돈·곡식, 성공 50%)', '가짜 족보를 만든다. 싸지만 들키면 벌금과 망신.', 15, st === 'sangmin' || st === 'jungin',
+    () => { if(pct(G.R, .5)){ P.st = 'yuhak'; P.exempt = true; P.docs.jokbo++; P.meth.push('족보 위조'); return '가짜 족보가 통했다! 호적에 「유학」으로 올랐다.'; } P.money -= 5; P.honor -= 5; cap(P); return '족보 위조가 들통났다! 벌금 5냥, 인정 −5.'; }, 'a'));
+  L.push(optBribe(G, P, P.pos));
+  L.push(O('e_sellHouse', '집 팔기 (' + HOUSE[P.house].n + ' → +' + HOUSE[P.house].v + '냥)', '집이 있을 때만 팔 수 있다. 팔면 집이 없어진다.', 0, P.house >= 1 && HOUSE[P.house].v > 0,
+    () => { const v = HOUSE[P.house].v; P.money += v; P.house = 0; return '집을 팔아 ' + v + '냥을 마련했다. 이제 집이 없다.'; }));
+  L.push(O('e_sellLand', '땅 팔기 (시세 룰렛, 최대 3마지기)', '땅값은 그때그때 다르다. 룰렛을 돌려 1마지기 값(2~7냥)이 정해진다.', 0, P.land > 0,
+    () => { const n = Math.min(3, P.land); const price = 2 + Math.floor(G.R() * 6); P.land -= n; P.money += n * price; P.lastLandPrice = price; return '시세 룰렛: 1마지기에 ' + price + '냥! 땅 ' + n + '마지기를 팔아 ' + n * price + '냥을 받았다.'; }));
+  return L.filter(o => o.ok);
+}
 /* 갈림길에 들어설 때 고를 길 */
 function laneChoices(P, i){
   const S = SP[i]; const z = ZONE_OF(i); const L = Object.keys(S.lanes).map(k => ({k, n:S.lanes[k].n, d:S.lanes[k].d}));
@@ -2207,7 +2396,7 @@ function enterLane(G, P, i, k){
   const z = ZONE_OF(i); P.lane[z] = k; const R = G.R; let m = '';
   if(z === 0 && k === 'a'){ P.monae = true; const w = weatherRoll(R); const v = w === 'good' ? 5 : w === 'normal' ? 3 : -2; P.money += v; m = '모내기법으로 바꾸었다. 이제 추수 때 수확이 두 배(가뭄엔 손해)! 올해 모내기 ' + WEATHER[w].ico + WEATHER[w].n + ' (' + (v > 0 ? '+' : '') + v + '냥)'; }
   if(z === 0 && k === 'b'){ P.money += 2; m = '옛 방식대로 농사를 지었다. (+2냥)'; }
-  if(z === 1 && k === 'a'){ P.s += 2; const v = Math.round((3 + G.R() * 5) * (P.job === 'bobusang' || P.job === 'gaekju' ? 1.5 : 1)); P.money += v; m = '지게를 지고 장삿길에 나섰다. (🪙 셈 +2, +' + v + '냥)'; }
+  if(z === 1 && k === 'a'){ P.s += 2; const v = Math.round((3 + G.R() * 5) * (P.job === 'bobusang' || P.job === 'gaekju' ? 1.5 : 1)); P.money += v; m = '지게를 지고 장삿길에 나섰다. (🧮 셈 +2, +' + v + '냥)'; }
   if(z === 1 && k === 'b'){ P.land += 3; P.h += 1; P.docs.land++; m = '거친 땅을 일구어(개간) 내 땅 3마지기를 얻었다. (📜 땅문서, 💪 +1)'; }
   if(z === 2 && k === 'a'){ P.g += 2; P.honor += 3; m = '책 읽는 소리가 들리는 길로 들어섰다. (📖 +2, 인정 +3)'; }
   if(z === 2 && k === 'b'){ P.money += 8; P.h += 1; m = '은광에서 품을 팔아 상평통보 8냥을 벌었다. (💪 +1)'; }
@@ -2229,17 +2418,43 @@ function checkDisguise(G, P){
 
 /* ---------- 대 잇기 STOP: ① 결산·유언 → ② 이을 자식 고르기 → ③ 재주 룰렛 → ④ 생업 고르기 ---------- */
 function gunpoOf(P, i){ return (P.st === 'sangmin' || P.st === 'jung') && !P.exempt ? Math.ceil(RULE.gunpo[i] / (P.st === 'jung' ? 2 : 1)) : 0; }
+function taxDue(P){ const i = Math.min(4 * ZPER, (Math.floor(P.pos / ZPER) + 1) * ZPER);
+  const t = gunpoOf(P, i) + (isNobi(P.st) ? (P.st === 'nobi_s' ? RULE.singong.s : RULE.singong.g) : 0) + (P.land > 0 ? Math.ceil(P.land / 4) + Math.ceil(P.land / 2) : 0);
+  return {tax:t, live:RULE.live + (RULE.face[P.st] || 0)}; }
 function settle(G, P){
   const L = []; const msgs = []; const i = P.pos;
-  L.push(['한 대 동안 먹고 산 돈', -RULE.live]);
-  if(RULE.face[P.st]) L.push(['체면 유지비 (손님 대접·제사)', -RULE.face[P.st]]);
-  const g = gunpoOf(P, i); if(g) L.push(['💰 군포 (' + (i <= 10 ? '2필' : i === 20 ? '1750년부터 1필' : '1필') + (P.st === 'jung' ? ', 중간층 절반' : '') + ')', -g]);
-  const sum = L.reduce((a, b) => a + b[1], 0); P.money += sum;
-  if(P.st === 'yangban' && P.money < 3){ P.honor -= 5; msgs.push('돈이 없어 제사와 손님 대접을 제대로 못 했다. 양반 체면이 깎였다. (인정 −5)'); }
-  if(P.money < 0 && P.land > 0){ let sold = 0; while(P.money < 0 && P.land > 0){ P.land--; P.money += 4; sold++; } msgs.push('빚을 갚으려고 땅 ' + sold + '마지기를 팔았다.'); }
-  if(P.money < 0 && P.house > 1){ P.house--; P.money += 6; msgs.push('빚 때문에 집을 줄여 ' + HOUSE[P.house].n + '으로 옮겼다.'); }
+  if(P.office){ const b = bungdang(P, G.R, .2); if(b) msgs.push(b); }
+  /* 1) 세금: 돈(상평통보)이나 곡식 어느 쪽으로도 낸다. 1석 = RULE.rice냥 */
+  const T = [];
+  const g = gunpoOf(P, i); if(g) T.push(['🧵 군포 (' + (i <= ZPER ? '2필' : i === 2 * ZPER ? '1750년부터 1필' : '1필') + ', 베 대신 돈·곡식)', -g, 'm']);
+  if(isNobi(P.st)) T.push(['⛓ 신공 (' + (P.st === 'nobi_s' ? '주인' : '관청') + '에게 바치는 몸값)', -(P.st === 'nobi_s' ? RULE.singong.s : RULE.singong.g), 'm']);
+  if(P.land > 0){ T.push(['🌾 전세 (영정법, 땅 4마지기마다 1)', -Math.ceil(P.land / 4), 'g'], ['🌾 대동미 (대동법, 땅 2마지기마다 1)', -Math.ceil(P.land / 2), 'g']); }
+  const R1 = RULE.rice; let pm = 0, pg = 0;
+  /* need: 갚을 양(냥). pref 'm'은 돈 먼저, 'g'는 곡식 먼저 */
+  const pay = (need, pref) => { const fromM = () => { const t = Math.min(Math.max(0, P.money), need); P.money -= t; pm += t; need -= t; };
+    const fromG = () => { const t = Math.min(P.grain || 0, Math.ceil(need / R1)); P.grain -= t; pg += t; need = Math.max(0, need - t * R1); };
+    if(pref === 'g'){ fromG(); fromM(); } else { fromM(); fromG(); } return need; };
+  let unpaid = 0; T.forEach(t => { unpaid += pay(-t[1], t[2]); L.push([t[0], t[1], 'a']); });
+  const tax = -T.reduce((x, t) => x + t[1], 0);
+  if(unpaid > 0){
+    P.money = 0; P.grain = 0; P.skip = 1; P.skipWhy = '⛓ 세금을 못 내 관아 옥에 갇혀'; P.jail = (P.jail || 0) + 1;
+    if(!isNobi(P.st)) P.honor -= 3;
+    msgs.push('⛓ **세금 ' + unpaid + '냥어치를 내지 못했다!** 관아가 가진 돈과 곡식을 모두 거둬 가고 가장을 **옥에 가두었다. 다음 차례 한 번 쉰다.**' + (isNobi(P.st) ? '' : ' (인정 -3)'));
+  } else if(tax) msgs.push('세금 ' + tax + '을(를) 다 냈다. (🪙 돈 ' + pm + '냥 · 🍚 곡식 ' + pg + '석)');
+  /* 2) 먹고 산 비용·체면 유지비: 돈 먼저, 모자라면 곡식 */
+  const E = [['🍚 한 대 동안 먹고 산 비용', -RULE.live]];
+  if(RULE.face[P.st]) E.push(['체면 유지비 (손님 대접·제사)', -RULE.face[P.st]]);
+  let short = 0; E.forEach(e => { if(!unpaid) short += pay(-e[1], 'm'); L.push([e[0], e[1], 'a']); });
+  if(unpaid) msgs.push('옥살이하는 동안 집안 살림은 이웃의 도움으로 겨우 버텼다.');
+  if(RULE.face[P.st]){ if(!short && !unpaid){ const v = isUpper(P.st) ? 3 : 1; P.honor += v; msgs.push('제사와 손님 대접을 정성껏 치러 체면을 지켰다. (인정 +' + v + ', 예절과 체면)'); }
+    else { P.honor -= 5; msgs.push('제사와 손님 대접을 제대로 못 해 체면을 잃었다. (인정 -5)'); } }
+  if(short > 0){ P.money -= short;
+    if(P.land > 0){ let sold = 0; while(P.money < 0 && P.land > 0){ P.land--; P.money += 4; sold++; } msgs.push('먹고 살 돈이 모자라 땅 ' + sold + '마지기를 팔았다.'); }
+    if(P.money < 0 && P.house > 1){ P.house--; P.money += 6; msgs.push('살림이 어려워 집을 줄여 ' + HOUSE[P.house].n + '으로 옮겼다.'); }
+    if(P.money < 0){ msgs.push('끼니를 거르며 겨우 한 대를 버텼다.'); P.money = 0; } }
   cap(P);
-  return {lines:L, sum, msgs, will:will(P)};
+  const sum = L.reduce((x, t) => x + t[1], 0);
+  return {lines:L, sum, msgs, will:will(P), jail:unpaid > 0};
 }
 function heirChoices(P){
   const L = P.kids.map((k, n) => ({k:'kid' + n, kid:k, n:(n + 1) + '째 자식', d:ST[k.st].n + (k.edu ? ' · 서당 ' + k.edu + '번' : ''), cost:0}));
@@ -2254,16 +2469,16 @@ function applyHeir(G, P, ch, R){
   const fk = JOBS[P.job].key; /* 가업으로 익힌 재주는 그대로, 나머지는 절반을 물려받는다 */
   ['g', 'h', 's'].forEach(k => P[k] = k === fk ? old[k] : Math.ceil(old[k] / 2));
   P.g += (kid.edu || 0) * 2; P.h += 1;
-  P.wife = false; P.wifeFree = false; P.kids = [];
-  if(P.pos === 30 && P.st === 'nobi_g'){ P.st = 'sangmin'; P.job = P.h >= 2 ? 'sojak' : 'pumpal'; P.rent = P.rent || 10; msgs.push('1801년, 나라에서 **공노비를 해방**했다. 우리 집안은 이제 양인이다!'); }
-  if(P.pos === 30 && P.st === 'nobi_s') msgs.push('1801년, 공노비가 해방되었다는 소문이 들렸다. 하지만 우리는 **사노비**라 그대로다.');
-  if(P.st === 'yuhak' && !P.disguise && P.honor < 30 && pct(R, .5)){ P.st = 'jung'; P.exempt = false; msgs.push('다음 호적에서 우리 집은 「유학」이 아니라 「교생」으로 내려 적혔다. 상층 직역을 지키기는 쉽지 않았다.'); }
+  P.wife = false; P.wifeFree = false; P.kids = []; if(P.office) msgs.push('🏛 벼슬은 가장 한 사람의 것이라, 새 가장은 다시 과거를 봐야 녹봉을 받는다.'); P.office = null; P.noPay = 0;
+  if(P.st === 'yuhak' && !P.disguise && P.honor < RULE.faceLine && pct(R, .5)){ P.st = 'sangmin'; P.exempt = false; msgs.push('📋 호적 심사: 인정이 체면선(30)보다 낮아, 새 호적에서 「유학」이 아니라 다시 **상민**(군역 대상)으로 적혔다. (김광오 사례)'); }
   if(P.st === 'yuhak' && P.honor >= RULE.promoteHonor){ P.st = 'yangban'; msgs.push('마을 양반들이 드디어 우리 집안을 **양반**으로 대하기 시작했다.'); }
-  if(P.st === 'yangban') P.honor += 2;
   if(P.job === 'sojak' && !P.rent) P.rent = 10;
   cap(P); return msgs;
 }
-function finishGen(P){ if(!JOBS[P.job].ok(P)) P.job = isUpper(P.st) ? 'seonbi' : P.st === 'nobi_s' ? 'oegeo' : P.st === 'nobi_g' ? 'gwanno' : P.land >= 3 ? 'jajak' : 'sojak';
+/* (나) 대 잇기 때마다 호적 심사: 3년마다 호적을 새로 만들었다 */
+function reviewCard(G, P){ const card = {title:'📋 호적 심사', ico:'📋', img:'ev_hojeok', txt:'호적은 3년마다 새로 만들었다. 새 가장의 이름과 직역(하는 일·신분)을 다시 적는 날이다. 아전에게 부탁하거나 곡식을 바칠 수 있다.', auto:[], opts:[]};
+  card.opts.push(optBribe(G, P, P.pos), optNapsok(P)); card.opts = card.opts.filter(o => o.ok); return card; }
+function finishGen(P){ if(!JOBS[P.job].ok(P)) P.job = isUpper(P.st) ? 'seonbi' : isNobi(P.st) ? 'oegeo' : P.land >= 3 ? 'jajak' : 'sojak';
   if(P.job === 'sojak' && !P.rent) P.rent = 10;
   P.runBlock = false; P.gen++; P.hist.push({g:P.gen, st:P.st, money:P.money, honor:P.honor, land:P.land, job:P.job, house:P.house}); }
 function will(P){
@@ -2283,18 +2498,18 @@ function waitSpin(P, R){ const v = 1 + Math.floor(R() * 6); let t;
   cap(P); return {v, t}; }
 
 /* ---------- 컴퓨터 이웃의 선택 ---------- */
-const AI_GOAL = {dolsoe:['m_free', 's_napsok'], maksun:['s_napsok', 'm_free'], kim:['e_land', 'j_jajak', 's_jung', 's_gm'], park:['s_jung', 's_gm', 's_jokbo'], lee:['j_gaekju', 'j_bobusang', 'e_house'], choi:['s_petition', 's_self', 'j_yeokgwan'], jeong:['s_self', 's_seowon', 'm_noble', 's_exam', 'e_land']};
+const AI_GOAL = {dolsoe:['m_free', 's_napsok', 's_sok', 'e_land'], maksun:['s_napsok', 's_sok', 'm_free'], kim:['e_land', 'j_jajak', 's_gm'], park:['s_gm', 's_jokbo'], lee:['j_gaekju', 'j_bobusang', 'e_house'], choi:['s_petition', 's_self', 's_japgwa', 'j_yeokgwan'], jeong:['s_self', 's_seowon', 'm_noble', 'e_land']};
 function aiPickOpt(P, opts, R){
-  const can = opts.filter(o => o.cost === 0 || o.cost <= P.money);
-  const pref = (AI_GOAL[P.card] || []).concat(['m_free', 'm_noble', 'x_marry', 's_napsok', 's_gm', 'j_gaekju', 's_petition', 's_jung', 's_jokbo', 's_bon', 'm_up', 'm_same', 's_seowon', 's_exam', 's_edu', 'j_yeokgwan', 'j_deokdae', 'j_jangin', 'j_bobusang', 'j_jajak', 'j_hunjang', 'e_house', 's_won', 's_self', 'e_land', 's_bribe', 'j_sojak', 'e_wage']);
-  const ranked = can.filter(o => (P.money - o.cost >= 3 || o.cost === 0) && pref.includes(o.id) && !(isUpper(P.st) && MERCH[o.id.slice(2)]) && !(P.card === 'lee' && P.job !== 'gaekju' && /s_gm|s_bribe|s_jokbo|s_napsok/.test(o.id))).sort((a, b) => pref.indexOf(a.id) - pref.indexOf(b.id));
+  const can = opts.filter(o => canPay(P, o));
+  const pref = (AI_GOAL[P.card] || []).concat(['b_gm', 'b_jokbo', 's_napsok', 'b_fake', 'm_free', 'm_noble', 'x_marry', 's_napsok', 's_sok', 's_mungwa', 's_mugwa', 's_japgwa', 's_gm', 'j_gaekju', 's_petition', 's_jokbo', 'm_up', 'm_same', 's_seowon', 's_edu', 'j_yeokgwan', 'j_deokdae', 'j_jangin', 'j_bobusang', 'j_jajak', 'j_hunjang', 'e_house', 's_won', 's_self', 'e_land', 's_bribe', 'j_sojak', 'e_wage']);
+  const ranked = can.filter(o => (o.cost === 0 || ((o.pay || 'm') === 'm' ? P.money - o.cost >= 3 : true)) && !/e_sell/.test(o.id) && pref.includes(o.id) && !(isUpper(P.st) && MERCH[o.id.slice(2)]) && !(P.card === 'lee' && P.job !== 'gaekju' && /s_gm|s_bribe|s_jokbo|s_napsok/.test(o.id))).sort((a, b) => pref.indexOf(a.id) - pref.indexOf(b.id));
   if(!ranked.length) return null;
   return R() < .75 ? ranked[0] : ranked[Math.floor(R() * ranked.length)];
 }
 function aiPickLane(P, L, R){ const z = ZONE_OF(P.pos); if(z === 1 && P.card === 'kim' && P.land < 3) return 'b'; if(z === 1 && P.card === 'lee') return 'a'; if(z === 2 && (P.card === 'jeong' || P.card === 'choi')) return 'a'; const sp = L.filter(l => l.k === 'run' || l.k === 'mask'); if(sp.length && R() < .5) return sp[0].k; if(L.some(l => l.k === 'c')) return R() < .5 ? 'c' : R() < .5 ? 'a' : 'b'; return R() < .6 ? 'a' : 'b'; }
 function aiPickHeir(P, L){ return L.slice().sort((a, b) => (isNobi(a.kid.st) - isNobi(b.kid.st)) || ((b.kid.edu || 0) - (a.kid.edu || 0)) || (a.cost - b.cost))[0]; }
-const UPG = {pumpal:['sojak', 'jangin', 'bobusang'], oegeo:['bobusang', 'sojak'], gwanno:['sojak'], sojak:['jajak', 'jangin'], jajak:[], bobusang:['gaekju'], jangin:['gaekju'], hunjang:['yeokgwan'], seonbi:[], deokdae:[], gaekju:[], yeokgwan:[]};
-function aiPickJob(P){ if(!JOBS[P.job].ok(P)) return ['jajak', 'sojak', 'hunjang', 'seonbi', 'oegeo', 'gwanno', 'pumpal'].find(k => JOBS[k].ok(P) && !(isUpper(P.st) && MERCH[k])) || 'pumpal';
+const UPG = {pumpal:['sojak', 'jangin', 'bobusang'], oegeo:['bobusang'], sojak:['jajak', 'jangin'], jajak:[], bobusang:['gaekju'], jangin:['gaekju'], hunjang:['yeokgwan'], seonbi:[], deokdae:[], gaekju:[], yeokgwan:[]};
+function aiPickJob(P){ if(!JOBS[P.job].ok(P)) return ['jajak', 'sojak', 'hunjang', 'seonbi', 'oegeo', 'pumpal'].find(k => JOBS[k].ok(P) && !(isUpper(P.st) && MERCH[k])) || 'pumpal';
   return (UPG[P.job] || []).find(k => JOBS[k].ok(P) && !(k === 'gaekju' && P.money < 18) && !(isUpper(P.st) && MERCH[k])) || P.job; }
 
 const ENDINGS = {
@@ -2309,7 +2524,7 @@ const ENDINGS = {
   freed:  {n:'사슬을 끊은 집', grade:'좋음', img:'end_freed', line:'증조할아버지의 이름 앞에 처음으로 성(姓)이 붙었다.',
            hist:'노비들은 군공·납속·도망으로 신분을 벗어났고, 노비종모법과 공노비 해방으로 노비의 수는 점차 줄었다. 단성현의 외거노비 수봉도 재산을 모아 곡식을 바치고(납속) 노비에서 벗어나 김해 김씨가 되었다.'},
   still:  {n:'여전히 노비', grade:'슬픔', img:'end_still', line:'공노비가 풀려났다는 소문도 우리 집 대문 앞에서 멈췄다.',
-           hist:'1801년에 해방된 것은 관청의 공노비였다. 개인이 가진 사노비는 1894년 갑오개혁 때에야 법으로 신분제가 없어졌다.'},
+           hist:'1801년에 해방된 것은 중앙 관청의 공노비였다. 지방 관아 노비와 개인이 가진 사노비는 1894년 갑오개혁 때에야 법으로 신분제가 없어졌다.'},
   mid:    {n:'사다리 중간에 선 집', grade:'보통', img:'end_mid', line:'군포를 내던 평민에서 「업유」·「교생」으로, 우리 집안은 사다리를 한 칸 올랐다.',
            hist:'평민들은 군역 부담을 줄이려고 업무·업유·교생 같은 중간 직역으로 올라갔다. 단성현 수봉의 후손 대부분이 중간층이 된 것도 노비에서 벗어난 지 약 한 세기 뒤였다(권내현, 2012).'},
   mask:   {n:'끝내 들키지 않은 비밀', grade:'아슬아슬', img:'end_mask', line:'우리 집안의 족보 첫 장에는 아무도 모르는 이야기가 숨어 있다.',
@@ -2321,28 +2536,27 @@ const ENDINGS = {
   ruin:   {n:'몰락', grade:'슬픔', img:'end_ruin', line:'땅을 잃은 우리 가족은 광산으로 품을 팔러 떠났다.',
            hist:'변화에 적응하지 못한 농민은 땅을 잃고 소작농·머슴이 되거나 도시·포구·광산의 임노동자가 되었다.'}
 };
-const END_ORDER = ['true', 'gate', 'freed', 'mask', 'rich', 'mid', 'paper', 'faded', 'plain', 'still', 'ruin'];
+const END_ORDER = ['true', 'gate', 'freed', 'mask', 'rich', 'paper', 'faded', 'plain', 'still', 'ruin'];
 function endingOf(P){
   const startNobi = isNobi(P.st0);
   if(isNobi(P.st)) return 'still';
   if(P.money <= 0 && P.land === 0 && P.st !== 'yangban' && !startNobi) return 'ruin';
   if(P.disguise && isUpper(P.st)) return 'mask';
-  if(isUpper(P.st) && P.honor >= RULE.trueHonor) return 'true';
+  if(isUpper(P.st) && (P.honor >= RULE.trueHonor || P.st === 'gwonse')) return 'true';
   if(startNobi) return 'freed';
-  if(P.st === 'seol' && P.geomseo) return 'gate';
+  if((P.st === 'seol' && P.geomseo) || P.st === 'jungin') return 'gate';
   if(P.st === 'yuhak') return 'paper';
-  if(P.st === 'yangban') return 'faded';
+  if(isNoble(P.st)) return 'faded';
   if(assets(P) >= 110 || P.land >= 20) return 'rich';
-  if(P.st === 'jung') return 'mid';
   if(P.money <= 0 && P.land === 0) return 'ruin';
   return 'plain';
 }
 
 /* ---------- 1858 호적 발표식: 종합 1등 · 부자상 · 인정상 · 사다리상 ---------- */
-const SCORE = {assetDiv:5, assetMax:12, rankPt:0, honorDiv:5, ladderPt:12, goalPt:20};
+const SCORE = {assetDiv:4, assetMax:12, rankPt:0, honorDiv:6, honorMax:20, ladderPt:10, goalPt:20, officePlus:1, freeEarly:10, freeMid:5};
 function scoreOf(P){
-  const c = CARDS.find(x => x.id === P.card); const A = assets(P); const climb = ST[P.st].rank - ST[P.st0].rank;
-  const parts = {asset:Math.max(0, Math.min(SCORE.assetMax, Math.round(A / SCORE.assetDiv))), rank:ST[P.st].rank * SCORE.rankPt, honor:Math.round(P.honor / SCORE.honorDiv), ladder:climb * SCORE.ladderPt, goal:c.goalOk(P) ? SCORE.goalPt : 0};
+  const c = CARDS.find(x => x.id === P.card); const A = assets(P); const climb = ST[P.st].rank - ST[P.st0].rank + (SCORE.officePlus && ((P.passGens && P.passGens.length) || P.geomseo) ? 1 : 0);
+  const parts = {asset:Math.max(0, Math.min(SCORE.assetMax, Math.round(A / SCORE.assetDiv))), rank:ST[P.st].rank * SCORE.rankPt, honor:Math.min(SCORE.honorMax, Math.round(P.honor / SCORE.honorDiv)), ladder:climb * SCORE.ladderPt, free:P.selfFree === 'early' ? SCORE.freeEarly : P.selfFree === 'mid' ? SCORE.freeMid : 0, goal:c.goalOk(P) ? SCORE.goalPt : 0};
   return {assets:A, climb, honor:P.honor, goalOk:c.goalOk(P), parts, total:Object.values(parts).reduce((a, b) => a + b, 0)};
 }
 function awards(players){
@@ -2354,10 +2568,10 @@ function awards(players){
 
 /* ---------- 한 칸씩 옮기기 (화면 없이 쓰는 엔진; 화면은 같은 함수를 단계별로 부른다) ---------- */
 function stepsPlan(P, steps){ let pos = P.pos; for(let k = 0; k < steps && pos < LAST; k++){ pos++; if(SP[pos].stop) break; } return pos; }
-function doOpt(P, o){ if(!o) return; P.money -= o.cost; o.run(P); P.picks.push(o.n); cap(P); }
+function doOpt(P, o){ if(!o) return; payCost(P, o); o.run(P); P.picks.push(o.n); cap(P); }
 function autoTurn(G, P, pol){
-  if(P.done){ if(G.players.some(q => !q.done)) waitSpin(P, G.R); return; }
-  if(P.skip){ P.skip--; return; }
+  if(P.done) return; /* A안: 먼저 도착해도 점수는 더 받지 않는다 */
+  if(P.skip){ P.skip--; P.skipWhy = ''; return; }
   let again = true, guard = 0;
   while(again && !P.done && !P.skip && guard++ < 5){ const r = oneMove(G, P, pol); again = r; }
 }
@@ -2371,21 +2585,22 @@ function oneMove(G, P, pol){
   const S = SP[P.pos];
   if(S.pay) passSpace(G, P, P.pos);
   if(S.stop || S.pass) checkDisguise(G, P);
-  if(S.t === 'gen'){ settle(G, P); const L = heirChoices(P); applyHeir(G, P, pol.heir(P, L), G.R); talentRoll(P, G.R); const j = pol.job(P); if(j !== P.job){ P.job = j; if(j === 'gaekju') P.meth.push('객주'); } finishGen(P); return false; }
+  if(S.t === 'gen'){ settle(G, P); const L = heirChoices(P); applyHeir(G, P, pol.heir(P, L), G.R); doOpt(P, pol.opt(P, reviewCard(G, P).opts, G.R)); talentRoll(P, G.R); const j = pol.job(P); if(j !== P.job){ P.job = j; if(j === 'gaekju') P.meth.push('객주'); } finishGen(P); return false; }
   if(S.t === 'finish'){ settle(G, P); P.done = true; return false; }
   doOpt(P, pol.opt(P, landCard(G, P, true).opts, G.R));
+  if(royalOffer(P)) royalAccept(P);
   return th.again && !S.stop;
 }
 const AI = {lane:aiPickLane, opt:aiPickOpt, heir:aiPickHeir, job:aiPickJob};
-function newGame(cards, R, move){ const G = {players:cards.map((c, k) => newPlayer(c, {idx:k})), move:move || 'dice', gm:{5:RULE.gmStock, 39:RULE.gmStock}, R, cur:0}; return G; }
-if(typeof module !== 'undefined') module.exports = {ST, CARDS, JOBS, JOB_ORDER, HOUSE, DOCS, SP, LAST, ZONES, ENDINGS, END_ORDER, RULE, SCORE, AI, newGame, newPlayer, autoTurn, endingOf, landCard, laneChoices, enterLane, passSpace, settle, heirChoices, applyHeir, finishGen, talentRoll, checkDisguise, aiPickOpt, aiPickLane, aiPickHeir, aiPickJob, throwDice, stepsPlan, isNobi, isUpper, ZONE_OF, WEATHER, assets, scoreOf, awards, waitSpin, jobOpts, will, throwYut, throwOf};
+function newGame(cards, R, move){ const G = {players:cards.map((c, k) => newPlayer(c, {idx:k})), move:'dice', gm:{[IDX('famine')]:RULE.gmStock}, R, cur:0}; return G; }
+if(typeof module !== 'undefined') module.exports = {taxDue, canPay, payCost, costTxt, buyOpts, royalOffer, royalAccept, seolMun, isNoble, canExam, GONGNO_I, reviewCard, OFFICE, ZPER, IDX, JONGMO_I, ST, CARDS, JOBS, JOB_ORDER, HOUSE, DOCS, SP, LAST, ZONES, ENDINGS, END_ORDER, RULE, SCORE, AI, newGame, newPlayer, autoTurn, endingOf, landCard, laneChoices, enterLane, passSpace, settle, heirChoices, applyHeir, finishGen, talentRoll, checkDisguise, aiPickOpt, aiPickLane, aiPickHeir, aiPickJob, throwDice, stepsPlan, isNobi, isUpper, ZONE_OF, WEATHER, assets, scoreOf, awards, waitSpin, jobOpts, will, throwYut, throwOf, statEvent, DIE_FACES};
 /* ============ 「사다리를 오르는 사람들」 ④ 인생게임판 화면 ============ */
 const VERSION = '판 2026-11-02 ④ 인생게임';
 const R = Math.random;
 let G = null, ROOM = null, FAST = false;
 const DEFAULT_W = Object.fromEntries(CARDS.map(c => [c.id, c.w]));
-const FBG = {nobi_s:'奴', nobi_g:'奴', sangmin:'民', jung:'中', seol:'庶', yuhak:'幼', yangban:'班'};
-const STC = {nobi_s:'#7a5a44', nobi_g:'#7a5a44', sangmin:'#4f8a5b', jung:'#3f7fb5', seol:'#6f5aa8', yuhak:'#d8b46a', yangban:'#b3241c'};
+const FBG = {jungin:'中', gwonse:'勢', nobi_s:'奴', nobi_g:'奴', sangmin:'民', jung:'中', seol:'庶', yuhak:'幼', yangban:'班'};
+const STC = {jungin:'#3f7fb5', gwonse:'#6b0f6b', nobi_s:'#7a5a44', nobi_g:'#7a5a44', sangmin:'#4f8a5b', jung:'#3f7fb5', seol:'#6f5aa8', yuhak:'#d8b46a', yangban:'#b3241c'};
 const sGong = () => tone([98,147,196], 1.6, 'sine', .15);
 const sCoin = () => tone([1318, 1760], .18, 'triangle', .06, .07);
 const sStop = () => tone([196, 147], .5, 'square', .06, .12);
@@ -2401,12 +2616,76 @@ const mine = P => NET.on ? P.uid === UID : P.human;
 function pic(name, glyph){ return '<div class="pic"><div class="fb">' + esc(glyph || '家') + '</div>' + (name ? '<img data-fb="1" data-name="' + esc(name) + '" alt="">' : '') + '</div>'; }
 function loadPics(root){ root.querySelectorAll('img[data-name]').forEach(im => loadImg(im, im.dataset.name)); }
 function show(id){ ['title', 'lobby', 'setup', 'game', 'ending', 'teacher'].forEach(s => $('#' + s).classList.toggle('hidden', s !== id)); }
-const pieceOf = st => isNobi(st) ? 1 : st === 'sangmin' ? 2 : (st === 'jung' || st === 'seol') ? 3 : 4;
+const pieceOf = st => isNobi(st) ? 1 : st === 'sangmin' ? 2 : (st === 'jung' || st === 'seol' || st === 'jungin') ? 3 : 4;
 const PIECE = {}; [1, 2, 3, 4].forEach(k => findImg('piece_' + k).then(u => { PIECE[k] = u; if(G && !$('#game').classList.contains('hidden')) renderTokens(); }));
 function tokHTML(P, cls){ const u = PIECE[pieceOf(P.st)];
   return '<span class="tok ' + (cls || '') + '" style="--c:' + P.color + '" title="' + esc(P.fam) + '">' + (u ? '<img src="' + u + '" alt="">' : '') + '<b>' + P.tk + '</b></span>'; }
 function pinsHTML(P){ return '<span class="pins">' + (P.wife ? '<i class="pin wife" title="아내"></i>' : '') + P.kids.map(k => '<i class="pin" style="background:' + STC[k.st] + '" title="자식 · ' + esc(ST[k.st].n) + '"></i>').join('') + '</span>'; }
 const statsTxt = P => STAT.g.ico + P.g + ' ' + STAT.h.ico + P.h + ' ' + STAT.s.ico + P.s;
+
+/* ================= 낱말 풀이 (학습지에 없는 말) ================= */
+const GLOSS = {
+  '외거노비':'주인집(관청) 밖에서 따로 살며 농사·장사를 하는 노비. 대신 해마다 몸값을 바쳐야 했다.',
+  '신공':'외거노비가 주인이나 관청에 해마다 바치는 몸값(베나 돈).',
+  '속량':'돈을 내고 노비 문서에서 이름을 빼서 양인이 되는 것.',
+  '일천즉천':'부모 중 한 사람만 노비여도 자식은 노비가 된다는 규칙. 노비종모법이 1731년에 확정되기 전까지는 대체로 이랬다(그 사이 몇 번 바뀌었다).',
+  '자작농':'자기 땅에서 농사짓는 농민. 소작농과 달리 수확을 땅 주인에게 나누지 않는다.',
+  '객주':'포구에서 남의 물건을 맡아 팔아 주고, 잠자리와 돈 빌려주기도 한 큰 상인.',
+  '덕대':'돈 많은 사람의 돈을 받아 광산을 운영하던 사람. 광산의 \'현장 사장\'.',
+  '역관':'통역을 맡은 관리. 잡과에 붙은 기술직 중인.',
+  '의관':'의사인 관리. 잡과에 붙은 기술직 중인.',
+  '잡과':'기술관(통역·의학·천문·법률)을 뽑는 과거.',
+  '출신':'무과에 붙은 사람을 부르는 말.',
+  '홍패':'문과 합격자가 받는 붉은 종이 합격증.',
+  '녹봉':'나라가 관리에게 주는 월급(쌀·베·돈).',
+  '균역법':'영조가 군포를 2필에서 1필로 줄인 법 (주제 9).',
+  '삼정':'나라 살림의 세 기둥(땅 세금·군포·환곡). 19세기에 걷는 일이 엉망이 되어 \'삼정의 문란\'이라 한다 (주제 11).',
+  '환곡':'나라가 봄에 곡식을 빌려주고 가을에 이자를 붙여 받던 제도. 나중에는 백성을 괴롭히는 세금처럼 변했다.',
+  '양자':'아들이 없을 때 친척의 아들을 데려와 대를 잇게 한 것.',
+  '서원':'양반이 세운 학교 겸 사당.',
+  '향약':'양반이 이끈 마을의 약속.',
+  '임노동자':'남의 일을 해 주고 품삯(돈)을 받아 사는 사람.',
+  '유학':'벼슬하지 않은 양반을 호적에 적던 이름. 학습지 생각하기 (가)에 나온다.',
+  '납속':'나라에 곡식이나 돈을 바치고 신분이나 명예 관직을 받는 것.',
+  '권세가':'대대로 높은 벼슬을 하며 나라의 큰 힘을 가진 집안.',
+  '영정법':'땅에 매기는 세금(전세)을 풍년·흉년에 상관없이 땅 1결에 쌀 4~6두로 정한 법 (인조, 1635).',
+  '대동법':'집집마다 바치던 특산물(공납)을 땅에 따라 쌀로 내게 한 법 (주제 7).',
+  '전세':'땅에 매기는 세금.',
+  '대동미':'대동법에 따라 내는 쌀. 게임에서는 돈으로 내도 된다.',
+  '상평통보':'조선 후기에 널리 쓰인 동전. 숙종 때(1678) 다시 만들어 전국에 퍼졌다. 게임 속 돈은 모두 상평통보(냥)다. 실제로는 쌀 1석 ≈ 5냥, 베 1필 ≈ 2냥 정도였지만 게임에서는 1석 = 1냥으로 단순하게 셈한다.',
+  '외척':'왕비의 친척. 왕실과 혼인한 집안은 큰 권세를 누렸다.',
+  '면천첩':'노비 신분에서 풀어 준다는 공명첩.',
+  '허통':'서얼에게도 과거와 벼슬길을 열어 주는 것.',
+  '석':'곡식의 양을 세는 단위.',
+  '붕당':'학문과 정치 생각이 같은 양반들의 무리. 서로 다투다 진 쪽은 벼슬에서 쫓겨나기도 했다 (주제 8).',
+  '유배':'죄를 지은 관리를 먼 지방이나 섬으로 보내 살게 한 벌.'
+};
+function glossFor(text){ const t = String(text || ''); const ks = Object.keys(GLOSS).filter(k => t.includes(k)); if(!ks.length) return '';
+  return '<details class="gloss"><summary>📖 낱말 풀이 (' + ks.length + ')</summary>' + ks.map(k => '<p><b>' + k + '</b> ' + esc(GLOSS[k]) + '</p>').join('') + '</details>'; }
+
+/* ================= ❓ 도움말 ================= */
+const TIPS = {
+  dolsoe:'목표: 양인이 되어 땅 3마지기 갖기. 각 대 후반부 🎫 공명첩·납속 칸에서 면천할 수 있다(곡식은 농사로 모으자). 1731년 전에 스스로(납속·속량·군공·도망) 벗어나면 자력 해방 +10점! 노비종모법 뒤 혼인 칸에서 「양인 집안의 딸과 혼인」해도 자식이 양인이 된다. 양인이 되면 추수 마당·집 짓기에서 땅을 사자.',
+  maksun:'1801년 공노비 해방(41칸) 전에 스스로 벗어나야 한다: 을병 대기근 납속(12냥), 장날·추수에서 속량(18냥), 💪7로 도적 떼를 물리친 군공, 2대 혼인에서 양인 집안 딸과 혼인.',
+  kim:'땅 3마지기: 2대 갈림길에서 「농삿길」(개간 +3마지기), 추수 마당·집 짓기 칸에서 땅 사기(12냥).',
+  park:'「유학」 되기: 🎫 공명첩·납속 칸(공명첩 25냥 / 납속 곡식 20석), 족보 매매(30냥·석), 호적 위조(15냥·석), 문과 급제. 땅이 많아 곡식이 잘 모인다. 인정이 30(체면선) 아래면 호적 심사에서 다시 상민이 될 수 있으니 서당·혼인으로 인정도 챙기자.',
+  lee:'객주: 🧮셈 6 + 15냥이 필요하다. 2대 갈림길 「장삿길」(셈 +2)과 장날 장사로 셈을 키우자. 양반이 되면 장사할 때 인정이 깎인다.',
+  choi:'서얼은 1779년 전에는 문과를 볼 수 없다. 🎫 공명첩·납속으로 허통하면 볼 수 있다. 검서관: 서당이나 노비종모법 칸에서 「서얼 집단 상소」를 올려 두면 1779년 검서관 칸에서 70% 확률로 뽑힌다. 📖6 이상이면 상소 없이도 30%. 잡과에 붙어 역관이 되는 길도 있다.',
+  jeong:'인정 70: 대 잇기마다 체면 비용을 내면 +3, 서원·향약(+6), 이름난 양반가 혼인(+12), 문과 급제(+20). 돈이 바닥나면 체면이 깎이니 생업도 챙기자.'
+};
+function helpHTML(tab){
+  const me = viewer(); const tabs = [['how', '게임 방법'], ['icons', '칸 아이콘'], ['screen', '화면 읽기'], ['tip', '목표 달성 팁'], ['score', '점수와 상'], ['words', '낱말 풀이']];
+  let body = '';
+  if(tab === 'how') body = '<ol class="hl"><li>🎲 <b>주사위</b>를 던진 만큼 말이 움직인다.</li><li><b>지나쳐도 적용</b>: ⛔ 역사 칸, 🏮 장날, 🌾 추수 마당, 👶 자식 칸은 <b>멈추지 않고 지나가기만 해도</b> 일이 생긴다.</li><li><b>멈춰야 적용</b>: 🏫 서당, 🏛 과거 시험장, 📜 족보 장수, 🏡 집 짓기, ☁ 운, 🏢 아전은 딱 멈춰야 카드가 나온다.</li><li><b>멈춤 칸</b>: 💍 혼인, 🕯 대 잇기, 🏁 도착은 주사위 수가 남아도 반드시 멈춘다.</li><li>한 대(구역)는 한 가장의 일생: 생업으로 돈을 벌고 → 혼인 → 자식 → 대 잇기(유언·결산·호적 심사) → 다음 대.</li><li><b>세금은 대마다 결산</b>: 💰 군포(상민) · ⛓ 신공(노비, 사노비 6냥·공노비 5냥) · 🌾 전세(영정법, 땅 4마지기마다 1석) · 🍚 대동미(대동법, 땅 2마지기마다 1석). 서얼·기술직 중인·유학·양반·권세가는 군포가 없다. 19세기 ⛔ 삼정의 문란은 양반·권세가는 피하고 노비까지 피해를 본다.</li><li>1858년에 모두 도착하면 <b>호적 발표식</b> → 마지막에 <b>4대 가장의 일기</b>를 쓴다.</li><li>판의 칸을 누르면 그 칸에서 무슨 일이 생기는지 미리 볼 수 있다.</li></ol>';
+  if(tab === 'icons') body = '<div class="icG">' + [['🏮', '장날', '지나쳐도 생업 수입'], ['🌾', '추수 마당', '지나쳐도 수확·생업 수입'], ['⛔', '역사 칸', '지나쳐도 사건 카드'], ['👶', '자식', '지나쳐도 아이가 태어남(혼인했다면)'], ['💍', '혼인', '멈춤 칸, 혼처 고르기'], ['🕯', '대 잇기', '멈춤 칸, 결산·자식 고르기·호적 심사'], ['🔀', '갈림길', '지나갈 때 길 고르기'], ['🎲', '역전의 장터', '크게 벌거나 크게 잃는 길'], ['🏫', '서당', '자식 공부, 글 배우기, 상소'], ['🏛', '과거 시험장', '잡과·무과·문과'], ['📜', '족보 장수', '족보 사기(유학)'], ['🏡', '집 짓기', '집 고치기, 땅 사기'], ['☁', '운', '불운·행운 + 재주 기회'], ['🏢', '아전의 방', '호적 위조, 납속'], ['🎫', '공명첩·납속', '신분 사기, 집·땅 팔기'], ['📣', '소문', '실제 인물 이야기'], ['🛑', '멈춤 표지판', '반드시 멈추는 칸']].map(([a, b, c]) => '<div><span>' + a + '</span><b>' + b + '</b><small>' + c + '</small></div>').join('') + '</div>';
+  if(tab === 'screen') body = '<ul class="hl"><li>🪙 돈 = <b>상평통보</b>(동전, 냥) · 🍚 곡식(석). <b>1석 = 1냥</b>으로 바꿔 셈한다. (실제 조선 후기에는 쌀 1석 ≈ 5냥, 베 1필 ≈ 2냥 정도였지만, 게임에서는 계산을 쉽게 하려고 1석 = 1냥으로 정했다.) · 🌾 내 땅(마지기) · 🏡 집 · 신분 칸. 땅 수확과 농사 일은 <b>곡식</b>으로 들어온다. 공명첩은 돈, 납속은 곡식, 족보·호적 위조는 돈이나 곡식으로 낸다.</li><li>📖 글 · 💪 힘 · 🧮 셈: 재주. 생업 조건, 과거, 재주 기회 이벤트에 쓰인다.</li><li><b>인정 막대</b>: 이웃 양반들이 우리 집을 양반처럼 대해 주는 정도(0~100). <b>노비는 인정을 쌓을 수 없고, 상민부터 쌓는다.</b> 인정이 꼭 필요한 신분은 기술직 중인·서얼·유학·양반·권세가다. 눈금 <b>30 체면선</b>(유학인데 이보다 낮으면 호적 심사에서 상민으로 내려 적힐 수 있다) · <b>55 양반 인정선</b>(유학이 이 선을 넘는 순간 <b>바로 양반</b>이 된다) · <b>75 명문가선</b></li><li>인정은 <b>배움</b>(서당·서원·훈장), <b>예절과 체면</b>(제사·손님 대접, 기와집, 양자), <b>혼인과 벼슬</b>(높은 집안과 혼인, 과거 급제, 검서관)으로 얻는다. 서얼과 양반은 서당에서 배움 효과가 2배다. 공명첩·족보·뇌물로 산 이름으로는 오르지 않는다.</li><li>말 옆의 작은 핀: 분홍 = 아내, 다른 색 = 자식(색이 그 자식의 신분)</li><li>📜 문서 카드: 땅문서·공명첩·속량 문서·족보·홍패</li></ul>';
+  if(tab === 'tip') body = (me ? '<p class="hl"><b>' + esc(me.fam) + '</b> 🎯 ' + esc(CARDS.find(c => c.id === me.card).goal) + '</p><p class="tipMe">' + esc(TIPS[me.card]) + '</p>' : '') + '<details><summary>다른 집안의 팁도 보기</summary>' + CARDS.map(c => '<p><b>' + esc(c.fam) + '</b> (' + esc(c.goal) + ') ' + esc(TIPS[c.id]) + '</p>').join('') + '</details>';
+  if(tab === 'score') body = '<p class="hl"><b>종합 점수 = 재산 + 인정 + 사다리 + 목표</b></p><ul class="hl"><li>재산: 총자산(돈 + 곡식 + 땅 1마지기 4냥 + 집값) ÷ 4, 최대 12점</li><li>인정: 인정 ÷ 6, 최대 20점</li><li>사다리: (1858년 신분 칸 − 1690년 신분 칸 + 무과·문과 급제나 검서관이면 1칸) × 10점. 양반이 3대 연속 급제하고 인정 70을 넘으면 왕실 혼인 → <b>외척 권세가</b>. 신분 칸: 사노비 0 · 공노비 1 · 상민 2 · 기술직 중인·서얼 3 · 유학 4 · 양반 5 · 권세가 6</li><li>목표: 목표 카드를 이루면 20점</li><li>자력 해방: 노비가 <b>스스로</b>(공명첩·납속·속량·군공·도망) 벗어나면 1731년 노비종모법 전 +10점, 1801년 공노비 해방 전 +5점. 노비종모법·공노비 해방으로 벗어나면 0점</li></ul><p class="hl">🏆 종합 1등 · 💰 부자상(총자산) · 🙇 인정상(인정) · 🪜 사다리상(가장 많이 오른 집). 먼저 도착해도 점수는 더 받지 않는다.</p>';
+  if(tab === 'words') body = '<div class="wordL">' + Object.keys(GLOSS).map(k => '<p><b>' + k + '</b> ' + esc(GLOSS[k]) + '</p>').join('') + '</div>';
+  return '<div class="hHead"><h2>❓ 도움말</h2><button class="tX" id="helpX" aria-label="닫기">✕</button></div><div class="hTabs">' + tabs.map(([k, n]) => '<button data-t="' + k + '"' + (k === tab ? ' class="on"' : '') + '>' + n + '</button>').join('') + '</div><div class="hBody">' + body + '</div>';
+}
+function openHelp(tab){ const b = $('#helpBox'); b.innerHTML = '<div class="hIn card">' + helpHTML(tab || 'how') + '</div>'; b.classList.remove('hidden');
+  b.querySelectorAll('.hTabs button').forEach(x => x.onclick = () => openHelp(x.dataset.t)); $('#helpX').onclick = () => b.classList.add('hidden'); b.onclick = e => { if(e.target === b) b.classList.add('hidden'); }; }
 
 /* ================= 준비 화면 (개인: 나 + 컴퓨터 이웃 3집) ================= */
 let SU = {move:'dice'};
@@ -2415,13 +2694,11 @@ function setupScreen(){
   const fixedMove = ROOM ? ROOM.move : null;
   $('#suInner').innerHTML = '<div class="tcHead"><h2 class="goldText">' + (ROOM ? '게임 준비 · 개인 대결' : '연습하기') + '</h2><button class="big" id="suBack">← 첫 화면</button></div>'
     + '<div class="panel navyCard"><p class="sub">🤖 나와 컴퓨터 이웃 3집이 함께 4대(1690~1858년) 인생길을 걷습니다.</p>'
-    + (fixedMove ? '<p class="sub">이동 도구: <b>' + (fixedMove === 'yut' ? '🪵 윷' : '🎲 주사위') + '</b> (선생님이 정함)</p>'
-      : '<h3>무엇을 던질까요?</h3><div class="seg" id="segMove"><button data-v="dice">🎲 주사위<small>1~6칸</small></button><button data-v="yut">🪵 윷<small>도·개·걸·윷·모, 윷·모는 한 번 더</small></button></div>')
+    + '<p class="sub">🎲 주사위(1~6)를 던져 움직입니다. 판은 4대(1690~1858년) 56칸입니다.</p>'
     + '<h3>' + (ROOM ? '학번과 이름' : '이름') + '</h3><div class="pRows"><div class="pRow"><span class="no">나</span>' + (ROOM ? '<input class="sid" inputmode="numeric" maxlength="5" placeholder="학번 30101">' : '<input class="sid hidden">') + '<input class="nm" maxlength="10" placeholder="이름"></div></div>'
     + '<p class="formMsg" id="suMsg"></p><div class="row"><button class="big primary" id="suGo">집안 카드 뽑기 →</button></div>'
     + '<p class="note">' + (ROOM ? '방 「' + esc(ROOM.code) + '」에 결과가 저장됩니다.' : '연습 모드: 결과가 저장되지 않습니다.') + '</p></div>';
   const me = ls.get('sd_me', null); const r0 = document.querySelector('.pRow'); if(me){ r0.querySelector('.sid').value = me.sid || ''; r0.querySelector('.nm').value = me.name || ''; }
-  document.querySelectorAll('#segMove button').forEach(b => { b.classList.toggle('on', b.dataset.v === SU.move); b.onclick = () => { SU.move = b.dataset.v; document.querySelectorAll('#segMove button').forEach(x => x.classList.toggle('on', x === b)); }; });
   document.querySelectorAll('.pRow .sid').forEach(i => i.oninput = () => { i.value = i.value.replace(/\D/g, '').slice(0, 5); });
   $('#suBack').onclick = () => show('title');
   $('#suGo').onclick = () => {
@@ -2429,7 +2706,7 @@ function setupScreen(){
     if(!p.name){ $('#suMsg').textContent = '이름을 입력하세요.'; return; } if(ROOM && !/^\d{5}$/.test(p.sid)){ $('#suMsg').textContent = '학번을 숫자 5자리로 입력하세요.'; return; }
     ls.set('sd_me', {...(ls.get('sd_me', {}) || {}), sid:p.sid, name:p.name});
     if(!AC){ try{ AC = new (window.AudioContext || window.webkitAudioContext)(); }catch(e){ AC = null; } } if(AC && AC.state === 'suspended') AC.resume();
-    drawCards([p], fixedMove || SU.move);
+    drawCards([p], 'dice');
   };
 }
 function pickCards(n){
@@ -2456,42 +2733,96 @@ function showCards(next){
 }
 
 /* ================= 판 그리기 ================= */
-const COLS = 10;
-const CELL = i => { const z = Math.floor((i - 1) / COLS), k = (i - 1) % COLS; return {r:z, c: z % 2 === 0 ? k : COLS - 1 - k}; };
-function tileHTML(i){ const S = SP[i];
-  return '<div class="tile t-' + S.t + (S.pass ? ' pass' : '') + (S.pay ? ' pay' : '') + (S.stop ? ' stop' : '') + '" id="sp' + i + '" title="' + esc(S.title || S.n) + '">'
+const COLS = 8;
+function tileHTML(i){ const S = SP[i]; const always = S.pass || S.pay;
+  return '<div class="tile t-' + S.t + (always ? ' pass' : '') + (S.stop ? ' stop' : '') + '" id="sp' + i + '">'
     + (S.stop ? '<span class="stopSign">멈춤</span>' : '') + '<span class="ic"><i class="fb">' + S.ico + '</i><img data-fb="1" data-name="' + esc(S.icon || '') + '" alt=""></span><span class="tn">' + esc(S.n) + '</span>'
-    + (S.y ? '<span class="yr">' + S.y + '</span>' : '') + '<span class="no">' + i + '</span><div class="toks"></div></div>'; }
+    + (S.y || S.yt ? '<span class="yr">' + (S.yt || S.y) + '</span>' : '') + (always ? '<span class="passTag">지나쳐도 적용</span>' : '') + '<span class="no">' + i + '</span><div class="toks"></div></div>'; }
 function buildBoard(){
-  let h = '<div class="bStart" id="sp0"><span class="ic"><i class="fb">🏠</i><img data-fb="1" data-name="icon_start" alt=""></span><b>출발 1690</b><div class="toks"></div></div>';
+  let h = '<div id="turnBanner" class="tb hidden"></div><div class="bStart" id="sp0"><span class="ic"><i class="fb">🏠</i><img data-fb="1" data-name="icon_start" alt=""></span><b>출발 1690</b><div class="toks"></div></div>';
   for(let z = 0; z < 4; z++){
-    h += '<div class="zRow z' + z + '" id="zr' + z + '"><div class="zLab"><b>' + (z + 1) + '대</b><span>' + esc(ZONES[z].king) + '</span><small>' + esc(ZONES[z].era) + '</small></div><div class="zTiles' + (z % 2 ? ' rev' : '') + '">';
-    const cells = Array(COLS);
-    for(let k = 1; k <= COLS; k++){ const i = z * COLS + k; cells[CELL(i).c] = tileHTML(i); }
-    h += cells.join('') + '</div></div>' + (z < 3 ? '<div class="zTurn ' + (z % 2 ? 'L' : 'R') + '"><i></i></div>' : '');
+    const row = a => { const out = []; const n = a ? ZPER - COLS : COLS; for(let k = 0; k < n; k++) out.push(tileHTML(z * ZPER + a * COLS + k + 1)); if(a){ out.push('<div class="tile ghost">' + (z < 3 ? '<span>▼</span>' : '') + '</div>'); out.reverse(); } return '<div class="zTiles">' + out.join('') + '</div>'; };
+    h += '<div class="zRow z' + z + '" id="zr' + z + '"><div class="zLab"><b>' + (z + 1) + '대</b><span>' + esc(ZONES[z].king) + '</span><small>' + esc(ZONES[z].era) + '</small></div><div class="zBody">' + row(0) + '<div class="zIn"><i></i></div>' + row(1) + '</div></div>'
+      + (z < 3 ? '<div class="zTurn"><i class="ladder"></i><span>▼ ' + (z + 2) + '대로 (대 잇기)</span></div>' : '');
   }
   $('#board').innerHTML = h; loadPics($('#board'));
   ZONES.forEach((Z, z) => findImg(Z.strip).then(u => { if(u){ const e = $('#zr' + z); if(e){ e.style.backgroundImage = 'linear-gradient(rgba(246,238,219,.35),rgba(246,238,219,.35)),url("' + u + '")'; e.classList.add('img'); } } }));
-  document.querySelectorAll('#board .tile, #sp0').forEach(t => t.onclick = () => peekTile(+t.id.slice(2)));
+  document.querySelectorAll('#board .tile, #sp0').forEach(t => t.onclick = e => { e.stopPropagation(); showTip(+t.id.slice(2)); });
 }
 function renderTokens(){
   document.querySelectorAll('#board .toks').forEach(t => t.innerHTML = '');
   G.players.forEach((P, k) => { const box = document.querySelector('#sp' + P.pos + ' .toks'); if(!box) return;
     box.insertAdjacentHTML('beforeend', '<span class="tw">' + tokHTML(P, (k === G.cur ? 'cur' : '') + (P.done ? ' done' : '')) + pinsHTML(P) + '</span>'); });
 }
-function peekTile(i){ const S = SP[i]; if(!S) return; toast((S.title || S.n) + (S.y ? ' (' + S.y + ')' : '') + (S.pass ? ' · 지나가도 카드' : '') + (S.pay ? ' · 지나가도 생업 수입' : '') + (S.stop ? ' · 반드시 멈춤' : '')); }
+/* ---------- 칸 미리보기 (누르면 열리고, 한 번 더 누르거나 ✕ 누르면 닫힘) ---------- */
+let TIP = -1;
+function viewer(){ if(!G) return null; if(NET.on) return G.players.find(P => P.uid === UID) || G.players[G.cur]; return G.players.find(P => P.human) || G.players[G.cur]; }
+const okTxt = (o, P) => (o.ok ? (canPay(P, o) ? '✅ ' : '🪙 부족 ') : '✖ ') + o.n.replace(/ · 붙을 확률.*/, '') + (o.cost ? ' (' + costTxt(o) + ')' : '');
+function tileInfo(i){
+  const S = SP[i]; const P = viewer(); const L = []; const add = t => L.push('<li>' + t + '</li>');
+  const tag = S.pass || S.pay ? '<span class="tTag on">지나쳐도 적용</span>' : S.stop ? '<span class="tTag stop">멈춤 칸</span>' : S.t === 'start' ? '' : '<span class="tTag">멈춰야 적용</span>';
+  switch(S.t){
+    case 'pay': add('지나가기만 해도: 생업 수입' + (S.kind === 'h' ? ', 내 땅 수확(날씨 따라), 자식 일손' : '') + ', 아내 길쌈, 녹봉(과거 합격자)');
+      add('딱 멈추면: <b>재주 기회</b> 이벤트(📖·💪·🧮 중 하나) + 생업 바꾸기' + (S.kind === 'h' ? ' · 땅 사기' : '') + ' · (노비) 속량'); break;
+    case 'event': add(fmt(String(S.txt || '').replace(/\*\*/g, ''))); add('지나가기만 해도 이 사건 카드를 받는다.'); break;
+    case 'branch': Object.values(S.lanes).forEach(l => add('<b>' + esc(l.n) + '</b>: ' + esc(l.d))); add('노비 집안에게는 샛길(도망·신분 세탁)이 열릴 때가 있다.'); break;
+    case 'marry': add('반드시 멈춘다. 혼처 카드 중에서 고른다: 같은 처지 집안(2냥) · 한 단계 높은 집안(8냥, 인정 30 이상) · 이름난 양반가(15냥, 유학·양반, 인정 55 이상) · (노비) 양인 집안 딸');
+      add('1731년(노비종모법) 뒤에 노비 가장이 양인 아내와 혼인하면 자식이 양인으로 태어난다.'); break;
+    case 'baby': add('혼인한 집이면 자식 1~2명이 태어난다(지나가도 적용). 자식 핀 색 = 자식의 신분.'); add('혼인하지 않았으면 자식이 없다 → 대 잇기 때 양자를 들여야 한다.'); break;
+    case 'house': add('집 고치기: 집 없음 → 움막(2냥) → 초가(8냥) → 큰 초가(12냥) → 기와집(20냥, 인정 +5). 노비도 기와집을 지을 수 있다. 집값은 총자산에 들어간다.'); add('땅 3마지기 사기(12냥).'); break;
+    case 'school': add('자식들 서당 보내기(5냥): 다음 가장 📖+2, 인정 +5 · 가장이 글 배우기(3냥): 📖+2 · 서원 원생(상민) · 서얼 집단 상소'); break;
+    case 'jokbo': add('몰락 양반 집안의 족보 사기(25냥, 상민): 호적상 양반(유학)이 된다. 돈으로 산 이름이라 인정은 오르지 않는다.'); break;
+    case 'exam': add('양인이면 누구나 볼 수 있지만 시간과 돈이 든다. 잡과 → 무과 → 문과 순으로 어렵다.');
+      add('잡과(4냥, 📖4): 30~50%, 상민은 기술직 중인이 되고 녹봉 4냥 · 무과(6냥, 💪5): 15~40%, 군포 면제·녹봉 4냥 · 문과(10냥, 📖7): 5~20%, 양반·녹봉 6냥'); add('양반이 아니면 무과·문과 합격률이 낮다. 서얼은 1779년 검서관 사건 전에는 <b>문과</b>를 볼 수 없다(공명첩·납속으로 허통하면 가능). 양반이 3대 연속 급제하고 인정 70 이상이면 <b>왕실 혼인</b> 제안이 온다.'); break;
+    case 'luck': add('불운(흉년·전염병·불) 또는 행운(빌려준 돈·산삼)이 나온다. 양반·권세가는 <b>붕당 싸움</b>에 져서 지방으로 쫓겨날 수도 있다.'); add('그리고 <b>재주 기회</b> 이벤트가 하나 나온다.'); break;
+    case 'office': add('호적 위조(15냥·석, 55%, 들키면 벌금·인정 −5) · 납속(곡식 20석)'); break;
+    case 'buy': add('공명첩(돈 25냥): 노비 → 상민 / 상민·기술직 중인 → 유학 / 서얼 → 허통(문과 응시 자격)'); add('납속(곡식 20석): 같은 효과. 노비는 공명첩·납속으로 상민이 된 뒤 <b>한 번 더</b> 사야 유학이 된다.'); add('족보 매매(30냥·석) · 족보 위조(15냥·석, 50%) · 호적 위조(15냥·석, 55%)'); add('돈이 모자라면: 집 팔기(집이 있을 때) · 땅 팔기(시세 룰렛 1마지기 2~7냥)'); break;
+    case 'rumor': add(fmt(String(S.txt || '').replace(/\*\*/g, ''))); break;
+    case 'gen': add('반드시 멈춘다. 한 대의 결산(먹고 산 비용·체면 비용·<b>세금</b>: 군포(상민)·신공(노비)·전세와 대동미(땅 있는 집). 세금은 <b>돈이나 곡식</b>(1석 = 1냥)으로 내고, <b>못 내면 옥에 갇혀 한 번 쉰다</b>) → 유언 → 대를 이을 자식 고르기 → <b>호적 심사</b> → 새 가장의 재주 룰렛 → 생업 고르기'); if(S.y === 1801) add('바로 앞 칸이 1801년 공노비 해방'); break;
+    case 'finish': add('4대 마지막 결산 뒤 도착. 모두 도착하면 1858년 호적 발표식!'); add('먼저 도착해도 점수를 더 받지는 않는다.'); break;
+    case 'start': add('1690년, 여기에서 출발한다.'); break;
+  }
+  let mine = '';
+  if(P){ let os = [];
+    if(S.t === 'exam') os = [optJapgwa(G, P), optMugwa(G, P), optMungwa(G, P)];
+    if(S.t === 'marry') os = marryOpts(P);
+    if(S.t === 'office') os = [optBribe(G, P, i), optNapsok(P)];
+    if(S.t === 'buy') os = buyOpts(G, P);
+    if(S.t === 'jokbo') os = [O('s_jokbo', '족보 사기', '', 25, P.st === 'sangmin')];
+    if(S.t === 'school') os = [optEdu(P), optSelf(P), optWon(P), optPetition(P)];
+    if(S.t === 'house') os = [optHouse(P), optLand(P)];
+    if(os.length) mine = '<div class="tMine"><b>' + esc(P.fam) + '가 지금 멈추면</b><ul>' + os.map(o => '<li>' + esc(okTxt(o, P)) + '</li>').join('') + '</ul></div>'; }
+  return '<div class="tHead"><span class="ic2">' + S.ico + '</span><b>' + esc(S.title || S.n) + '</b>' + (S.y ? '<small>' + S.y + '년</small>' : S.yt ? '<small>' + S.yt + '</small>' : '') + '<button class="tX" id="tipX" aria-label="닫기">✕</button></div>' + tag + '<ul>' + L.join('') + '</ul>' + mine;
+}
+function showTip(i){
+  const box = $('#tipPop'); if(TIP === i && !box.classList.contains('hidden')){ hideTip(); return; }
+  TIP = i; box.innerHTML = tileInfo(i); box.classList.remove('hidden');
+  const r = $('#sp' + i).getBoundingClientRect(); const W = Math.min(340, innerWidth - 24); box.style.width = W + 'px';
+  let x = r.left + r.width / 2 - W / 2; x = Math.max(12, Math.min(innerWidth - W - 12, x)); let y = r.bottom + 8; const h = box.offsetHeight; if(y + h > innerHeight - 8) y = Math.max(8, r.top - h - 8);
+  box.style.left = x + 'px'; box.style.top = y + 'px'; $('#tipX').onclick = e => { e.stopPropagation(); hideTip(); };
+}
+function hideTip(){ TIP = -1; const b = $('#tipPop'); if(b) b.classList.add('hidden'); }
+/* ---------- 차례 띠 ---------- */
+function setBanner(kind, P){
+  const b = $('#turnBanner'); if(!b) return; b.className = 'tb ' + kind; const side = $('#side');
+  if(kind === 'me'){ b.innerHTML = '🎲 <b>내 차례!</b> ' + esc(P.fam) + ' · 주사위를 던지세요'; sGood(); side.classList.remove('notMine'); }
+  else if(kind === 'other'){ b.innerHTML = '⏳ 지금은 <b>' + esc(P.who ? P.who.name : '') + '(' + esc(P.fam) + ')</b> 차례예요. 기다려 주세요'; side.classList.add('notMine'); }
+  else if(kind === 'ai'){ b.innerHTML = '🤖 컴퓨터 이웃 <b>' + esc(P.fam) + '</b> 차례'; side.classList.add('notMine'); }
+  else { b.className = 'tb hidden'; side.classList.remove('notMine'); }
+}
 function pathPreview(a, b){ document.querySelectorAll('.tile.path').forEach(t => t.classList.remove('path')); for(let i = a + 1; i <= b; i++){ const t = $('#sp' + i); if(t) t.classList.add('path'); } }
 function renderSide(){
+  G.players.forEach(Q => { if(Q.flash){ toast(Q.fam + ': ' + Q.flash.replace(/\*\*/g, ''), 5000); log(Q.fam + ': ' + Q.flash); sGood(); Q.flash = ''; } });
   const P = G.players[G.cur];
   $('#turnBox').innerHTML = tokHTML(P, 'tokL') + '<div><small>' + (P.done ? '도착한 집 · 기다리는 중' : P.human ? '차례' : '컴퓨터 차례') + '</small><b>' + esc(P.fam) + (P.human ? ' · ' + esc(P.who.name) : '') + '</b><small>' + P.gen + '대 가장 · ' + esc(ZONES[ZONE_OF(P.pos)].king) + ' 때</small></div>';
   $('#pList').innerHTML = G.players.map((Q, k) => { const c = CARDS.find(x => x.id === Q.card); const ok = c.goalOk(Q); const J = JOBS[Q.job];
     const docs = Object.keys(DOCS).filter(d => Q.docs[d]).map(d => '<span class="doc" title="' + DOCS[d].n + '">📜' + DOCS[d].n + (Q.docs[d] > 1 ? '×' + Q.docs[d] : '') + '</span>').join('');
     return '<div class="pc' + (k === G.cur ? ' cur' : '') + (Q.done ? ' fin' : '') + '"><div class="pcH">' + tokHTML(Q) + '<b>' + esc(Q.fam) + '</b>' + pinsHTML(Q) + '<small>' + esc(Q.human ? Q.who.name : '컴퓨터') + (Q.done ? ' · 도착' : ' · ' + Q.gen + '대') + '</small></div>'
-      + '<div class="pcS"><span>💰 <b>' + Q.money + '</b>냥</span><span>🌾 <b>' + Q.land + '</b>' + (Q.job === 'sojak' && Q.rent ? '<small>+' + Q.rent + '</small>' : '') + '</span><span>🏡 ' + HOUSE[Q.house].n + '</span><span class="st" style="border-color:' + STC[Q.st] + '">' + esc(ST[Q.st].n) + '</span></div>'
+      + '<div class="pcS"><span title="상평통보">🪙 <b>' + Q.money + '</b>냥</span><span>🍚 <b>' + (Q.grain || 0) + '</b>석</span><span>🌾 <b>' + Q.land + '</b>' + (Q.job === 'sojak' && Q.rent ? '<small>+' + Q.rent + '</small>' : '') + '</span><span>🏡 ' + HOUSE[Q.house].n + '</span><span class="st" style="border-color:' + STC[Q.st] + '">' + esc(ST[Q.st].n) + '</span>' + (Q.done ? '' : (() => { const d = taxDue(Q); return '<span class="due" title="다음 대 잇기 칸에서 낼 것 (돈·곡식 합쳐서)">🧾 다음 결산: 세금 <b>' + d.tax + '</b> + 살림 ' + d.live + '</span>'; })()) + '</div>'
       + '<div class="pcS small"><span>' + J.ico + ' ' + esc(J.n) + '</span><span>' + statsTxt(Q) + '</span><span>총자산 ' + assets(Q) + '</span></div>'
-      + '<div class="pcB"><i style="width:' + clamp(Q.honor, 0, 100) + '%"></i><s class="m55"></s><s class="m75"></s><em>인정 ' + Q.honor + '</em></div>'
+      + '<div class="pcB"><i style="width:' + clamp(Q.honor, 0, 100) + '%"></i><s class="m30" title="30 체면선"></s><s class="m55" title="55 양반 인정선"></s><s class="m75" title="75 명문가선"></s><em>인정 ' + Q.honor + '</em></div>'
       + '<div class="pcG' + (ok ? ' ok' : '') + '">' + (ok ? '✓ ' : '🎯 ') + esc(c.goal) + '</div>'
-      + '<div class="pcF">' + docs + [Q.monae && '모내기', (Q.exempt || isUpper(Q.st)) && '군포 면제', Q.petition && '상소', Q.geomseo && '검서관', Q.passed && '급제', Q.disguise && Q.human && '🎭비밀', Q.skip && '쉬는 중'].filter(Boolean).map(x => '<span>' + x + '</span>').join('') + '</div></div>'; }).join('');
+      + '<div class="pcF">' + docs + [Q.monae && '모내기', (Q.exempt || isUpper(Q.st)) && '군포 면제', Q.office && '🏛 ' + OFFICE[Q.office].n, Q.petition && '상소', Q.geomseo && '검서관', Q.passed && '급제', Q.disguise && Q.human && '🎭비밀', Q.skip && '쉬는 중'].filter(Boolean).map(x => '<span>' + x + '</span>').join('') + '</div></div>'; }).join('');
 }
 function log(t){ G.logs.unshift(t); $('#log').innerHTML = G.logs.slice(0, 14).map(x => '<p>' + fmt(x) + '</p>').join(''); }
 function floatMoney(P, v){ if(!v) return; const k = G.players.indexOf(P); const card = document.querySelectorAll('#pList .pc')[k]; if(!card) return;
@@ -2501,10 +2832,10 @@ function floatMoney(P, v){ if(!v) return; const k = G.players.indexOf(P); const 
 let modalCB = null;
 function modal(html, cls){ const m = $('#modal'); m.classList.remove('hidden'); const b = $('#mBox'); b.className = 'mBox card ' + (cls || ''); b.innerHTML = html; b.scrollTop = 0; loadPics(b); }
 function closeModal(){ $('#modal').classList.add('hidden'); }
-function lineRows(L){ return L.length ? '<table class="ledger on"><tbody>' + L.map(([t, v]) => '<tr class="on"><td>' + fmt(t) + '</td><td class="v ' + (v > 0 ? 'p' : v < 0 ? 'm' : '') + '">' + (v ? (v > 0 ? '+' : '') + v + '냥' : '') + '</td></tr>').join('') + '</tbody></table>' : ''; }
+function lineRows(L){ return L.length ? '<table class="ledger on"><tbody>' + L.map(([t, v, u]) => '<tr class="on"><td>' + fmt(t) + '</td><td class="v ' + (v > 0 ? 'p' : v < 0 ? 'm' : '') + '">' + (v ? (v > 0 ? '+' : '') + v + (u === 'g' ? '석' : u === 'a' ? '냥·석' : '냥') : '') + '</td></tr>').join('') + '</tbody></table>' : ''; }
 const kicker = P => esc(P.fam) + ' · ' + P.gen + '대 가장 · ' + esc(ZONES[ZONE_OF(P.pos)].king) + ' 때' + (SP[P.pos].y ? ' · ' + SP[P.pos].y + '년' : '');
-function optsHTML(opts, P, pass){ return '<div class="opts">' + opts.map((o, k) => { const can = o.cost === 0 || o.cost <= P.money;
-    return '<button class="opt" data-k="' + k + '"' + (can ? '' : ' disabled') + '><span class="k">' + (k + 1) + '</span><span class="cost' + (o.cost ? '' : ' free') + '">' + (o.cost ? o.cost + '냥' + (can ? '' : ' (부족)') : '돈 안 듦') + '</span><b>' + esc(o.n) + '</b><small>' + fmt(o.d) + '</small></button>'; }).join('')
+function optsHTML(opts, P, pass){ return '<div class="opts">' + opts.map((o, k) => { const can = canPay(P, o);
+    return '<button class="opt" data-k="' + k + '"' + (can ? '' : ' disabled') + '><span class="k">' + (k + 1) + '</span><span class="cost' + (o.cost ? '' : ' free') + '">' + (o.cost ? costTxt(o) + (can ? '' : ' (부족)') : '돈 안 듦') + '</span><b>' + esc(o.n) + '</b><small>' + fmt(o.d) + '</small></button>'; }).join('')
     + (pass ? '<button class="opt pass" data-k="-1"><span class="k">0</span><b>' + esc(pass) + '</b><small>아무것도 하지 않는다.</small></button>' : '') + '</div>'; }
 function pickFrom(sel){ return new Promise(res => { document.querySelectorAll(sel).forEach(b => b.onclick = () => { if(!b.disabled) res(+b.dataset.k); }); modalCB = n => { const b = document.querySelector(sel + '[data-k="' + n + '"]'); if(b && !b.disabled) res(n); }; }); }
 async function cardFlow(P, card, extraLines){
@@ -2513,27 +2844,44 @@ async function cardFlow(P, card, extraLines){
     + (card.txt ? '<p>' + fmt(card.txt) + '</p>' : '') + (card.tie ? '<span class="tie">학습지 연결: ' + esc(card.tie) + '</span>' : '')
     + (card.voice ? '<div class="voice">' + fmt(card.voice) + '</div>' : '') + (card.rumor ? '<div class="newsMsg">📣 <b>소문</b>: ' + fmt(card.rumor) + '</div>' : '') + lineRows(auto) + '</div></div>';
   const opts = card.opts;
+  const gl = glossFor([card.title, card.txt, card.voice, card.rumor].concat(auto.map(x => x[0]), opts.map(o => o.n + ' ' + o.d)).join(' '));
+  if(gl) { /* 낱말 풀이를 카드 아래에 */ }
   if(card.stopSign) sStop();
   if(P.ai){
     const o = aiPickOpt(P, opts, R);
-    modal(head + (o ? '<p class="aiPick">🤖 ' + esc(P.fam) + '의 결심: <b>' + esc(o.n) + '</b></p>' : '') + '<div class="btnRow"><button class="btn" id="mOk">계속 →</button></div>', 'ai');
-    let msg = ''; if(o){ P.money -= o.cost; msg = o.run(P); P.picks.push(o.n); }
+    modal(head + gl + (o ? '<p class="aiPick">🤖 ' + esc(P.fam) + '의 결심: <b>' + esc(o.n) + '</b></p>' : '') + '<div class="btnRow"><button class="btn" id="mOk">계속 →</button></div>', 'ai');
+    let msg = ''; if(o){ payCost(P, o); msg = o.run(P); P.picks.push(o.n); }
     if(msg) $('#mBox').insertAdjacentHTML('beforeend', '<div class="newsMsg">' + fmt(msg) + '</div>');
     renderSide(); renderTokens();
     await Promise.race([new Promise(r => $('#mOk').onclick = r), sleep(FAST ? 700 : 2600)]);
     closeModal(); if(o) log(P.fam + ': ' + o.n); return;
   }
-  if(!opts.length){ modal(head + '<div class="btnRow"><button class="btn" id="mOk">계속 →</button></div>'); renderSide(); await new Promise(r => $('#mOk').onclick = r); closeModal(); return; }
-  modal(head + '<h3 class="optQ">어떻게 할까?</h3>' + optsHTML(opts, P, '그냥 지나가기'));
+  if(!opts.length){ modal(head + gl + '<div class="btnRow"><button class="btn" id="mOk">계속 →</button></div>'); renderSide(); await new Promise(r => $('#mOk').onclick = r); closeModal(); return; }
+  modal(head + '<h3 class="optQ">어떻게 할까?</h3>' + optsHTML(opts, P, '그냥 지나가기') + gl);
   renderSide();
   const k = await pickFrom('#mBox .opt'); modalCB = null;
-  if(k >= 0){ const o = opts[k]; P.money -= o.cost; const msg = o.run(P); P.picks.push(o.n); log(P.fam + ': ' + o.n);
+  if(k >= 0){ const o = opts[k]; payCost(P, o); const msg = o.run(P); P.picks.push(o.n); log(P.fam + ': ' + o.n);
+    if(o.id === 'e_sellLand') await landRoulette(P.lastLandPrice);
     const up = /풀려|양인|유학|양반으로|검서관|합격|되었다|사돈|혼인|들어갔다/.test(msg); (up ? sGood : /들켜|붙잡|실패|잃었|낙방|수군/.test(msg) ? sBad : sPage)();
     $('#mBox').innerHTML = head + '<div class="myPick">✔ ' + esc(o.n) + '</div><div class="newsMsg">' + fmt(msg) + '</div><div class="btnRow"><button class="btn" id="mOk">계속 →</button></div>'; loadPics($('#mBox'));
     renderSide(); renderTokens(); await new Promise(r => $('#mOk').onclick = r); }
   closeModal();
 }
 document.addEventListener('keydown', e => { if(modalCB && /^[0-9]$/.test(e.key)) modalCB(+e.key - 1); });
+async function landRoulette(price){
+  const box = document.createElement('div'); box.className = 'landRoul'; $('#mBox').appendChild(box);
+  for(let n = 0; n < 14; n++){ box.innerHTML = '🎡 땅 시세 룰렛: 1마지기 <b>' + (2 + Math.floor(R() * 6)) + '냥</b>'; sTick(); await sleep(60 + n * 10); }
+  box.innerHTML = '🎡 땅 시세 룰렛: 1마지기 <b>' + price + '냥</b>!'; sCoin();
+}
+async function royalFlow(P){
+  if(!royalOffer(P)) return;
+  if(P.ai){ const m = royalAccept(P); log(P.fam + ': ' + m); toast(P.fam + ' · 왕실과 혼인해 권세가가 되었다'); renderSide(); return; }
+  modal('<div class="kick">' + esc(P.fam) + '</div><h2>👑 왕실에서 혼인 이야기가 왔다!</h2><p>3대 연속 과거에 급제하고 이웃의 큰 인정을 받는 우리 집안에, 왕실이 혼인을 청했다. 왕실과 혼인하면 왕비의 친척인 <b>외척</b>이 되어 <b>권세가</b>가 된다.</p><div class="opts"><button class="opt" data-k="0"><span class="k">1</span><b>👑 혼인하겠다</b><small>외척이 되어 권세가로 오른다. (인정 +10)</small></button><button class="opt pass" data-k="1"><span class="k">2</span><b>사양하겠다</b><small>지금 그대로 양반으로 지낸다.</small></button></div>');
+  const k = await pickFrom('#mBox .opt'); modalCB = null;
+  if(k === 0){ const m = royalAccept(P); sGood(); log(P.fam + ': ' + m); $('#mBox').innerHTML = '<h2>👑 외척, 권세가가 되다</h2><div class="newsMsg">' + fmt(m) + '</div><div class="btnRow"><button class="btn" id="mOk">계속 →</button></div>'; await new Promise(r => $('#mOk').onclick = r); }
+  else { P.royalAsked = true; }
+  closeModal(); renderSide(); renderTokens();
+}
 async function laneFlow(P, i){
   const L = laneChoices(P, i); let k;
   if(P.ai){ k = aiPickLane(P, L, R); }
@@ -2572,7 +2920,7 @@ function incTxt(J){ const v = x => x === 'trade' ? '4~16냥(장사)' : x === 'tr
 async function genFlow(P){
   const r = settle(G, P); sGong();
   modal('<div class="stopStamp">멈춤</div><div class="mGrid">' + pic('gen_' + Math.min(4, P.gen + 1), '代') + '<div><div class="kick">' + kicker(P) + '</div><h2>🕯 ' + P.gen + '대 가장의 마지막 날</h2>'
-    + '<div class="will">"' + esc(r.will) + '"</div>' + lineRows(r.lines) + '<p style="text-align:right;font-weight:900">한 대 결산 ' + (r.sum > 0 ? '+' : '') + r.sum + '냥</p>'
+    + '<div class="will">"' + esc(r.will) + '"</div>' + lineRows(r.lines) + '<p style="text-align:right;font-weight:900">한 대 결산 ' + r.sum + ' <small>(🪙 냥이나 🍚 석으로, 게임에서는 1석 = ' + RULE.rice + '냥)</small></p>' + (r.jail ? '<div class="jailBox">⛓ 관아 옥에 갇힘 · 한 번 쉰다</div>' : '')
     + r.msgs.map(m => '<div class="newsMsg">' + fmt(m) + '</div>').join('') + '<div class="btnRow"><button class="btn" id="mOk">대를 이을 자식 고르기 →</button></div></div></div>');
   renderSide(); log(P.fam + ': ' + P.gen + '대 마무리');
   await Promise.race([new Promise(res => $('#mOk').onclick = res), wait(P, 2600)]);
@@ -2584,6 +2932,7 @@ async function genFlow(P){
   const msgs = applyHeir(G, P, ch, R);
   if(msgs.length && (!P.ai || !FAST)){ modal('<div class="kick">' + esc(P.fam) + ' · ' + (P.gen + 1) + '대 가장</div><h2>👪 ' + esc(ch.n) + '(이)가 집안을 잇다</h2>' + msgs.map(m => '<div class="newsMsg">' + fmt(m) + '</div>').join('') + '<div class="btnRow"><button class="btn" id="mOk">계속 →</button></div>');
     /양인|해방|양반으로/.test(msgs.join('')) ? sGood() : sPage(); await Promise.race([new Promise(r => $('#mOk').onclick = r), wait(P, 2200)]); }
+  await cardFlow(P, reviewCard(G, P)); renderSide();
   P.gen++; await talentFlow(P, (P.gen) + '대 가장의 재주 룰렛'); P.gen--;
   await jobFlow(P, P.gen + 1 + '대 가장의 생업 고르기');
   finishGen(P); closeModal(); renderSide(); renderTokens();
@@ -2593,17 +2942,11 @@ async function genFlow(P){
 const DICE = ['⚀','⚁','⚂','⚃','⚄','⚅'];
 async function animDice(v){
   const box = $('#throwShow');
-  for(let k = 0; k < 9; k++){ box.innerHTML = '<span class="die roll">' + DICE[Math.floor(R() * 6)] + '</span>'; sTick(); await sleep(FAST ? 25 : 65); }
+  for(let k = 0; k < 10; k++){ box.innerHTML = '<span class="die roll">' + DICE[DIE_FACES[Math.floor(R() * 6)] - 1] + '</span>'; sTick(); await sleep(FAST ? 25 : 65); }
   box.innerHTML = '<span class="die">' + DICE[v - 1] + '</span><b>' + v + '칸</b>'; sPage();
 }
-async function animThrow(th){
-  if(G.move !== 'yut') return animDice(th.steps);
-  const box = $('#throwShow'); const flat = {1:1, 2:2, 3:3, 4:4, 5:0}[th.steps];
-  for(let k = 0; k < 7; k++){ box.innerHTML = '<span class="yut spin">' + Array.from({length:4}, () => '<i class="' + (R() < .5 ? 'f' : 'r') + '"></i>').join('') + '</span>'; sTick(); await sleep(FAST ? 30 : 85); }
-  box.innerHTML = '<span class="yut">' + Array.from({length:4}, (_, k) => '<i class="' + (k < flat ? 'f' : 'r') + '"></i>').join('') + '</span><b>' + th.name + ' ' + th.steps + '칸' + (th.again ? ' · 한 번 더!' : '') + '</b>';
-  (th.again ? sGood : sPage)();
-}
-const throwWord = () => G.move === 'yut' ? '🪵 윷' : '🎲 주사위';
+async function animThrow(th){ return animDice(th.steps); }
+const throwWord = () => '🎲 주사위';
 async function waitTurn(P){
   if(!P.ai){ $('#throwBtn').disabled = false; $('#throwBtn').textContent = '🎲 기다리며 주사위 (제사·장사·족보)'; await new Promise(r => $('#throwBtn').onclick = r); $('#throwBtn').disabled = true; }
   else await sleep(FAST ? 150 : 500);
@@ -2616,17 +2959,18 @@ async function firstTurn(P){
 async function playTurn(){
   const P = G.players[G.cur]; renderSide(); renderTokens();
   if(!P.ready) await firstTurn(P);
-  if(P.done){ if(G.players.some(q => !q.done)) await waitTurn(P); return; }
-  if(P.skip){ P.skip--; log(P.fam + ': 한 번 쉰다'); toast(P.fam + '은(는) 이번에 쉽니다.'); await sleep(FAST ? 400 : 1200); return; }
+  if(P.done) return; /* A안: 먼저 도착한 집은 기다리기만 한다 */
+  if(P.skip){ P.skip--; const why = P.skipWhy || ''; P.skipWhy = ''; log(P.fam + ': ' + (why ? why + ' ' : '') + '한 번 쉰다'); toast((why ? why + ' ' : '') + P.fam + '은(는) 이번에 쉽니다.'); await sleep(FAST ? 400 : 1200); return; }
   let again = true, guard = 0;
   while(again && !P.done && !P.skip && guard++ < 5){ again = await oneTurnMove(P); }
   renderSide(); renderTokens();
 }
 async function oneTurnMove(P){
+  hideTip(); setBanner(P.ai ? 'ai' : 'me', P);
   if(!P.ai){ $('#throwBtn').disabled = false; $('#throwBtn').textContent = throwWord() + ' ' + P.fam + ' 던지기'; await new Promise(r => $('#throwBtn').onclick = r); $('#throwBtn').disabled = true; }
   else { $('#throwBtn').disabled = true; $('#throwBtn').textContent = '컴퓨터가 던지는 중…'; await sleep(FAST ? 150 : 600); }
-  const th = throwOf(G, R); await animThrow(th); log(P.fam + ': ' + (G.move === 'yut' ? th.name + ' ' : '주사위 ') + th.steps + '칸' + (th.again ? ' · 한 번 더' : ''));
-  G.lastThrow = {who:G.cur, name:th.name, steps:th.steps, again:th.again}; await NET.pub(P.fam + ': ' + (G.move === 'yut' ? th.name : '주사위 ' + th.steps));
+  hideTip(); const th = throwOf(G, R); await animThrow(th); log(P.fam + ': 주사위 ' + th.steps + '칸');
+  G.lastThrow = {who:G.cur, name:th.name, steps:th.steps, again:th.again}; await NET.pub(P.fam + ': 주사위 ' + th.steps);
   const dest = stepsPlan(P, th.steps); pathPreview(P.pos, dest); await sleep(FAST ? 100 : 350);
   while(P.pos < dest){
     P.pos++; renderTokens(); sTick(); const tl = $('#sp' + P.pos); if(tl){ tl.classList.remove('path'); if(tl.scrollIntoView) tl.scrollIntoView({block:'nearest', inline:'nearest'}); } await sleep(FAST ? 90 : 260);
@@ -2640,11 +2984,11 @@ async function oneTurnMove(P){
   const S = SP[P.pos]; const L = [];
   if(S.pay){ const pay = passSpace(G, P, P.pos); if(pay){ L.push(...pay.lines); floatMoney(P, pay.sum); } }
   if(S.stop || S.pass){ const dm = checkDisguise(G, P); if(dm) L.unshift([dm, 0]); }
-  if(S.t === 'gen'){ await genFlow(P); await NET.pub(P.fam + ': ' + P.gen + '대 가장이 집안을 이었다'); return false; }
+  if(S.t === 'gen'){ await genFlow(P); await royalFlow(P); await NET.pub(P.fam + ': ' + P.gen + '대 가장이 집안을 이었다'); return false; }
   if(S.t === 'finish'){ const r = settle(G, P); P.done = true; renderSide(); renderTokens(); sGood();
     modal('<h2>🏁 ' + esc(P.fam) + ' 1858년 도착!</h2><div class="will">"' + esc(r.will) + '"</div>' + lineRows(L.concat(r.lines)) + r.msgs.map(m => '<div class="newsMsg">' + fmt(m) + '</div>').join('') + '<p>4대의 인생길을 다 걸었다. 다른 집안이 도착할 때까지 차례마다 <b>제사·장사·족보 주사위</b>를 던질 수 있다.</p><div class="btnRow"><button class="btn" id="mOk">확인</button></div>');
     await Promise.race([new Promise(r2 => $('#mOk').onclick = r2), wait(P, 1500)]); closeModal(); await NET.pub(P.fam + ': 1858년 도착!'); return false; }
-  const c = landCard(G, P, true); await cardFlow(P, c, L); await NET.pub(P.fam + ': ' + (c.title || S.n));
+  const c = landCard(G, P, true); await cardFlow(P, c, L); await royalFlow(P); await NET.pub(P.fam + ': ' + (c.title || S.n));
   renderSide(); renderTokens();
   return G.lastThrow && G.lastThrow.again && !S.stop;
 }
@@ -2674,12 +3018,12 @@ const AWD = [
   {k:'total', n:'종합 1등', ico:'🏆', img:'award_total', why:'재산·인정·사다리·목표 점수를 모두 더한 점수가 가장 높은 집', val:(P, S) => '종합 ' + S.total + '점'}
 ];
 async function ceremony(){
-  show('ending'); G.players.forEach(P => P.endKey = endingOf(P)); const A = awards(G.players); G.awards = A;
+  setBanner('none'); hideTip(); show('ending'); G.players.forEach(P => P.endKey = endingOf(P)); const A = awards(G.players); G.awards = A;
   const rows = G.players.map((P, k) => { const S = A.scores[k];
-    return '<tr><td>' + tokHTML(P) + ' ' + esc(P.fam) + '</td><td>' + S.parts.asset + '<small> (' + S.assets + '냥)</small></td><td>' + S.parts.honor + '<small> (인정 ' + S.honor + ')</small></td><td>' + S.parts.ladder + '<small> (' + (S.climb >= 0 ? '+' : '') + S.climb + '칸)</small></td><td>' + S.parts.goal + '</td><td><b>' + S.total + '</b></td></tr>'; }).join('');
+    return '<tr><td>' + tokHTML(P) + ' ' + esc(P.fam) + '</td><td>' + S.parts.asset + '<small> (' + S.assets + '냥)</small></td><td>' + S.parts.honor + '<small> (인정 ' + S.honor + ')</small></td><td>' + S.parts.ladder + '<small> (' + (S.climb >= 0 ? '+' : '') + S.climb + '칸)</small></td><td>' + S.parts.goal + '</td><td>' + S.parts.free + '</td><td><b>' + S.total + '</b></td></tr>'; }).join('');
   $('#eInner').innerHTML = '<div class="cer"><div class="cerBg"><img data-name="ceremony_bg" data-fb="1" alt=""></div><div class="tcHead"><h2 class="goldText">1858년, 호적 발표식</h2><span class="sub">사또가 새 호적을 펼친다…</span></div>'
     + '<div class="awGrid">' + AWD.map(a => '<div class="aw" id="aw-' + a.k + '"><div class="awIco"><i class="fb">' + a.ico + '</i><img data-fb="1" data-name="' + a.img + '" alt=""></div><h3>' + a.n + '</h3><small>' + esc(a.why) + '</small><div class="awWin">?</div></div>').join('') + '</div>'
-    + '<div class="panel navyCard hidden" id="scoreBox"><h3>종합 점수는 이렇게 셌어요</h3><div class="tblwrap"><table class="treeT scoreT"><thead><tr><th>집안</th><th>재산 (5냥=1점, 최대 ' + SCORE.assetMax + ')</th><th>인정 (5=1점)</th><th>사다리 (1칸=' + SCORE.ladderPt + '점)</th><th>목표 (' + SCORE.goalPt + '점)</th><th>합계</th></tr></thead><tbody>' + rows + '</tbody></table></div>'
+    + '<div class="panel navyCard hidden" id="scoreBox"><h3>종합 점수는 이렇게 셌어요</h3><div class="tblwrap"><table class="treeT scoreT"><thead><tr><th>집안</th><th>재산 (' + SCORE.assetDiv + '냥=1점, 최대 ' + SCORE.assetMax + ')</th><th>인정 (' + SCORE.honorDiv + '=1점, 최대 ' + SCORE.honorMax + ')</th><th>사다리 (1칸=' + SCORE.ladderPt + '점)</th><th>목표 (' + SCORE.goalPt + '점)</th><th>자력 해방</th><th>합계</th></tr></thead><tbody>' + rows + '</tbody></table></div>'
     + '<p class="sub">종합 점수가 같으면 총자산이 많은 집이 1등입니다. 다른 상도 같으면 종합 점수가 높은 집이 받습니다.</p><div class="endQ">부자상, 인정상, 사다리상을 받은 집안이 같았나요? 돈이 많은 집이 대접도 가장 잘 받았나요? 호적에 적힌 신분과 사람들의 실제 대접(인정)은 같았나요? (학습지 역사로 생각하기)</div>'
     + '<div class="row" style="margin-top:14px"><button class="big primary" id="toDiary">✍ 4대 가장의 일기 쓰러 가기 →</button></div></div></div>';
   loadPics($('#eInner'));
@@ -2724,6 +3068,8 @@ function showRecord(){
 }
 
 /* ================= 버튼 ================= */
+$('#helpBtn').onclick = () => openHelp('how');
+document.addEventListener('click', e => { const t = $('#tipPop'); if(t && !t.classList.contains('hidden') && !t.contains(e.target) && !e.target.closest('.tile') && !e.target.closest('#sp0')) hideTip(); });
 $('#muteBtn').onclick = () => { muted = !muted; $('#muteBtn').textContent = muted ? '소리 끔' : '소리 켬'; };
 $('#fsBtn').onclick = () => { try{ if(document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen(); }catch(e){} };
 $('#fastBtn').onclick = () => { FAST = !FAST; $('#fastBtn').classList.toggle('on', FAST); };
@@ -2863,7 +3209,7 @@ async function joinScreen(){
   show('lobby');
   const me = ls.get('sd_me', {}) || {};
   $('#lbInner').innerHTML = '<div class="tcHead"><h2 class="goldText">방 ' + esc(ROOM.code) + ' 들어가기</h2><button class="big" id="lbBack">← 첫 화면</button></div>'
-    + '<div class="panel navyCard"><p class="sub">' + esc(MODE_N[ROOM.mode]) + ' · ' + (ROOM.move === 'yut' ? '🪵 윷' : '🎲 주사위') + '</p><h3>학번과 이름</h3><div class="pRows"><div class="pRow"><span class="no">나</span><input class="sid" id="jSid" inputmode="numeric" maxlength="5" placeholder="학번 30101"><input class="nm" id="jName" maxlength="10" placeholder="이름"></div></div>'
+    + '<div class="panel navyCard"><p class="sub">' + esc(MODE_N[ROOM.mode]) + ' · 🎲 주사위</p><h3>학번과 이름</h3><div class="pRows"><div class="pRow"><span class="no">나</span><input class="sid" id="jSid" inputmode="numeric" maxlength="5" placeholder="학번 30101"><input class="nm" id="jName" maxlength="10" placeholder="이름"></div></div>'
     + '<p class="formMsg" id="jMsg"></p><div class="row"><button class="big primary" id="jGo">들어가기 →</button></div></div>';
   $('#jSid').value = me.sid || ''; $('#jName').value = me.name || '';
   $('#jSid').oninput = e => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 5); };
@@ -2897,7 +3243,7 @@ function lobby(){
   const draw = () => { if(!$('#lobby') || $('#lobby').classList.contains('hidden')) return;
     const mg = myGroup(RDOC);
     const names = mg ? mg.mem.map(u => esc((LOBBY_PS[u] && LOBBY_PS[u].name) || '…') + (u === UID ? ' (나)' : '')).join(' · ') : '';
-    $('#lbInner').innerHTML = '<div class="tcHead"><h2 class="goldText">모둠 대기실</h2><span class="sub">방 ' + esc(ROOM.code) + ' · ' + (ROOM.move === 'yut' ? '🪵 윷' : '🎲 주사위') + '</span></div>'
+    $('#lbInner').innerHTML = '<div class="tcHead"><h2 class="goldText">모둠 대기실</h2><span class="sub">방 ' + esc(ROOM.code) + ' · 🎲 주사위</span></div>'
       + '<div class="panel navyCard lobbyBox">' + (mg ? '<div class="myGroup"><span class="gTag">' + gName(mg.gid) + '</span><b>' + names + '</b></div><p class="sub">' + (mg.g.st ? '게임을 시작합니다!' : '선생님이 [게임 시작]을 누르면 모둠원과 함께 시작합니다. 선생님이 다시 섞으면 모둠이 바뀔 수 있어요.') + '</p>'
         : '<div class="waitDots"><i></i><i></i><i></i></div><p>' + esc(ME ? ME.name : '') + ' 학생, 선생님이 <b>모둠을 섞을 때까지</b> 기다려 주세요.</p>')
       + '<p class="note">이 화면을 닫지 마세요. 모둠원은 각자 자기 기기로 같은 판을 함께 봅니다.</p></div>';
@@ -2921,7 +3267,7 @@ async function enterNetGame(mg){
   NET.on = true; G = null;
   const best = bestState();
   if(!best && mg.mem[0] === UID){ /* 모둠장(첫 번째) 기기가 판을 만든다 */
-    const cards = pickCards(mg.mem.length); G = newGame(cards, R, ROOM.move); G.mode = 'net'; G.cur = 0; G.turnNo = 0; G.logs = [];
+    const cards = pickCards(mg.mem.length); G = newGame(cards, R, 'dice'); G.mode = 'net'; G.cur = 0; G.turnNo = 0; G.logs = [];
     G.players.forEach((P, k) => { const u = mg.mem[k]; const rec = LOBBY_PS[u] || {}; P.uid = u; P.human = true; P.ai = false; P.who = {sid:rec.sid || '', name:rec.name || '모둠원'}; });
     log('1690년, ' + G.players.map(P => P.fam + '(' + P.who.name + ')').join(' · ') + '이 판 위에 섰다.');
     await NET.pub('판을 만들었다');
@@ -2948,7 +3294,7 @@ async function netTick(){
   const away = (RDOC && RDOC.away) || {};
   G.players.forEach(Q => { Q.ai = !!away[Q.uid]; });
   const P = G.players[G.cur]; const runner = P.ai ? (G.players.find(Q => !Q.ai) || {}).uid : P.uid;
-  if(runner !== UID){ $('#throwBtn').disabled = true; $('#throwBtn').textContent = '⏳ ' + P.who.name + '(' + P.fam + ') 차례' + (P.ai ? ' · 자리 비움(컴퓨터가 대신)' : ''); renderSide(); return; }
+  if(runner !== UID){ $('#throwBtn').disabled = true; $('#throwBtn').textContent = '⏳ ' + P.who.name + '(' + P.fam + ') 차례' + (P.ai ? ' · 자리 비움(컴퓨터가 대신)' : ''); renderSide(); setBanner('other', P); return; }
   NS.running = true;
   try{ await playTurn(); G.cur = (G.cur + 1) % G.players.length; G.turnNo++; await NET.pub(P.fam + ' 차례 끝'); }
   catch(e){ console.error(e); }
@@ -2966,7 +3312,7 @@ async function saveStart(){
 function memberRec(P){
   const c = CARDS.find(x => x.id === P.card); const E = ENDINGS[P.endKey]; const k = G.players.indexOf(P); const A = G.awards; const S = A ? A.scores[k] : scoreOf(P);
   const won = A ? AWD.filter(a => A[a.k] === k).map(a => a.n).join('·') : '';
-  return {sid:P.who.sid || '', name:P.who.name || '', fam:P.fam, startCat:ST[P.st0].cat, endCat:ST[P.st].cat, endStN:ST[P.st].n, endKey:P.endKey, end:E.grade + ' · ' + E.n,
+  return {sid:P.who.sid || '', name:P.who.name || '', fam:P.fam, startCat:ST[P.st0].cat, endCat:ST[P.st].cat, startSt:P.st0, endSt:P.st, startStN:ST[P.st0].n, endStN:ST[P.st].n, endKey:P.endKey, end:E.grade + ' · ' + E.n,
     goal:c.goal, goalOk:!!c.goalOk(P), money:P.money, land:P.land, honor:P.honor, assets:S.assets, score:S.total, awards:won, job:JOBS[P.job].n, house:HOUSE[P.house].n,
     meth:(P.meth || []).join('·'), picks:(P.picks || []).join(' / ').slice(0, 900), diary:P.diary || ''};
 }
@@ -3000,7 +3346,6 @@ async function tcHome(){
   tcShell('<div class="panel navyCard" style="margin-top:16px"><p class="sub" id="tcConn">서버에 연결하는 중…</p>'
     + '<h3>1. 게임 방식</h3>' + seg('sMode', 'mode', [['solo', '🤖 개인 대결', '학생 1명 + 컴퓨터 3집'], ['group', '👥 모둠별 대결', '접속한 학생을 섞어 모둠으로, 각자 기기로 함께'], ['choice', '🙋 학생에게 선택권', '학생이 컴퓨터/모둠 중 고르고, 모둠을 고른 학생끼리만 섞기']])
     + '<div id="gsizeBox"><h3>모둠 인원</h3>' + seg('sSize', 'gsize', [[3, '3명'], [4, '4명'], [5, '5명']]) + '</div>'
-    + '<h3>2. 무엇을 던질까요?</h3>' + seg('sMove', 'move', [['dice', '🎲 주사위', '1~6칸, 한 판이 조금 빠름'], ['yut', '🪵 윷', '도·개·걸·윷·모, 윷·모는 한 번 더']])
     + '<div class="row" style="justify-content:flex-start;margin-top:12px"><input id="memoIn" maxlength="20" placeholder="방 이름(선택) 예: 3학년 2반" style="padding:12px 14px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.07);color:var(--cream);font-size:15px;font-family:inherit;min-width:220px"><button class="big primary" id="newRoom">새 방 만들기</button></div>'
     + '<details class="more"><summary>집안 카드 비율 바꾸기</summary><p class="sub">숫자가 클수록 그 집안이 자주 나와요 (0이면 안 나옴, 한 판에 같은 집안은 한 번만). 기본값: 노비 3 : 상민 5 : 서얼 1 : 몰락 양반 1 (수업용 비율)</p><div class="wtGrid">'
     + CARDS.map(c => '<label>' + esc(c.fam) + ' <small style="color:var(--muted)">' + esc(ST[c.st].n) + '</small><input type="number" min="0" max="9" data-id="' + c.id + '" value="' + (w[c.id] != null ? w[c.id] : c.w) + '"></label>').join('') + '</div></details>'
@@ -3028,7 +3373,7 @@ async function tcRoom(code){
   const doc = await DB.getRoom(code); if(!doc){ toast('이 방을 찾을 수 없어요.'); return; } TDOC = doc;
   const link = location.origin + location.pathname + '?room=' + code; const grp = doc.mode === 'group' || doc.mode === 'choice';
   tcShell('<div class="tcGrid"><div class="panel navyCard"><p class="kicker">방 코드</p><div class="codeBig goldText">' + esc(code) + '</div><div class="qr" id="qr"></div><p class="linkTxt">' + esc(link) + '</p>'
-    + '<p class="sub">' + esc(MODE_N[doc.mode || 'solo']) + (grp ? ' · 모둠 ' + (doc.gsize || 4) + '명' : '') + ' · ' + (doc.move === 'yut' ? '🪵 윷' : '🎲 주사위') + '</p>'
+    + '<p class="sub">' + esc(MODE_N[doc.mode || 'solo']) + (grp ? ' · 모둠 ' + (doc.gsize || 4) + '명' : '') + ' · 🎲 주사위</p>'
     + '<div class="tcBtns" style="margin-top:10px"><button class="chip" id="copyLink">링크 복사</button><button class="chip" id="otherRoom">다른 방</button></div></div>'
     + '<div class="panel navyCard"><h3>우리 반 호적 <small style="font-size:13px;color:var(--muted);font-weight:400">학생 한 명 한 명의 최근 결과</small></h3><div class="chart" id="chart"></div><div class="tcRow2" style="margin-top:12px"><div><h3 style="font-size:16px">신분을 바꾼 방법</h3><div class="rankList" id="methList"></div></div><div><h3 style="font-size:16px">엔딩</h3><div class="rankList" id="endList"></div></div></div></div></div>'
     + (grp ? '<div class="panel navyCard" id="grpPanel"></div>' : '')
@@ -3097,18 +3442,25 @@ const CATS = [['양반','#d8b46a'],['호적상 양반','#f3dfae'],['중인·중�
 const REAL_HTML = '<div class="hint" style="margin-top:10px"><b>실제 호적과 비교하기</b> · 경상도 단성현 도산면 남자 호주의 직역(권내현, 「양반을 향한 긴 여정」, 2012)<br>'
   + '1678년: 상층(유학 등) <b>10.6%</b> · 노비 <b>42.9%</b> → 1780년: 상층 40.2% · 노비 7.1% → 1867년: 상층 <b>67.3%</b> · 노비 <b>1.4%</b><br>'
   + '<small>※ 호적에서 빠진 가난한 사람들이 많아, 실제 양반 비율은 이보다 훨씬 낮았다. 호적의 \'유학\'이 곧 진짜 양반은 아니었다.</small></div>';
+const ST_ORDER = [['nobi_s','사노비','#5a3a24'],['nobi_g','공노비','#8b6b52'],['sangmin','상민','#7fdca5'],['jungin','기술직 중인','#7fb0e8'],['seol','서얼','#a99be0'],['yuhak','유학','#f3dfae'],['yangban','양반','#d8b46a'],['gwonse','권세가','#c05cc0']];
+const stKey = (p, w) => p[w + 'St'] || ({'노비':'nobi_s','상민':'sangmin','중인·중간층':'seol','호적상 양반':'yuhak','양반':'yangban'})[p[w + 'Cat']] || 'sangmin';
 function chartSVG(done){
-  const bar = (label, key, y) => {
-    const n = done.length || 1; let x = 120; let s = '<text x="110" y="' + (y + 26) + '" text-anchor="end" font-size="15" fill="#f4ead2">' + label + '</text>';
-    CATS.forEach(([c, col]) => { const k = done.filter(p => p[key] === c).length; if(!k) return; const w = 560 * k / n;
-      s += '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="40" fill="' + col + '" stroke="#1d223a"/>' + (w > 34 ? '<text x="' + (x + w / 2) + '" y="' + (y + 26) + '" text-anchor="middle" font-size="13" font-weight="700" fill="#1d223a">' + Math.round(k / n * 100) + '%</text>' : ''); x += w; });
+  const n = done.length || 1;
+  const bar = (label, w, y) => { let x = 130; let s = '<text x="120" y="' + (y + 27) + '" text-anchor="end" font-size="15" fill="#f4ead2">' + label + '</text>';
+    ST_ORDER.forEach(([k, nm, col]) => { const c = done.filter(p => stKey(p, w) === k).length; if(!c) return; const wd = 680 * c / n;
+      s += '<rect x="' + x + '" y="' + y + '" width="' + wd + '" height="42" fill="' + col + '" stroke="#1d223a"/>' + (wd > 40 ? '<text x="' + (x + wd / 2) + '" y="' + (y + 27) + '" text-anchor="middle" font-size="13" font-weight="700" fill="#1d223a">' + Math.round(c / n * 100) + '%</text>' : ''); x += wd; });
     return s; };
-  return '<svg viewBox="0 0 700 170">' + bar('1690년(1대)', 'startCat', 10) + bar('1858년(4대)', 'endCat', 64)
-    + CATS.map(([c, col], k) => '<rect x="' + (120 + k * 116) + '" y="130" width="14" height="14" fill="' + col + '"/><text x="' + (139 + k * 116) + '" y="142" font-size="13" fill="#cfcbd8">' + c + '</text>').join('') + '</svg>'
+  const cnt = w => ST_ORDER.map(([k]) => done.filter(p => stKey(p, w) === k).length);
+  const a = cnt('start'), b = cnt('end');
+  return '<svg viewBox="0 0 830 190">' + bar('시작 전 (1690)', 'start', 10) + bar('끝난 뒤 (1858)', 'end', 66)
+    + ST_ORDER.map(([k, nm, col], i) => '<rect x="' + (20 + i * 101) + '" y="150" width="14" height="14" fill="' + col + '"/><text x="' + (38 + i * 101) + '" y="162" font-size="13" fill="#cfcbd8">' + nm + '</text>').join('') + '</svg>'
+    + '<div class="tblwrap"><table class="stT"><thead><tr><th>신분</th>' + ST_ORDER.map(([k, nm]) => '<th>' + nm + '</th>').join('') + '</tr></thead><tbody>'
+    + '<tr><td>시작 전</td>' + a.map(v => '<td>' + v + '명<br><small>' + Math.round(v / n * 100) + '%</small></td>').join('') + '</tr>'
+    + '<tr><td>끝난 뒤</td>' + b.map(v => '<td>' + v + '명<br><small>' + Math.round(v / n * 100) + '%</small></td>').join('') + '</tr></tbody></table></div>'
     + '<p class="sub" style="margin-top:6px">게임을 끝낸 학생 ' + done.length + '명 (컴퓨터 이웃은 빼고 셈). 목표를 이룬 학생 ' + done.filter(p => p.goalOk).length + '명. 토의: 양반이 늘어난 가장 큰 계기는? 호적상 양반은 정말 대접이 달라졌나?</p>' + REAL_HTML;
 }
 const ST_TXT = {lobby:'모둠 대기', choosing:'고르는 중', netplay:'모둠 게임 중', solo:'컴퓨터와 하는 중', playing:'하는 중'};
-const modeTxt = p => p.mode ? (p.mode === 'net' ? '모둠 대결' : '컴퓨터 3집') + '·' + (p.move === 'yut' ? '윷' : '주사위') : '';
+const modeTxt = p => p.mode ? (p.mode === 'net' ? '모둠 대결' : '컴퓨터 3집') : '';
 function renderPlayers(){
   const ps = sortedPlayers(); const b = $('#pBody'); if(!b) return;
   const done = ps.filter(p => p.endKey);
