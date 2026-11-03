@@ -708,6 +708,13 @@ td small{color:var(--muted)}
 .rollBox b.cY,.rollBox .roulMsg b.cY{color:#1f7a3a!important}.rollBox b.cN,.rollBox .roulMsg b.cN{color:#a3241c!important}
 .mBox .dX{position:absolute;top:12px;right:12px;margin:0;z-index:2}.mBox{position:relative}
 .noDiary{color:#ffb347;font-weight:700}
+
+/* ⑫ 룰렛 누르기 버튼: 크게, 눈에 띄게, 살짝 두근두근 */
+.btn.rlPush{background:linear-gradient(180deg,#ffdf5a,#f0a500);color:#5d100b;border:3px solid #b35c00;font-size:21px;font-weight:900;padding:13px 30px;box-shadow:0 4px 0 #8a4500,0 6px 18px rgba(240,165,0,.5);animation:rlPulse 1.1s ease-in-out infinite}
+.btn.rlPush:active{transform:translateY(3px);box-shadow:0 1px 0 #8a4500}
+@keyframes rlPulse{50%{box-shadow:0 4px 0 #8a4500,0 0 26px 8px rgba(255,200,40,.85)}}
+.landRoul .rlPush{margin-left:10px;font-size:17px;padding:8px 18px}
+.gSt{display:inline-block;padding:0 6px;border:2px solid;border-radius:999px;font-size:12px;font-weight:800;color:#f4ead2}
 </style></head><body>
 <div id="bg"></div>
 
@@ -2373,9 +2380,9 @@ const canExam = P => !isNobi(P.st);
 const munOK = P => P.st === 'seol' ? !!(P.seolOK || P.geomseo) : P.st === 'jungin' ? !!(P.jungOK || P.socheongOK) : true;
 const seolMun = munOK;
 const examF = P => isUpper(P.st) ? 1 : (P.st === 'jungin' || P.st === 'seol') ? .6 : .7;
-/* 과거 확률: 기본(재주 보너스 없이) 문과 15% < 무과 25% < 잡과 35%. 재주 1점마다 +5%.
+/* 과거 확률: 기본(재주 보너스 없이) 문과 15% < 무과 20% < 잡과 35%. 재주 1점마다 +5%.
    무과·문과는 바로 앞 대에 급제했으면 −10%p(연속), 한 대 걸러 급제했으면 −5%p. 가장 낮아도 3%. */
-const EXAM = {jap:{base:.35, max:.55, need:4}, mu:{base:.25, max:.45, need:5}, mun:{base:.15, max:.35, need:6}, penSeq:.10, penGap:.05, floor:.03};
+const EXAM = {jap:{base:.35, max:.55, need:4}, mu:{base:.20, max:.40, need:5}, mun:{base:.15, max:.35, need:6}, penSeq:.10, penGap:.05, floor:.03};
 function examPen(P){ const g = P.passGens || []; return g.includes(P.gen - 1) ? EXAM.penSeq : g.includes(P.gen - 2) ? EXAM.penGap : 0; }
 function examP(P, k){ const E = EXAM[k]; const stat = k === 'mu' ? P.h : P.g; let p = Math.min(E.max, E.base + Math.max(0, stat - E.need) * .05);
   if(k !== 'jap'){ p = p * examF(P) - examPen(P); } return Math.max(EXAM.floor, p); }
@@ -2390,15 +2397,27 @@ function passRecord(P, k){ P.examGens = P.examGens || []; if(!P.examGens.include
 function royalOffer(P){ return (P.examGens || []).length >= 2 && (P.munGens || []).length >= 1 && !P.royalAsked && P.st === 'yangban' && P.honor >= RULE.royalHonor; }
 /* 지나가도 적용되는 칸 가운데 일부는 조건이 맞을 때만 창을 띄운다 */
 function examOpen(G, P){ return [optJapgwa(G, P), optMugwa(G, P), optMungwa(G, P)].some(o => o.ok); }
-function passShow(G, P, S){ if(S.t === 'exam') return examOpen(G, P); if(S.id === 'geomseo') return P.st === 'seol'; if(S.id === 'socheong') return P.st === 'jungin'; return true; }
+/* 역사 사건 칸: 우리 집안의 신분(또는 생업)과 상관없는 사건은 창을 띄우지 않고 지나간다 */
+function eventRelevant(G, P, S){ if(!S || S.t !== 'event') return true; const st = P.st;
+  switch(S.id){
+    case 'jongmo': return isNobi(st);                                    /* 노비종모법: 노비 집안만 */
+    case 'gyunyeok': return ((st === 'sangmin' || st === 'jung') && !P.exempt) || !!P.disguise; /* 균역법: 군포 내는 상민(+엄택주 소문이 걸리는 신분 세탁 집안) */
+    case 'geomseo': return st === 'seol';                                /* 검서관: 서얼만 */
+    case 'socheong': return st === 'jungin';                             /* 소청 운동: 기술직 중인만 */
+    case 'gongno': return isNobi(st);                                    /* 공노비 해방: 노비 집안만 */
+    case 'tonggong': return P.job === 'bobusang' || P.job === 'gaekju';  /* 시전 특권 폐지: 장사하는 집안만 */
+    case 'samjeong': return !isNoble(st);                                /* 삼정의 문란: 양반·권세가는 피해 없음 */
+    case 'hojeok': return [optBribe(G, P, P.pos), optNapsok(P)].some(o => o.ok); /* 1858 호적 정리: 할 수 있는 일이 있을 때만 */
+    default: return true; } }
+function passShow(G, P, S){ if(S.t === 'exam') return examOpen(G, P); if(S.t === 'event') return eventRelevant(G, P, S); return true; }
 function royalAccept(P){ P.royalAsked = true; P.st = 'gwonse'; P.honor += 10; P.meth.push('왕실 혼인(외척)'); cap(P); return '왕실과 혼인해 **외척**이 되었다. 우리 집안은 이제 나라의 큰 힘을 가진 **권세가**다!'; }
 function optJapgwa(G, P){ const p = examP(P, 'jap'); const down = isUpper(P.st);
   return O('s_japgwa', '잡과(기술관 시험) 보기 · 붙을 확률 ' + Math.round(p * 100) + '%', '통역·의학 같은 기술관을 뽑는다. (📖4 이상) 합격하면 녹봉 +4냥, 인정 +6.' + (P.st === 'sangmin' ? ' 상민은 **기술직 중인**이 된다.' : '') + (down ? ' ⚠ 양반·유학·권세가가 붙으면 신분이 **기술직 중인으로 내려간다!**' : ''), 4,
   canExam(P) && P.g >= EXAM.jap.need && !P.office, () => { if(roll(G.R, P, p, '🏛 잡과 합격 룰렛', '합격!', '떨어졌다')){ setOffice(P, 'jap'); P.meth.push('잡과'); const from = P.st; const ch = from === 'sangmin' || isUpper(from); if(ch){ P.st = 'jungin'; P.exempt = true; } P.honor += 6; const g = passRecord(P, 'jap'); cap(P);
     return '잡과에 붙었다!' + (from === 'sangmin' ? ' 우리 집안은 이제 **기술직 중인**이다.' : isUpper(from) ? ' 기술관이 되면서 우리 집안은 ' + ST[from].n + '에서 **기술직 중인**으로 내려갔다.' : '') + ' 장날·추수마다 녹봉 4냥. (인정 +6, 역관·의관 생업도 고를 수 있다)' + g; } return '잡과에서 떨어졌다.'; }); }
-function optMugwa(G, P){ const p = examP(P, 'mu'); return O('s_mugwa', '무과 보기 · 붙을 확률 ' + Math.round(p * 100) + '%', '활쏘기·말타기 시험. (💪5 이상) 합격하면 「출신」, 군포 면제, 녹봉 +4냥, 인정 +8.' + (examF(P) < 1 ? ' (양반이 아니라 합격률이 낮다)' : '') + penTxt(P), 6,
-  canExam(P) && P.h >= EXAM.mu.need && !P.office, () => { if(roll(G.R, P, p, '🏹 무과 합격 룰렛', '합격!', '떨어졌다')){ setOffice(P, 'mu'); P.exempt = true; P.honor += 8; P.meth.push('무과'); const g = passRecord(P, 'mu'); cap(P); return '무과에 붙어 「출신」이 되었다! 군포 면제, 장날·추수마다 녹봉 4냥. (인정 +8)' + g; } return '활쏘기와 말타기 시험에서 떨어졌다.'; }); }
-function optMungwa(G, P){ const p = examP(P, 'mun'); return O('s_mungwa', '문과 보기 · 붙을 확률 ' + Math.round(p * 100) + '%', '가장 어려운 시험. 몇 년 동안 공부하느라 다음 장날·추수 때 생업 수입이 없다. (📖6 이상) 합격하면 홍패와 관직, 녹봉 +6냥, 인정 +20.' + (examF(P) < 1 ? ' (양반이 아니라 합격률이 낮다)' : '') + penTxt(P), 10,
+function optMugwa(G, P){ const p = examP(P, 'mu'); return O('s_mugwa', '무과 보기 · 붙을 확률 ' + Math.round(p * 100) + '%', '활쏘기·말타기 시험. (💪5 이상) 합격하면 「출신」, 녹봉 +4냥, 인정 +8.' + (!isNoble(P.st) ? ' 붙으면 **양반**이 된다.' : '') + (examF(P) < 1 ? ' (양반이 아니라 합격률이 낮다)' : '') + penTxt(P), 6,
+  canExam(P) && P.h >= EXAM.mu.need && !P.office, () => { if(roll(G.R, P, p, '🏹 무과 합격 룰렛', '합격!', '떨어졌다')){ setOffice(P, 'mu'); P.exempt = true; P.honor += 8; P.meth.push('무과'); const up = !isNoble(P.st); if(up) P.st = 'yangban'; const g = passRecord(P, 'mu'); cap(P); return '무과에 붙어 「출신」이 되었다!' + (up ? ' 우리 집안은 이제 **양반**이다!' : '') + ' 장날·추수마다 녹봉 4냥. (인정 +8)' + g; } return '활쏘기와 말타기 시험에서 떨어졌다.'; }); }
+function optMungwa(G, P){ const p = examP(P, 'mun'); return O('s_mungwa', '문과 보기 · 붙을 확률 ' + Math.round(p * 100) + '%', '가장 어려운 시험. 몇 년 동안 공부하느라 다음 장날·추수 때 생업 수입이 없다. (📖6 이상) 합격하면 홍패와 관직, 녹봉 +6냥, 인정 +20.' + (!isNoble(P.st) ? ' 붙으면 **양반**이 된다.' : '') + (examF(P) < 1 ? ' (양반이 아니라 합격률이 낮다)' : '') + penTxt(P), 10,
   canExam(P) && munOK(P) && P.g >= EXAM.mun.need && P.office !== 'mun', () => { P.noPay = 1; if(roll(G.R, P, p, '📜 문과 급제 룰렛', '급제!', '낙방')){ setOffice(P, 'mun'); P.passed = true; P.honor += 20; P.docs.hong++; P.meth.push('문과 급제'); const up = !isNoble(P.st); if(up){ P.st = 'yangban'; P.exempt = true; } const g = passRecord(P, 'mun'); cap(P); return '문과에 급제했다! 붉은 합격증(📜 홍패)을 받고 관리가 되었다.' + (up ? ' 우리 집안은 이제 **양반**이다!' : '') + ' 장날·추수마다 녹봉 6냥. (인정 +20)' + g; } return '낙방했다. 공부한 시간과 돈만 들었다.'; }); }
 function bungdang(P, R, p){ if(!isNoble(P.st) || !roll(R, P, p, '⚔ 붕당 다툼 룰렛: 우리 편이 질까?', '졌다… 유배', '무사했다', true)) return '';
   P.honor -= 8; P.money -= 4; const lost = P.office ? ' 벼슬과 녹봉도 잃었다.' : ''; P.office = null; let d = ''; if(P.st === 'gwonse'){ P.st = 'yangban'; d = ' 권세가의 힘을 잃고 보통 양반이 되었다.'; } cap(P);
@@ -2425,7 +2444,7 @@ function landCard(G, P, landing){
       if(id === 'geomseo'){
         if(P.st === 'seol'){ const p = P.petition ? .7 : P.g >= 6 ? .4 : .2; card.forced = true;
           card.auto.push(['뽑힐 확률 ' + Math.round(p * 100) + '% ' + (P.petition ? '(서얼 집단 상소에 이름을 올렸다)' : P.g >= 6 ? '(📖6 이상)' : '(상소도 없고 📖6 미만)'), 0]);
-          card.opts.push(Object.assign(O('s_geomseo', '🎡 규장각 검서관 등용 룰렛 돌리기', '뽑히면 인정 +12, +6냥, 그리고 **문과 응시 자격**을 얻는다.', 0, true, () => { const ok = roll(R, P, p, '📚 규장각 검서관 등용 룰렛', '뽑혔다!', '뽑히지 못했다');
+          card.opts.push(Object.assign(O('s_geomseo', '🎡 규장각 검서관 등용 룰렛으로', '뽑히면 인정 +12, +6냥, 그리고 **문과 응시 자격**을 얻는다.', 0, true, () => { const ok = roll(R, P, p, '📚 규장각 검서관 등용 룰렛', '뽑혔다!', '뽑히지 못했다');
             if(ok){ P.geomseo = true; P.honor += 12; P.money += 6; P.meth.push('검서관'); cap(P); return '우리 집안 사람이 **규장각 검서관**으로 뽑혔다! (인정 +12, +6냥) 이제 서얼도 **문과**를 볼 수 있다.'; }
             return '이번에는 우리 집안 사람이 뽑히지 못했다.' + (P.petition ? '' : ' (서당에서 서얼 집단 상소를 올려 두었다면 확률이 70%였다)'); }), {force:true})); }
         else card.auto.push(['서얼 집안에만 해당하는 사건이다.', 0]); }
@@ -2434,7 +2453,7 @@ function landCard(G, P, landing){
         if(v) add(isNobi(P.st) ? '원래 세금을 내지 않는 노비에게까지 환곡과 덧붙은 세금이 떠넘겨졌다' : '환곡 이자와 덧붙은 세금', -v); else card.auto.push(['권세 있는 양반 집안은 세금을 피했다. 부담은 아래로 떠넘겨졌다.', 0]); }
       if(id === 'socheong'){
         if(P.st === 'jungin'){ const p = .1; card.forced = true;
-          card.opts.push(Object.assign(O('s_socheong', '🎡 소청 운동 룰렛 돌리기 (성공 확률 10%)', '성공하면 인정 +10, 그리고 **문과 응시 자격**을 얻는다. 실제 역사에서는 받아들여지지 않았다.', 0, true, () => { const ok = roll(R, P, p, '📣 소청 운동 룰렛', '받아들여졌다!', '받아들여지지 않았다'); P.meth.push('소청 운동');
+          card.opts.push(Object.assign(O('s_socheong', '🎡 소청 운동 룰렛으로 (성공 확률 10%)', '성공하면 인정 +10, 그리고 **문과 응시 자격**을 얻는다. 실제 역사에서는 받아들여지지 않았다.', 0, true, () => { const ok = roll(R, P, p, '📣 소청 운동 룰렛', '받아들여졌다!', '받아들여지지 않았다'); P.meth.push('소청 운동');
             if(ok){ P.socheongOK = true; P.honor += 10; cap(P); return '뜻밖에 요청이 받아들여졌다! (인정 +10) 이제 기술직 중인도 **문과**를 볼 수 있다. (실제 역사에서는 실패했다)'; }
             return '요구는 받아들여지지 않았다. 실제 역사에서도 기술직 중인의 소청 운동은 성과를 거두지 못했다.'; }), {force:true})); }
         else card.auto.push(['기술직 중인 집안에만 해당하는 사건이다.', 0]); }
@@ -2729,7 +2748,7 @@ function oneMove(G, P, pol){
 }
 const AI = {lane:aiPickLane, opt:aiPickOpt, heir:aiPickHeir, job:aiPickJob};
 function newGame(cards, R, move){ const G = {players:cards.map((c, k) => newPlayer(c, {idx:k})), move:'dice', gm:{[IDX('famine')]:RULE.gmStock}, R, cur:0}; return G; }
-if(typeof module !== 'undefined') module.exports = {aiEstate, estateCard, forceSell, kidStatus, heirChoices, applyHeir, examP, munOK, passShow, landCard, taxDue, canPay, payCost, costTxt, buyOpts, royalOffer, royalAccept, seolMun, isNoble, canExam, GONGNO_I, reviewCard, OFFICE, ZPER, IDX, JONGMO_I, ST, CARDS, JOBS, JOB_ORDER, HOUSE, DOCS, SP, LAST, ZONES, ENDINGS, END_ORDER, RULE, SCORE, AI, newGame, newPlayer, autoTurn, endingOf, landCard, laneChoices, enterLane, passSpace, settle, heirChoices, applyHeir, finishGen, talentRoll, checkDisguise, aiPickOpt, aiPickLane, aiPickHeir, aiPickJob, throwDice, stepsPlan, isNobi, isUpper, ZONE_OF, WEATHER, assets, scoreOf, awards, waitSpin, jobOpts, will, throwYut, throwOf, statEvent, DIE_FACES};
+if(typeof module !== 'undefined') module.exports = {eventRelevant, optMugwa, optMungwa, aiEstate, estateCard, forceSell, kidStatus, heirChoices, applyHeir, examP, munOK, passShow, landCard, taxDue, canPay, payCost, costTxt, buyOpts, royalOffer, royalAccept, seolMun, isNoble, canExam, GONGNO_I, reviewCard, OFFICE, ZPER, IDX, JONGMO_I, ST, CARDS, JOBS, JOB_ORDER, HOUSE, DOCS, SP, LAST, ZONES, ENDINGS, END_ORDER, RULE, SCORE, AI, newGame, newPlayer, autoTurn, endingOf, landCard, laneChoices, enterLane, passSpace, settle, heirChoices, applyHeir, finishGen, talentRoll, checkDisguise, aiPickOpt, aiPickLane, aiPickHeir, aiPickJob, throwDice, stepsPlan, isNobi, isUpper, ZONE_OF, WEATHER, assets, scoreOf, awards, waitSpin, jobOpts, will, throwYut, throwOf, statEvent, DIE_FACES};
 /* ============ 「사다리를 오르는 사람들」 ④ 인생게임판 화면 ============ */
 const VERSION = '판 2026-11-02 ④ 인생게임';
 const R = Math.random;
@@ -2821,15 +2840,15 @@ const LADDER = {
   sangmin:{to:'기술직 중인 · 유학 · 양반', items:['🏛 <b>과거 칸 잡과</b>(📖4 이상) → <b>기술직 중인</b>',
     '🎫 <b>공명첩·납속 칸</b>: 공명첩 30냥 · 납속 25석 · 족보 매매 20(팔 확률 70%) · 족보 위조 15(성공 50%) → <b>유학</b>',
     '📋 <b>호적 위조</b>(아전의 방·1858 호적 정리·대 잇기의 호적 심사에서 향리 매수 10, 성공 50%) → <b>유학</b>',
-    '🏛 <b>문과 급제</b>(📖6 이상, 어렵다) → <b>양반</b> · 무과(💪5 이상)는 군포 면제와 인정'], warn:'돈으로 산 「유학」은 인정이 오르지 않는다. 유학이 된 뒤 인정 55를 넘겨야 진짜 양반!'},
+    '🏛 <b>문과</b>(📖6 이상) 또는 <b>무과</b>(💪5 이상) 합격 → <b>양반</b>'], warn:'돈으로 산 「유학」은 인정이 오르지 않는다. 유학이 된 뒤 인정 55를 넘겨야 진짜 양반!'},
   jungin:{to:'유학 · 양반', items:['🎫 <b>공명첩·납속 칸</b>: 족보 매매 20(팔 확률 70%) · 족보 위조 15(성공 50%) → <b>유학</b>',
-    '📋 <b>호적 위조</b>(향리 매수 10, 성공 50%) → <b>유학</b>', '🏛 <b>문과 급제</b>(📖6 이상, 문과 자격이 있어야 함, 양반보다 붙기 어렵다) → <b>양반</b>', '🎫 <b>공명첩·납속 칸</b>: 허통 → <b>문과 응시 자격</b>',
+    '📋 <b>호적 위조</b>(향리 매수 10, 성공 50%) → <b>유학</b>', '🏛 <b>문과 급제</b>(📖6 이상, 문과 자격이 있어야 함, 양반보다 붙기 어렵다) → <b>양반</b>', '🏛 <b>무과</b>(💪5 이상, 자격 없이 볼 수 있음) 합격 → <b>양반</b>', '🎫 <b>공명첩·납속 칸</b>: 허통 → <b>문과 응시 자격</b>',
     '⛔ <b>1851년 소청 운동</b>(기술직 중인만 룰렛): 성공 확률 10%, 성공하면 문과 응시 자격'], warn:'기술직 중인은 무과·잡과는 볼 수 있지만, 문과는 소청 운동 성공이나 공명첩·납속(허통)으로 자격을 얻어야 한다.'},
   seol:{to:'양반', items:['🏫 <b>서당 칸</b>: 「서얼 집단 상소」에 이름 올리기 → <b>1779년 규장각 검서관</b> 칸(서얼만 룰렛)에서 뽑힐 확률 70% (상소 없이 📖6 이상 40%, 그 밖에 20%) → 뽑히면 <b>문과 응시 자격</b>',
-    '🎫 <b>공명첩·납속 칸</b>: 허통 → <b>문과 응시 자격</b>', '🏛 <b>문과 급제</b>(📖6 이상, 문과 자격이 있어야 함) → <b>양반</b>', '🏛 무과·잡과는 자격 없이도 볼 수 있다',
+    '🎫 <b>공명첩·납속 칸</b>: 허통 → <b>문과 응시 자격</b>', '🏛 <b>문과 급제</b>(📖6 이상, 문과 자격이 있어야 함) → <b>양반</b>', '🏛 <b>무과</b>(💪5 이상) 합격 → <b>양반</b> (무과·잡과는 자격 없이 볼 수 있다)',
     '📖 서얼은 서당에서 배움 효과가 2배'], warn:'검서관으로 뽑히거나 허통하기 전에는 문과를 볼 수 없다.'},
   yuhak:{to:'양반', items:['🙇 <b>인정 55</b>를 넘기면 저절로 <b>양반</b> (배움·제사와 손님 대접·기와집·높은 집안과 혼인·과거 급제)',
-    '🏛 <b>문과 급제</b>(📖6 이상) → <b>양반</b>', '⚠ 잡과에 붙으면 기술직 중인으로 내려간다'], warn:'인정이 30(체면선)보다 낮으면 대 잇기의 호적 심사에서 다시 상민으로 적힐 수 있다.'},
+    '🏛 <b>문과</b>(📖6 이상) 또는 <b>무과</b>(💪5 이상) 합격 → <b>양반</b>', '⚠ 잡과에 붙으면 기술직 중인으로 내려간다'], warn:'인정이 30(체면선)보다 낮으면 대 잇기의 호적 심사에서 다시 상민으로 적힐 수 있다.'},
   yangban:{to:'권세가', items:['🏛 <b>4대 가운데 2대 이상 과거 합격</b>(그중 <b>문과 1번 이상</b>, 연속 아니어도 됨) + <b>양반 신분 유지</b> + <b>인정 70</b> → 왕실 혼인 이야기 → 혼인하면 외척 <b>권세가</b>'],
     warn:'벼슬을 하면 붕당 다툼에 져서 유배될 수 있다. 체면 비용(대마다 3냥)을 못 내면 인정이 깎인다.'},
   gwonse:{to:'맨 꼭대기!', items:['👑 신분 사다리의 가장 높은 칸이다. 이제는 지키는 것이 목표!'], warn:'붕당 다툼에 지면 보통 양반으로 떨어진다. 체면 비용(대마다 5냥)을 꼭 챙기자.'}
@@ -2840,7 +2859,7 @@ function ladderHTML(st, cls){ const L = LADDER[st] || LADDER.sangmin;
 function helpHTML(tab){
   const me = viewer(); const tabs = [['ladder', '🪜 내 신분 상승'], ['how', '게임 방법'], ['icons', '칸 아이콘'], ['screen', '화면 읽기'], ['tip', '목표 달성 팁'], ['score', '점수와 상'], ['words', '낱말 풀이']];
   let body = '';
-  if(tab === 'how') body = '<ol class="hl"><li>🎲 <b>주사위</b>를 던진 만큼 말이 움직인다.</li><li>⏱ <b>제한 시간</b>: 1대는 한 차례에 <b>90초</b>, 2~4대는 <b>60초</b>. 시간이 지나면 주사위가 저절로 던져지고, 고를 것은 <b>무조건 첫 번째</b>가 골라진다.</li><li><b>지나쳐도 적용</b>: ⛔ 역사 칸, 🏮 장날, 🌾 추수 마당, 👶 자식 칸, 🏛 과거 시험장은 <b>멈추지 않고 지나가기만 해도</b> 일이 생긴다. (과거 시험장은 볼 수 있는 시험이 있을 때만 창이 뜬다)</li><li><b>멈춰야 적용</b>: 🏫 서당, 📜 족보 장수, 🏡 집 짓기, ☁ 운, 🏢 아전은 딱 멈춰야 카드가 나온다.</li><li><b>멈춤 칸</b>: 💍 혼인, 🕯 대 잇기, 🏁 도착은 주사위 수가 남아도 반드시 멈춘다.</li><li>한 대(구역)는 한 가장의 일생: 생업으로 돈을 벌고 → 혼인 → 자식 → 대 잇기(유언·결산·호적 심사) → 다음 대.</li><li><b>🏡 재산 정리</b>: 대 잇기 때 세금을 낸 뒤 대마다 한 번, 집을 고치거나 땅을 사고, 집·땅을 팔 수 있다. 세금을 못 내면 땅 → 집 순서로 헐값에 강제 처분되고, 그래도 모자라면 옥에 갇힌다.</li><li><b>세금은 대마다 결산</b>: 🧵 군포(상민) · ⛓ 신공(노비, 사노비 6냥·공노비 5냥) · 🌾 전세(영정법, 땅 4마지기마다 1석) · 🍚 대동미(대동법, 땅 2마지기마다 1석). 서얼·기술직 중인·유학·양반·권세가는 군포가 없다. 19세기 ⛔ 삼정의 문란은 양반·권세가는 피하고 노비까지 피해를 본다.</li><li>1858년에 모두 도착하면 <b>호적 발표식</b> → 마지막에 <b>게임 소감</b>(새롭게 배운 점, 깨닫거나 느낀 점)을 <b>30자 이상</b> 쓴다.</li><li>판의 칸을 누르면 그 칸에서 무슨 일이 생기는지 미리 볼 수 있다.</li></ol>';
+  if(tab === 'how') body = '<ol class="hl"><li>🎲 <b>주사위</b>를 던진 만큼 말이 움직인다.</li><li>⏱ <b>제한 시간</b>: 1대는 한 차례에 <b>60초</b>, 2대는 <b>40초</b>, 3~4대는 <b>30초</b>. 시간이 지나면 주사위가 저절로 던져지고, 고를 것은 <b>무조건 첫 번째</b>가 골라진다.</li><li><b>지나쳐도 적용</b>: ⛔ 역사 칸, 🏮 장날, 🌾 추수 마당, 👶 자식 칸, 🏛 과거 시험장은 <b>멈추지 않고 지나가기만 해도</b> 일이 생긴다. (과거 시험장은 볼 수 있는 시험이 있을 때만 창이 뜬다)</li><li><b>멈춰야 적용</b>: 🏫 서당, 📜 족보 장수, 🏡 집 짓기, ☁ 운, 🏢 아전은 딱 멈춰야 카드가 나온다.</li><li><b>멈춤 칸</b>: 💍 혼인, 🕯 대 잇기, 🏁 도착은 주사위 수가 남아도 반드시 멈춘다.</li><li>한 대(구역)는 한 가장의 일생: 생업으로 돈을 벌고 → 혼인 → 자식 → 대 잇기(유언·결산·호적 심사) → 다음 대.</li><li><b>🏡 재산 정리</b>: 대 잇기 때 세금을 낸 뒤 대마다 한 번, 집을 고치거나 땅을 사고, 집·땅을 팔 수 있다. 세금을 못 내면 땅 → 집 순서로 헐값에 강제 처분되고, 그래도 모자라면 옥에 갇힌다.</li><li><b>세금은 대마다 결산</b>: 🧵 군포(상민) · ⛓ 신공(노비, 사노비 6냥·공노비 5냥) · 🌾 전세(영정법, 땅 4마지기마다 1석) · 🍚 대동미(대동법, 땅 2마지기마다 1석). 서얼·기술직 중인·유학·양반·권세가는 군포가 없다. 19세기 ⛔ 삼정의 문란은 양반·권세가는 피하고 노비까지 피해를 본다.</li><li>1858년에 모두 도착하면 <b>호적 발표식</b> → 마지막에 <b>게임 소감</b>(새롭게 배운 점, 깨닫거나 느낀 점)을 <b>30자 이상</b> 쓴다.</li><li>판의 칸을 누르면 그 칸에서 무슨 일이 생기는지 미리 볼 수 있다.</li></ol>';
   if(tab === 'icons') body = '<div class="icG">' + [['🏮', '장날', '지나쳐도 생업 수입'], ['🌾', '추수 마당', '지나쳐도 수확·생업 수입'], ['⛔', '역사 칸', '지나쳐도 사건 카드'], ['👶', '자식', '지나쳐도 아이가 태어남(혼인했다면)'], ['💍', '혼인', '멈춤 칸, 혼처 고르기'], ['🕯', '대 잇기', '멈춤 칸, 결산·자식 고르기·호적 심사'], ['🔀', '갈림길', '지나갈 때 길 고르기'], ['🎲', '역전의 장터', '크게 벌거나 크게 잃는 길'], ['🏫', '서당', '자식 공부, 글 배우기, 상소'], ['🏛', '과거 시험장', '지나쳐도 잡과·무과·문과 (볼 수 있을 때만)'], ['📜', '족보 장수', '족보 사기(유학)'], ['🏡', '집 짓기', '집 고치기, 땅 사기'], ['☁', '운', '불운·행운 + 재주 기회'], ['🏢', '아전의 방', '호적 위조, 납속'], ['🎫', '공명첩·납속', '신분 사기, 집·땅 팔기'], ['📣', '소문', '실제 인물 이야기'], ['🛑', '멈춤 표지판', '반드시 멈추는 칸']].map(([a, b, c]) => '<div><span>' + a + '</span><b>' + b + '</b><small>' + c + '</small></div>').join('') + '</div>';
   if(tab === 'screen') body = '<ul class="hl"><li>🪙 돈 = <b>상평통보</b>(동전, 냥) · 🍚 곡식(석). <b>1석 = 1냥</b>으로 바꿔 셈한다. (실제 조선 후기에는 쌀 1석 ≈ 5냥, 베 1필 ≈ 2냥 정도였지만, 게임에서는 계산을 쉽게 하려고 1석 = 1냥으로 정했다.) · 🌾 내 땅(마지기) · 🏡 집 · 신분 칸. 땅 수확과 농사 일은 <b>곡식</b>으로 들어온다. 공명첩은 돈, 납속은 곡식, 족보·호적 위조는 돈이나 곡식으로 낸다.</li><li>📖 글 · 💪 힘 · 🧮 셈: 재주. 생업 조건, 과거, 재주 기회 이벤트에 쓰인다.</li><li><b>인정 막대</b>: 이웃 양반들이 우리 집을 양반처럼 대해 주는 정도(0~100). <b>노비는 인정을 쌓을 수 없고, 상민부터 쌓는다.</b> 인정이 꼭 필요한 신분은 기술직 중인·서얼·유학·양반·권세가다. 눈금 <b>30 체면선</b>(유학인데 이보다 낮으면 호적 심사에서 상민으로 내려 적힐 수 있다) · <b>55 양반 인정선</b>(유학이 이 선을 넘는 순간 <b>바로 양반</b>이 된다) · <b>75 명문가선</b></li><li>인정은 <b>배움</b>(서당·서원·훈장), <b>예절과 체면</b>(제사·손님 대접, 기와집, 양자), <b>혼인과 벼슬</b>(높은 집안과 혼인, 과거 급제, 검서관)으로 얻는다. 서얼과 양반은 서당에서 배움 효과가 2배다. 공명첩·족보·향리 매수로 산 이름으로는 오르지 않는다.</li><li>말 옆의 작은 핀: 분홍 = 아내, 다른 색 = 자식(색이 그 자식의 신분)</li><li>📜 문서 카드: 땅문서·공명첩·속량 문서·족보·홍패</li></ul>';
   if(tab === 'tip') body = (me ? '<p class="hl"><b>' + esc(me.fam) + '</b> 🎯 ' + esc(CARDS.find(c => c.id === me.card).goal) + '</p><p class="tipMe">' + esc(TIPS[me.card]) + '</p>' : '') + '<details><summary>다른 집안의 팁도 보기</summary>' + CARDS.map(c => '<p><b>' + esc(c.fam) + '</b> (' + esc(c.goal) + ') ' + esc(TIPS[c.id]) + '</p>').join('') + '</details>';
@@ -2888,17 +2907,17 @@ function drawCards(ps, move){
   G.players.forEach((P, k) => { P.human = k < humans; P.ai = !P.human; P.who = P.human ? ps[k] : {sid:'', name:'컴퓨터'}; });
   showCards(startGame);
 }
-function showCards(next){
+function showCards(next, sec){
   $('#suInner').innerHTML = '<div class="tcHead"><h2 class="goldText">우리 집안 카드</h2><p class="sub">태어날 집안은 고를 수 없다. 뽑힌 집안으로 4대를 살아 보자.</p></div><div class="birthCards">' + G.players.map((P, k) => {
     const c = CARDS.find(x => x.id === P.card);
     return '<div class="bc card' + (mine(P) ? ' mineCard' : '') + '" style="animation-delay:' + (k * .35) + 's">' + (mine(P) ? '<span class="mineTag">⭐ 우리 집안</span>' : '') + '<div class="bcTop">' + tokHTML(P, 'tokL') + '<div><b>' + esc(c.fam) + '</b><small>' + esc(P.human ? P.who.name : '컴퓨터 이웃') + '</small></div></div>'
       + pic(c.img, FBG[c.st]) + '<p class="bcSt">' + esc(ST[c.st].n) + ' · ' + c.money + '냥 · 땅 ' + c.land + (c.rent ? '(+빌린 땅 ' + c.rent + ')' : '') + ' · 인정 ' + c.honor + '</p>'
       + '<p class="bcSt">' + JOBS[c.job].ico + ' ' + esc(JOBS[c.job].n) + ' · 🏡 ' + HOUSE[c.house].n + ' · ' + statsTxt(c) + '</p><p class="bcDesc">' + fmt(c.desc) + '</p><p class="goalTag">🎯 목표: ' + esc(c.goal) + '</p>' + (mine(P) ? ladderHTML(c.st, 'onCard') : '') + '</div>'; }).join('') + '</div>'
-    + '<div class="readMsg" id="readMsg">⏳ <b id="readSec">' + CARD_SEC + '</b>초 뒤 게임이 시작됩니다. 카드 내용을 꼼꼼히 읽으세요.</div>'
+    + '<div class="readMsg" id="readMsg">⏳ <b id="readSec">' + (sec || CARD_SEC) + '</b>초 뒤 게임이 시작됩니다. 카드 내용을 꼼꼼히 읽으세요.</div>'
     + '<div class="row"><button class="big primary" id="goGame" disabled>1690년, 판 위로! →</button></div>';
   show('setup'); loadPics($('#suInner')); sGood();
   /* 내 카드는 앞으로, 다른 집안 카드는 뒤로 흐리게 → 1분 읽기 시간 뒤 자동 시작 */
-  const box = $('#suInner .birthCards'); let left = CARD_SEC, done = false;
+  const box = $('#suInner .birthCards'); let left = sec || CARD_SEC, done = false;
   const go = () => { if(done) return; done = true; clearInterval(iv); next(); };
   setTimeout(() => { if(box) box.classList.add('focus'); const m = $('#suInner .mineCard'); if(m && m.scrollIntoView) m.scrollIntoView({block:'nearest', behavior:'smooth'}); }, 1800);
   const iv = setInterval(() => { if(done) return; left--; const s = $('#readSec'); if(s) s.textContent = Math.max(0, left); if(left <= 0) go(); }, 1000);
@@ -2947,7 +2966,7 @@ function tileInfo(i){
     case 'school': add('자식들 서당 보내기(5냥): 다음 가장 📖+2, 인정 +5 · 가장이 글 배우기(3냥): 📖+2 · 서원 원생(상민) · 서얼 집단 상소'); break;
     case 'jokbo': add('족보 사기(20냥·석, 상민·기술직 중인). 팔 확률 70% 룰렛. 판 위의 양반 집안에게서 사면 그 집안은 돈을 받지만 인정 −5: 호적상 양반(유학)이 된다. 돈으로 산 이름이라 인정은 오르지 않는다.'); break;
     case 'exam': add('지나가기만 해도 시험을 볼 수 있다. (노비이거나 재주 조건이 모자라 볼 수 있는 시험이 없으면 그냥 지나간다)'); add('양인이면 누구나 볼 수 있지만 시간과 돈이 든다. 잡과 → 무과 → 문과 순으로 어렵다.');
-      add('잡과(4냥, 📖4): 35~55% · 무과(6냥, 💪5): 25~45%, 군포 면제 · 문과(10냥, 📖6): 15~35%, 양반이 된다. 재주 1점마다 +5%.'); add('무과·문과: 양반이 아니면 합격률이 낮고(상민 ×0.7, 기술직 중인·서얼 ×0.6), 바로 앞 대에 급제했으면 −10%, 한 대 걸러 급제했으면 −5%.'); add('양반·유학·권세가는 세 시험 모두 볼 수 있지만 <b>잡과에 붙으면 기술직 중인으로 내려간다</b>. 서얼·기술직 중인은 무과·잡과만 볼 수 있고, 문과는 검서관 등용·소청 운동 성공이나 공명첩·납속(허통)으로 자격을 얻어야 한다.'); add('4대 가운데 2대 이상 합격(문과 1번 이상)한 양반이 인정 70 이상이면 <b>왕실 혼인</b> 제안이 온다.'); break;
+      add('잡과(4냥, 📖4): 35~55% · 무과(6냥, 💪5): 20~40% · 문과(10냥, 📖6): 15~35%. 무과·문과에 붙으면 양반이 된다. 재주 1점마다 +5%.'); add('무과·문과: 양반이 아니면 합격률이 낮고(상민 ×0.7, 기술직 중인·서얼 ×0.6), 바로 앞 대에 급제했으면 −10%, 한 대 걸러 급제했으면 −5%.'); add('양반·유학·권세가는 세 시험 모두 볼 수 있지만 <b>잡과에 붙으면 기술직 중인으로 내려간다</b>. 서얼·기술직 중인은 무과·잡과만 볼 수 있고, 문과는 검서관 등용·소청 운동 성공이나 공명첩·납속(허통)으로 자격을 얻어야 한다.'); add('4대 가운데 2대 이상 합격(문과 1번 이상)한 양반이 인정 70 이상이면 <b>왕실 혼인</b> 제안이 온다.'); break;
     case 'luck': add('불운(흉년·전염병·불) 또는 행운(빌려준 돈·산삼)이 나온다. 양반·권세가는 <b>붕당 싸움</b>에 져서 지방으로 쫓겨날 수도 있다.'); add('그리고 <b>재주 기회</b> 이벤트가 하나 나온다.'); break;
     case 'office': add('호적 위조: 향리 매수(10냥·석, 성공 50%, 들키면 벌금·인정 −5) · 납속(곡식 25석)'); break;
     case 'buy': add('공명첩(돈 30냥): 노비 → 상민 / 상민·기술직 중인 → 유학 / 서얼 → 허통(문과 응시 자격)'); add('납속(곡식 25석): 같은 효과. 노비는 공명첩·납속으로 상민이 된 뒤 <b>한 번 더</b> 사야 유학이 된다.'); add('값 순서: 공명첩 30 > 납속 25 > 족보 매매 20(70%) > 족보 위조 15(50%) > 호적 위조(향리 매수) 10(50%)'); add('돈이 모자라면: 집 팔기(집이 있을 때) · 땅 팔기(시세 룰렛 1마지기 2~7냥)'); break;
@@ -3055,9 +3074,9 @@ async function drainRolls(P){ let done = '';
   return done; }
 async function rollModal(P, r){
   const pc = Math.round(r.p * 100); const goodYes = !r.bad;
-  modal('<div class="kick">' + kicker(P) + '</div><h2>' + esc(r.title) + '</h2><p>룰렛을 돌려 결과를 정하자! 바늘이 <b class="' + (goodYes ? 'cY' : 'cN') + '">' + esc(r.yes) + '</b> 칸에 서면 ' + pc + '%, <b class="' + (goodYes ? 'cN' : 'cY') + '">' + esc(r.no) + '</b> 칸은 ' + (100 - pc) + '%.</p>'
+  modal('<div class="kick">' + kicker(P) + '</div><h2>' + esc(r.title) + '</h2><p>아래 <b>[🎡 룰렛 누르기]</b> 버튼을 눌러 결과를 정하자! 바늘이 <b class="' + (goodYes ? 'cY' : 'cN') + '">' + esc(r.yes) + '</b> 칸에 서면 ' + pc + '%, <b class="' + (goodYes ? 'cN' : 'cY') + '">' + esc(r.no) + '</b> 칸은 ' + (100 - pc) + '%.</p>'
     + '<div class="rlBar"><div class="rlSeg ' + (goodYes ? 'y' : 'n') + '" style="width:' + pc + '%"><span>' + esc(r.yes) + ' ' + pc + '%</span></div><div class="rlSeg ' + (goodYes ? 'n' : 'y') + '" style="width:' + (100 - pc) + '%"><span>' + esc(r.no) + ' ' + (100 - pc) + '%</span></div><div class="rlNeedle" id="rlNeedle"></div></div>'
-    + '<p class="roulMsg" id="rlMsg">&nbsp;</p><div class="btnRow"><button class="btn big" id="rlBtn">🎡 룰렛 돌리기</button><button class="btn hidden" id="mOk">계속 →</button></div>', 'rollBox');
+    + '<p class="roulMsg" id="rlMsg">&nbsp;</p><div class="btnRow"><button class="btn big rlPush" id="rlBtn">🎡 룰렛 누르기</button><button class="btn hidden" id="mOk">계속 →</button></div>', 'rollBox');
   await new Promise(res => $('#rlBtn').onclick = res); $('#rlBtn').disabled = true; $('#rlBtn').classList.add('hidden');
   const target = r.ok ? (0.04 + Math.random() * 0.92) * r.p : r.p + (0.04 + Math.random() * 0.92) * (1 - r.p);
   const U = 6 + target, dur = 2600, t0 = performance.now(); const nd = $('#rlNeedle'); let lastSeg = -1;
@@ -3076,6 +3095,7 @@ async function chanceRoulette(Rl){ /* 확률 룰렛: 결과는 규칙에서 이�
 }
 async function landRoulette(price){
   const box = document.createElement('div'); box.className = 'landRoul'; $('#mBox').appendChild(box);
+  box.innerHTML = '🎡 땅 시세 룰렛: 1마지기 값이 2~7냥 가운데 정해진다. <button class="btn big rlPush" id="rlBtn">🎡 룰렛 누르기</button>'; await new Promise(r => $('#rlBtn').onclick = r);
   for(let n = 0; n < 14; n++){ box.innerHTML = '🎡 땅 시세 룰렛: 1마지기 <b>' + (2 + Math.floor(R() * 6)) + '냥</b>'; sTick(); await sleep(60 + n * 10); }
   box.innerHTML = '🎡 땅 시세 룰렛: 1마지기 <b>' + price + '냥</b>!'; sCoin();
 }
@@ -3105,7 +3125,8 @@ async function laneFlow(P, i){
 /* 재주 룰렛 + 생업 고르기 (게임 처음, 대 잇기 때) */
 async function talentFlow(P, title){
   const keys = ['g', 'h', 's']; const k = talentRoll(P, R);
-  modal('<div class="kick">' + esc(P.fam) + ' · ' + P.gen + '대 가장</div><h2>🎡 ' + esc(title) + '</h2><p>새 가장의 타고난 재주는 무엇일까?</p><div class="roul">' + keys.map(x => '<div class="rs" data-k="' + x + '"><span>' + STAT[x].ico + '</span><b>' + STAT[x].n + '</b></div>').join('') + '</div><p class="roulMsg" id="rMsg">&nbsp;</p><div class="btnRow"><button class="btn" id="mOk" disabled>계속 →</button></div>');
+  modal('<div class="kick">' + esc(P.fam) + ' · ' + P.gen + '대 가장</div><h2>🎡 ' + esc(title) + '</h2><p>새 가장의 타고난 재주는 무엇일까?</p><div class="roul">' + keys.map(x => '<div class="rs" data-k="' + x + '"><span>' + STAT[x].ico + '</span><b>' + STAT[x].n + '</b></div>').join('') + '</div><p class="roulMsg" id="rMsg">&nbsp;</p><div class="btnRow">' + (P.ai ? '' : '<button class="btn big rlPush" id="rlBtn">🎡 룰렛 누르기</button>') + '<button class="btn" id="mOk" disabled>계속 →</button></div>');
+  if(!P.ai){ await new Promise(r => $('#rlBtn').onclick = r); $('#rlBtn').classList.add('hidden'); }
   const cells = [...document.querySelectorAll('.rs')]; const spins = 9 + keys.indexOf(k) + 3 * Math.floor(R() * 2);
   for(let n = 0; n <= spins; n++){ cells.forEach((c, j) => c.classList.toggle('on', j === n % 3)); sTick(); await sleep(FAST && P.ai ? 30 : 60 + n * 12); }
   sGood(); $('#rMsg').innerHTML = '재능: <b>' + STAT[k].ico + ' ' + STAT[k].n + ' +2</b> → ' + statsTxt(P); $('#mOk').disabled = false; renderSide();
@@ -3175,8 +3196,8 @@ async function firstTurn(P){
 const isPaused = () => !!(NET.on && typeof NS !== 'undefined' && NS.gid && typeof RDOC !== 'undefined' && RDOC && RDOC.pause && RDOC.pause[NS.gid]);
 function applyPause(){ const el = $('#pauseOv'); if(!el) return; const on = isPaused(); el.classList.toggle('hidden', !on); }
 async function pauseGate(){ if(!isPaused()) return; applyPause(); while(isPaused()) await sleep(400); applyPause(); }
-/* ⏱ 차례 제한 시간: 1대 90초, 2~4대 60초. 시간이 지나면 주사위는 자동으로 던지고, 선택은 첫 번째로 고른다. */
-const TURN_SEC = gen => gen <= 1 ? 90 : 60;
+/* ⏱ 차례 제한 시간: 1대 60초, 2대 40초, 3~4대 30초. 시간이 지나면 주사위는 자동으로 던지고, 선택은 첫 번째로 고른다. */
+const TURN_SEC = gen => gen <= 1 ? 60 : gen === 2 ? 40 : 30;
 let TT = null;
 function turnTimerStart(P){ turnTimerStop(); if(P.ai || P.done) return; TT = {end:Date.now() + TURN_SEC(P.gen) * 1000, expired:false, P, last:0}; TT.iv = setInterval(turnTimerTick, 250); turnTimerTick(); }
 function turnTimerStop(){ if(TT){ clearInterval(TT.iv); TT = null; } const el = $('#turnTimer'); if(el) el.classList.add('hidden'); }
@@ -3230,8 +3251,10 @@ async function oneTurnMove(P){
   if(S.stop || S.pass){ const dm = checkDisguise(G, P); if(dm) L.unshift([dm, 0]); }
   if(S.t === 'gen'){ await genFlow(P); await royalFlow(P); await NET.pub(P.fam + ': ' + P.gen + '대 가장이 집안을 이었다'); return false; }
   if(S.t === 'finish'){ const r = settle(G, P); P.done = true; renderSide(); renderTokens(); sGood();
+    if(ROOM && mine(P)){ P.endKey = endingOf(P); saveResult(); } /* 60칸에 도착하면 바로 교사 화면으로 결과를 보낸다 (발표식 때 상·점수를 다시 보냄) */
     modal('<h2>🏁 ' + esc(P.fam) + ' 1858년 도착!</h2><div class="will">"' + esc(r.will) + '"</div>' + lineRows(L.concat(r.lines)) + r.msgs.map(m => '<div class="newsMsg">' + fmt(m) + '</div>').join('') + '<p>4대의 인생길을 다 걸었다. 다른 집안이 도착할 때까지 차례마다 <b>제사·장사·족보 주사위</b>를 던질 수 있다.</p><div class="btnRow"><button class="btn" id="mOk">확인</button></div>');
     await Promise.race([new Promise(r2 => $('#mOk').onclick = r2), wait(P, 1500)]); closeModal(); await NET.pub(P.fam + ': 1858년 도착!'); return false; }
+  if(S.t === 'event' && !eventRelevant(G, P, S) && !L.length){ log(P.fam + ': ' + S.n + ' — 우리 집안과는 상관없는 일'); if(!P.ai) toast('⛔ ' + S.n + ': 우리 집안과는 상관없는 일이라 지나간다.'); await royalFlow(P); await NET.pub(P.fam + ': ' + S.n); renderSide(); renderTokens(); return G.lastThrow && G.lastThrow.again && !S.stop; }
   const c = landCard(G, P, true); await cardFlow(P, c, L); await royalFlow(P); await NET.pub(P.fam + ': ' + (c.title || S.n));
   renderSide(); renderTokens();
   return G.lastThrow && G.lastThrow.again && !S.stop;
@@ -3504,7 +3527,7 @@ function lobby(){
 
 /* ============ 온라인 모둠 대결: 차례인 기기가 판 상태를 자기 기록(players/<UID>.gs)에 올리고, 모둠원은 가장 새 기록을 따라간다 ============ */
 const NS = {gk:null, gid:null, mem:[], seq:0, running:false, board:false, ended:false, lastThrowId:0, lastFeed:''};
-function serializeG(){ return JSON.stringify({players:G.players, gm:G.gm, cur:G.cur, turnNo:G.turnNo, logs:(G.logs || []).slice(0, 14), mode:'net', move:G.move, lastThrow:G.lastThrow || null, throwId:G.throwId || 0, feed:G.feed || ''}); }
+function serializeG(){ return JSON.stringify({t0:G.t0 || 0, players:G.players, gm:G.gm, cur:G.cur, turnNo:G.turnNo, logs:(G.logs || []).slice(0, 14), mode:'net', move:G.move, lastThrow:G.lastThrow || null, throwId:G.throwId || 0, feed:G.feed || ''}); }
 function loadG(s){ const o = JSON.parse(s); G = Object.assign({}, o, {R}); }
 NET.pub = async text => {
   if(!NET.on) return; NS.seq++; G.feed = text || ''; const gs = serializeG();
@@ -3516,7 +3539,7 @@ async function enterNetGame(mg){
   NET.on = true; G = null;
   const best = bestState();
   if(!best && mg.mem[0] === UID){ /* 모둠장(첫 번째) 기기가 판을 만든다 */
-    const cards = pickCards(mg.mem.length); G = newGame(cards, R, 'dice'); G.mode = 'net'; G.cur = 0; G.turnNo = 0; G.logs = [];
+    const cards = pickCards(mg.mem.length); G = newGame(cards, R, 'dice'); G.t0 = Date.now(); G.mode = 'net'; G.cur = 0; G.turnNo = 0; G.logs = [];
     G.players.forEach((P, k) => { const u = mg.mem[k]; const rec = LOBBY_PS[u] || {}; P.uid = u; P.human = true; P.ai = false; P.who = {sid:rec.sid || '', name:rec.name || '모둠원'}; });
     log('1690년, ' + G.players.map(P => P.fam + '(' + P.who.name + ')').join(' · ') + '이 판 위에 섰다.');
     await NET.pub('판을 만들었다');
@@ -3534,7 +3557,13 @@ function onNetPlayers(){
       if(G.feed && G.feed !== NS.lastFeed){ NS.lastFeed = G.feed; toast(G.feed); }
       if(old) G.players.forEach((P, k) => { if(old[k] !== P.pos){ const t = $('#sp' + P.pos); if(t){ t.classList.add('flash'); setTimeout(() => t.classList.remove('flash'), 900); } } }); }
   }
-  if(G && !NS.shown){ NS.shown = true; showCards(() => { NS.board = true; show('game'); buildBoard(); gameChrome(); renderTokens(); renderSide(); $('#log').innerHTML = (G.logs || []).map(x => '<p>' + fmt(x) + '</p>').join(''); netTick(); }); const gb = $('#goGame'); if(gb) gb.textContent = gName(NS.gid) + ' 판으로 →'; return; }
+  if(G && !NS.shown){ NS.shown = true;
+    const enter = () => { NS.board = true; show('game'); buildBoard(); gameChrome(); renderTokens(); renderSide(); $('#log').innerHTML = (G.logs || []).map(x => '<p>' + fmt(x) + '</p>').join(''); netTick(); };
+    /* 이미 시작한 판에 다시 들어오면(새로 고침·재접속) 집안 카드 읽기 시간 없이 바로 판으로 */
+    const el = G.t0 ? (Date.now() - G.t0) / 1000 : 0; const left = Math.ceil(CARD_SEC - el);
+    const started = (G.turnNo || 0) > 0 || G.players.some(P => P.ready || P.pos > 0) || left <= 0;
+    if(started){ enter(); toast('진행 중인 판으로 다시 들어왔어요.'); return; }
+    showCards(enter, left); /* 읽기 시간 도중에 다시 들어오면 남은 시간만 */ const gb = $('#goGame'); if(gb) gb.textContent = gName(NS.gid) + ' 판으로 →'; return; }
   netTick();
 }
 async function netTick(){
@@ -3559,8 +3588,8 @@ async function saveStart(){
     await withTimeout(DB.setPlayer(ROOM.code, UID, {...old, sid:hs[0].who.sid, name:hs.map(P => P.who.name).join(', '), status:'playing', plays:old.plays || 0,
       mode:G.mode, move:G.move, curCard:G.players.map(P => P.fam).join('·'), joinedAt:old.joinedAt || t, seenAt:t}), 10000); }catch(e){ console.warn(e); }
 }
-function memberRec(P){
-  const c = CARDS.find(x => x.id === P.card); const E = ENDINGS[P.endKey]; const k = G.players.indexOf(P); const A = G.awards; const S = A ? A.scores[k] : scoreOf(P);
+function memberRec(P, Gx){ Gx = Gx || G;
+  const c = CARDS.find(x => x.id === P.card); const E = ENDINGS[P.endKey]; const k = Gx.players.indexOf(P); const A = Gx.awards; const S = A ? A.scores[k] : scoreOf(P);
   const won = A ? AWD.filter(a => A[a.k] === k).map(a => a.n).join('·') : '';
   return {sid:P.who.sid || '', name:P.who.name || '', fam:P.fam, startCat:ST[P.st0].cat, endCat:ST[P.st].cat, startSt:P.st0, endSt:P.st, startStN:ST[P.st0].n, endStN:ST[P.st].n, endKey:P.endKey, end:E.grade + ' · ' + E.n,
     goal:c.goal, goalOk:!!c.goalOk(P), money:P.money, land:P.land, honor:P.honor, assets:S.assets, score:S.total, awards:won, job:JOBS[P.job].n, house:HOUSE[P.house].n,
@@ -3677,15 +3706,27 @@ function renderGroups(){
       const all = S && S.players.every(P => P.done); const cur = S ? S.players[S.cur] : null;
       return '<div class="grpCard' + (g.st ? '' : ' pending') + (pz[gid] ? ' paused' : '') + '"><div class="gh"><span class="gTag">' + gName(gid) + '</span><small>' + (!g.st ? '시작 전' : !S ? '판 만드는 중…' : all ? '끝' : (pz[gid] ? '⏸ 일시정지 중 · ' : '진행 중 · ') + esc(cur.fam) + ' 차례') + '</small></div>' + (g.st && !all ? '<div class="gPz"><button class="btn pz' + (pz[gid] ? ' on' : '') + '" data-pause="' + gid + '">' + (pz[gid] ? '▶ 이 모둠 다시 시작' : '⏸ 이 모둠 일시정지') + '</button></div>' : '')
         + mem.map(u => { const P = S ? S.players.find(q => q.uid === u) : null;
-          return '<div class="gm"><b>' + nm(u) + '</b>' + (P ? '<small>' + esc(P.fam) + ' · ' + P.gen + '대 · ' + P.pos + '칸' + (P.done ? ' · 도착' : '') + '</small>' : '') + (g.st ? '<button class="chip' + (away[u] ? ' on' : '') + '" data-away="' + u + '">' + (away[u] ? '자리 비움 (컴퓨터)' : '자리 비움') + '</button>' : '') + '</div>'; }).join('') + '</div>'; }).join('') + '</div>';
+          return '<div class="gm"><b>' + nm(u) + '</b>' + (P ? '<small>' + esc(P.fam) + ' · <b class="gSt" style="border-color:' + (STC[P.st] || '#888') + '">' + esc(ST[P.st] ? ST[P.st].n : '') + '</b> · ' + P.gen + '대 · ' + P.pos + '칸' + (P.done ? ' · 도착' : '') + '</small>' : '') + (g.st ? '<button class="chip' + (away[u] ? ' on' : '') + '" data-away="' + u + '">' + (away[u] ? '자리 비움 (컴퓨터)' : '자리 비움') + '</button>' : '') + '</div>'; }).join('') + '</div>'; }).join('') + '</div>';
   $('#shufBtn').onclick = tcShuffle; $('#goBtn').onclick = tcStart;
   box.querySelectorAll('[data-away]').forEach(b => b.onclick = () => tcAway(b.dataset.away));
   box.querySelectorAll('[data-pause]').forEach(b => b.onclick = () => tcPause(b.dataset.pause));
 }
 /* 기기 기록을 모둠원 한 줄씩으로 펼치기 */
+/* 모둠 판이 끝났는데(4명 모두 도착) 학생 기기가 결과를 아직 안 보냈으면, 교사 화면이 모둠 판 기록으로 결과를 바로 만든다 */
+function autoRecOf(id, p){
+  if(!p.gk || (p.status === 'done' && p.members)) return null;
+  let b = null; Object.values(TPLAYERS).forEach(r => { if(r && r.gk === p.gk && r.gs && (!b || r.gseq > b.gseq)) b = r; });
+  let S = null; try{ S = b ? JSON.parse(b.gs) : null; }catch(e){ return null; }
+  if(!S || !S.players || !S.players.length) return null;
+  const me = S.players.find(P => P.uid === id); if(!me || !me.done) return null; /* 60칸에 도착한 사람은 바로 결과를 보인다 */
+  const all = S.players.every(P => P.done); S.players.forEach(P => { if(P.done) P.endKey = P.endKey || endingOf(P); }); S.awards = all ? awards(S.players) : null;
+  const rec = memberRec(me, S);
+  return {id, ...rec, status:'done', plays:(p.plays || 0) + 1, mode:'net', move:'dice', mates:S.players.map(P => P.who && P.who.name).filter(Boolean).join(', '),
+    others:S.players.filter(P => P !== me).map(P => P.fam + (P.who ? '(' + P.who.name + ')' : '')).join('·'), lastAt:p.seenAt || Date.now(), joinedAt:p.joinedAt, done:true, auto:true}; }
 function sortedPlayers(){
   const out = [];
-  Object.entries(TPLAYERS).forEach(([id, p]) => { const ms = p.members ? Object.keys(p.members).sort().map(k => p.members[k]) : [];
+  Object.entries(TPLAYERS).forEach(([id, p]) => { const ar = autoRecOf(id, p); if(ar){ out.push(ar); return; }
+    const ms = p.members ? Object.keys(p.members).sort().map(k => p.members[k]) : [];
     const mates = ms.map(m => m.name).join(', ');
     if(!ms.length) out.push({id, sid:p.sid || '', name:p.name || '', status:p.status, plays:p.plays || 0, mode:p.mode, move:p.move, curCard:p.curCard, joinedAt:p.joinedAt});
     else ms.forEach(m => out.push({id, ...m, status:p.status, plays:p.plays || 0, mode:p.mode, move:p.move, curCard:p.curCard, mates, others:p.others || '', lastAt:p.lastAt, joinedAt:p.joinedAt, done:true})); });
