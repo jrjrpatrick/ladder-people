@@ -2121,26 +2121,27 @@ const HOUSE_COST = {1:2, 2:8, 3:12, 4:20};
 const DOCS = {land:{n:'땅문서', img:'doc_land'}, gm:{n:'공명첩', img:'doc_gongmyeong'}, sok:{n:'속량 문서', img:'doc_sokryang'}, jokbo:{n:'족보', img:'doc_jokbo'}, hong:{n:'홍패', img:'doc_hongpae'}};
 
 const GOALV = {dolsoe:6, kim:12, park:4, lee:8, choi:50, jeong:60}; /* 집안 목표의 기준 값 (목표 달성률이 비슷하도록 시뮬레이션으로 맞춤) */
+/* w = 선생님 방의 기본 뽑기 가중치 (2026-11-04: 양반↓·유학↑↑·중인·서얼≈·상민↓·노비↓가 나오고, 집안별 목표 달성률·종합 1등 확률 차이가 10%p 안이 되도록 시뮬레이션으로 맞춤) */
 const CARDS = [
-  {id:'dolsoe', fam:'돌쇠네', tk:'돌', color:'#8b6b52', st:'nobi_s', money:4, grain:2, land:0, rent:0, honor:0, g:0, h:3, s:1, job:'oegeo', house:1, w:1, img:'birth_dolsoe',
+  {id:'dolsoe', fam:'돌쇠네', tk:'돌', color:'#8b6b52', st:'nobi_s', money:4, grain:2, land:0, rent:0, honor:0, g:0, h:3, s:1, job:'oegeo', house:1, w:5, img:'birth_dolsoe',
    desc:'주인과 따로 살며 해마다 **신공**(노비가 바치는 몸값)을 바치는 **외거노비** 집안. 노비는 사람이 아니라 재산으로 여겨져 \'강아지\', \'도야지\' 같은 이름으로 불리기도 했다.',
    goal:'양인이 되고 총자산 ' + GOALV.dolsoe + '냥 이상 모으기', goalOk:P => !isNobi(P.st) && assets(P) >= GOALV.dolsoe},
-  {id:'maksun', fam:'막순이네', tk:'막', color:'#9a7b5b', st:'nobi_g', money:4, grain:2, land:0, rent:0, honor:0, g:0, h:2, s:1, job:'oegeo', house:1, w:1, img:'birth_maksun',
+  {id:'maksun', fam:'막순이네', tk:'막', color:'#9a7b5b', st:'nobi_g', money:4, grain:2, land:0, rent:0, honor:0, g:0, h:2, s:1, job:'oegeo', house:1, w:5, img:'birth_maksun',
    desc:'중앙 관청(한양)에 딸린 **공노비** 집안. 관청 밖에서 따로 살며 해마다 관청에 **신공**(몸값)을 바치는 **외거노비**다.',
    goal:'1801년 공노비 해방 전에 스스로(납속·속량·공명첩·군공·도망) 노비에서 벗어나기', goalOk:P => P.freedBefore1801},
-  {id:'kim', fam:'김씨네', tk:'김', color:'#4f8a5b', st:'sangmin', money:8, grain:4, land:0, rent:10, honor:5, g:0, h:3, s:1, job:'sojak', house:2, w:1, img:'birth_kim',
+  {id:'kim', fam:'김씨네', tk:'김', color:'#4f8a5b', st:'sangmin', money:8, grain:4, land:0, rent:10, honor:5, g:0, h:3, s:1, job:'sojak', house:2, w:5, img:'birth_kim',
    desc:'남의 땅 10마지기를 빌려 짓는 **소작농** 집안. 수확의 절반을 땅 주인에게 바치고, 군포도 낸다.',
    goal:'기술직 중인 이상으로 오르고 총자산 ' + GOALV.kim + '냥 이상 모으기', goalOk:P => ST[P.st].rank >= 3 && P.st !== 'seol' && assets(P) >= GOALV.kim},
-  {id:'park', fam:'박씨네', tk:'박', color:'#3f7fb5', st:'sangmin', money:6, grain:8, land:6, rent:0, honor:5, g:1, h:3, s:1, job:'jajak', house:2, w:1, img:'birth_park',
+  {id:'park', fam:'박씨네', tk:'박', color:'#3f7fb5', st:'sangmin', money:6, grain:8, land:6, rent:0, honor:5, g:1, h:3, s:1, job:'jajak', house:2, w:5, img:'birth_park',
    desc:'자기 땅 6마지기를 가진 **자작농** 집안. 해마다 군포를 낸다.',
    goal:'호적에 「유학」 이상 오르고 내 땅 ' + GOALV.park + '마지기 이상 지키기', goalOk:P => isUpper(P.st) && P.land >= GOALV.park},
-  {id:'lee', fam:'이씨네', tk:'이', color:'#c07a2c', st:'sangmin', money:12, grain:0, land:0, rent:0, honor:5, g:1, h:1, s:3, job:'bobusang', house:2, w:1, img:'birth_lee',
+  {id:'lee', fam:'이씨네', tk:'이', color:'#c07a2c', st:'sangmin', money:12, grain:0, land:0, rent:0, honor:5, g:1, h:1, s:3, job:'bobusang', house:2, w:5, img:'birth_lee',
    desc:'장시를 돌며 물건을 파는 **보부상** 집안. 땅은 없지만 장사 솜씨가 있다.',
    goal:'모은 돈으로 호적에 「유학」 이상 오르고 총자산 ' + GOALV.lee + '냥 이상 남기기', goalOk:P => isUpper(P.st) && assets(P) >= GOALV.lee},
-  {id:'choi', fam:'최씨네', tk:'최', color:'#7b5ea7', st:'seol', money:6, grain:4, land:3, rent:0, honor:10, g:4, h:1, s:2, job:'hunjang', house:3, w:1, img:'birth_choi',
+  {id:'choi', fam:'최씨네', tk:'최', color:'#7b5ea7', st:'seol', money:6, grain:4, land:3, rent:0, honor:10, g:4, h:1, s:2, job:'hunjang', house:3, w:3, img:'birth_choi',
    desc:'양반 아버지와 첩 어머니에게서 태어난 **서얼** 집안. 글을 배웠지만 서얼이라는 이유로 벼슬길(과거)이 막혀 있다.',
    goal:'서얼 차별 벗기: 허통·검서관으로 문과 자격을 얻고 인정 ' + GOALV.choi + ' 이상, 또는 양반', goalOk:P => isNoble(P.st) || (!!(P.seolOK || P.geomseo) && P.honor >= GOALV.choi)},
-  {id:'jeong', fam:'정씨네', tk:'정', color:'#b3241c', st:'yangban', money:6, grain:3, land:3, rent:0, honor:45, g:4, h:1, s:0, job:'seonbi', house:4, w:1, img:'birth_jeong',
+  {id:'jeong', fam:'정씨네', tk:'정', color:'#b3241c', st:'yangban', money:6, grain:3, land:3, rent:0, honor:45, g:4, h:1, s:0, job:'seonbi', house:4, w:6, img:'birth_jeong',
    desc:'권력 다툼에서 밀려나 가난해진 **몰락 양반** 집안. 군포는 안 내지만 체면을 지키는 데 돈이 든다. 집은 기와집이지만 낡았다.',
    goal:'4대 동안 양반 지키기 (1858년에 양반 이상 + 인정 ' + GOALV.jeong + ' 이상)', goalOk:P => isNoble(P.st) && P.honor >= GOALV.jeong}
 ];
@@ -3788,7 +3789,7 @@ function tcShell(inner){ $('#tcInner').innerHTML = '<div class="tcHead"><h2 clas
   $('#tcBack').onclick = () => { tcUnwatch(); show('title'); }; }
 let TSET = null;
 async function tcHome(){
-  const w = ls.get('sd_weights', DEFAULT_W); TSET = Object.assign({mode:'solo', move:'dice', gsize:4}, ls.get('sd_tset', {}));
+  const w = ls.get('sd_weights2', DEFAULT_W); TSET = Object.assign({mode:'solo', move:'dice', gsize:4}, ls.get('sd_tset', {}));
   const seg = (id, key, opts) => '<div class="seg tset" id="' + id + '">' + opts.map(([v, n, d]) => '<button data-k="' + key + '" data-v="' + v + '"' + (String(TSET[key]) === String(v) ? ' class="on"' : '') + '>' + n + (d ? '<small>' + d + '</small>' : '') + '</button>').join('') + '</div>';
   tcShell('<div class="panel navyCard" style="margin-top:16px"><p class="sub" id="tcConn">서버에 연결하는 중…</p>'
     + '<h3>1. 게임 방식</h3>' + seg('sMode', 'mode', [['solo', '🤖 개인 대결', '학생 1명 + 컴퓨터 3집'], ['group', '👥 모둠별 대결', '접속한 학생을 섞어 모둠으로, 각자 기기로 함께'], ['choice', '🙋 학생에게 선택권', '학생이 컴퓨터/모둠 중 고르고, 모둠을 고른 학생끼리만 섞기']])
@@ -3808,7 +3809,7 @@ async function tcNewRoom(){
   await getDB();
   const memo = (($('#memoIn') && $('#memoIn').value) || '').trim().slice(0, 20);
   const weights = {}; document.querySelectorAll('.wtGrid input').forEach(i => { weights[i.dataset.id] = clamp(Math.round(+i.value || 0), 0, 9); });
-  ls.set('sd_weights', weights);
+  ls.set('sd_weights2', weights);
   let code = ''; for(let k = 0; k < 6; k++){ code = 'SD' + Array.from({length:4}, () => CODE_CH[Math.floor(Math.random() * CODE_CH.length)]).join(''); if(!(await DB.getRoom(code))) break; }
   try{ await DB.createRoom(code, {hostUid:UID, kind:KIND, title:'사다리를 오르는 사람들(주제 10)', memo, weights, mode:TSET.mode, move:TSET.move, gsize:TSET.gsize, createdAt:Date.now()}); }
   catch(e){ console.error(e); toast('방을 만들지 못했어요. 인터넷 연결을 확인해 주세요.'); return; }
